@@ -16,7 +16,8 @@ mongoose.connection.on("error", (err) => {
   console.log("mongoose failed with", err);
 });
 //import routes
-
+const adminRouter = require("./auth/admin.routes");
+const authRouter = require("./auth/auth.routes");
 //middelware
 app.use(cors());
 app.use(
@@ -30,6 +31,8 @@ app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 app.use(compression()); //reduire taile for operations
 //routes middleware
 app.use("/images", express.static("./uploads"));
+app.use("/api/admin", adminRouter);
+app.use("/api/auth", authRouter);
 
 //listen server
 const port = process.env.PORT || 5000;
