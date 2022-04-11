@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const Profile = require("../models/profile.models");
 const Store = require("../models/store.models");
 const router = require("express").Router();
+const verifyToken = require("../middlewares/verifyToken");
 router.post("/register", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -92,4 +93,26 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// router.get("/allCustomer/me", verifyToken, async (req, res) => {
+//   try {
+//     const customer = await User.find({ role: "customer" });
+//     return res.status(200).json(customer);
+//   } catch (err) {
+//     return res.status(404).json(err);
+//   }
+// });
+
+
+router.get("/check",verifyToken,async (req, res) => {
+  try {
+    const user = await User.findById(req.verifiedUser._id);
+    if (!user) {
+      return res.status(404).json("not found admin");
+    } else {
+      return res.status(200).json(user);
+    }
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 module.exports = router;

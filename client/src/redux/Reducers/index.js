@@ -1,3 +1,5 @@
 import { combineReducers } from "redux";
-
-export default combineReducers({});
+import adminReducers from "./admin.reducers";
+export default combineReducers({
+  adminReducers,
+});

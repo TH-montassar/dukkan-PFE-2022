@@ -139,4 +139,17 @@ router.get("/allAdmin", verifyToken, isAdmin, async (req, res) => {
   }
 });
 
+
+router.get("/check",verifyToken,async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.verifiedUser._id);
+    if (!admin) {
+      return res.status(404).json("not found admin");
+    } else {
+      return res.status(200).json(admin);
+    }
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 module.exports = router;
