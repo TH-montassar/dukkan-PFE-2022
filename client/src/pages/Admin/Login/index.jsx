@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import logoAdmin from "../../../assets/logo/logoAdmin.png";
 import { login } from "../../../redux/Actions/admin.action";
+import Spinner from "../../../shared/Spinner";
 const Login = () => {
   const dispatch = useDispatch();
   const [Form, setForm] = useState({
@@ -35,7 +36,9 @@ const Login = () => {
     return <Navigate to={"/admin/"} />;
   }
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <section className="h-screen  bg-Info flex items-center font-sans	">
       <form
         onSubmit={(e) => OnSubmitForm(e)}

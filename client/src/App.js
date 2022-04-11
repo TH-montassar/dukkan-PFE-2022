@@ -6,23 +6,24 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import Home from "./pages/Home";
+import { setAuthToken } from "./utils/setAuthToken";
+import { authCheck, logout } from "./redux/Actions/admin.action";
 function App() {
-  // useEffect(() => {
-  //   if (localStorage.token) {
-  //     setAuthToken(localStorage.token);
-  //   }
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
 
-  //   store.dispatch(authcheck());
+    store.dispatch(authCheck());
 
-  //   window.addEventListener("storage", () => {
-  //     if (!localStorage.token) store.dispatch(logout());
-  //   });
-  // }, []);
+    window.addEventListener("storage", () => {
+      if (!localStorage.token) store.dispatch(logout());
+    });
+  }, []);
 
   return (
     <Provider store={store}>
       <BrowserRouter>
-      
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
