@@ -11,26 +11,40 @@ module.exports = {
       },
 
       fontFamily: {
-        'Montserrat':"'Montserrat', sans-serif"
-     
+        Montserrat: "Montserrat, sans-serif",
+        cairo: "Cairo, sans-serif",
       },
       colors: {
         Primary: "#1A5899",
         Success: "#189122",
         Warning: "#AF9803",
-        Danger: "#AA3C14",
-        Info: "#00A1BE",
+        danger: "#AA3C14",
+        info: "#009BDD",
         infoDark: "#014A4D",
         whiteDark: "D6D6D6",
+        gray: "#C4C4C4",
       },
     },
 
     screens: {
-      sm: "640px",
-      md: "768px",
-      lg: "1024px",
-      xl: "1280px",
-      "2xl": "1536px",
+      // sm: "640px",
+      // md: "768px",
+      // lg: "1024px",
+      // xl: "1280px",
+
+      xl: { max: "1279px" },
+      // => @media (max-width: 1279px) { ... }
+
+      lg: { max: "1023px" },
+      // => @media (max-width: 1023px) { ... }
+
+      md: { max: "767px" },
+      // => @media (max-width: 767px) { ... }
+
+      sm: { max: "639px" },
+      // => @media (max-width: 639px) { ... }
+
+      "2xl": "96rem",
     },
     colors: ({ colors }) => ({
       inherit: colors.inherit,

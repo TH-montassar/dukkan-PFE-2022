@@ -1,64 +1,71 @@
 import {
-  ADMIN_CHECK,
-  ADMIN_ERROR,
-  ADMIN_LOADING,
-  ADMIN_LOGIN,
-  ADMIN_LOGOUT,
+  AUTH_CHECK,
+  AUTH_ERROR,
+  AUTH_LOADING,
+  LOGIN,
+  LOGOUT,
+  REGISTER,
 } from "../Constants/action";
 
 const initialState = {
   token: localStorage.getItem("token"),
-  admin: null,
+  user: null,
   error: {},
   isLoading: false,
   isAuthenticated: false,
 };
-const AdminReducers = (state = initialState, action) => {
+
+const AuthReducers = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case ADMIN_LOADING:
+    case AUTH_LOADING:
       return {
         ...state,
-        admin: payload,
+        user: payload,
         isLoading: true,
       };
-    case ADMIN_LOGIN:
+    case LOGIN:
       return {
         ...state,
-        admin: payload.admin,
+        user: payload.user,
         token: payload.token,
         isAuthenticated: true,
         isLoading: false,
       };
-    case ADMIN_CHECK:
+    case AUTH_CHECK:
       return {
         ...state,
-        admin: payload,
+        user: payload,
         isAuthenticated: true,
         isLoading: false,
       };
-
-    case ADMIN_ERROR:
+    case REGISTER:
+      return {
+        ...state,
+        user: payload,
+        isLoading: false,
+        isAuthenticated: false,
+      };
+    case AUTH_ERROR:
       localStorage.removeItem("token");
       return {
-        admin: null,
+        user: null,
         token: null,
         isAuthenticated: false,
         error: payload,
         isLoading: false,
       };
-    case ADMIN_LOGOUT:
+    case LOGOUT:
       localStorage.removeItem("token");
       return {
         ...state,
         isAuthenticated: false,
-        admin: null,
+        user: null,
         token: null,
         isLoading: false,
       };
-
     default:
       return state;
   }
 };
-export default AdminReducers;
+export default AuthReducers;

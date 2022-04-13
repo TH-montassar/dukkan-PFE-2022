@@ -6,7 +6,7 @@ const Profile = require("../models/profile.models");
 const Store = require("../models/store.models");
 const router = require("express").Router();
 const verifyToken = require("../middlewares/verifyToken");
-router.post("/register", async (req, res) => {
+router.post(`/register`, async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
@@ -32,23 +32,38 @@ router.post("/register", async (req, res) => {
     //* creation Profile
     const newProfile = new Profile();
     const savedProfile = await newProfile.save();
-    ///------
+    ///-----
 
-    //* creation Store
-    const newStore = new Store();
-    const savedStore = await newStore.save();
-    ///------
-
+    // const role =
+    //   req.path.split("/")[2] === "customer" ? "customer" : "merchant";
+    const role = req.query.role;
+    if (role === "merchant") {
+      //* creation Store
+      const newStore = new Store();
+      const savedStore = await newStore.save();
+      ///------
+      const newUser = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        role: role,
+        password: hashedPassword,
+        address: savedAddress._id,
+        profile: savedProfile._id,
+        store: savedStore._id,
+      });
+      const savedUser = await newUser.save();
+      return res.status(201).json(savedUser);
+    }
     const newUser = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
+      role: role,
       password: hashedPassword,
       address: savedAddress._id,
       profile: savedProfile._id,
-      store: savedStore._id,
     });
-
     const savedUser = await newUser.save();
     return res.status(201).json(savedUser);
   } catch (err) {
@@ -102,8 +117,7 @@ router.post("/login", async (req, res) => {
 //   }
 // });
 
-
-router.get("/check",verifyToken,async (req, res) => {
+router.get("/check", verifyToken, async (req, res) => {
   try {
     const user = await User.findById(req.verifiedUser._id);
     if (!user) {
