@@ -18,6 +18,7 @@ mongoose.connection.on("error", (err) => {
 //import routes
 const adminRouter = require("./auth/admin.routes");
 const authRouter = require("./auth/auth.routes");
+const productRoute = require("./routes/product.routes");
 //middelware
 app.use(cors());
 app.use(
@@ -33,6 +34,7 @@ app.use(compression()); //reduire taile for operations
 app.use("/images", express.static("./uploads"));
 app.use("/api/admin", adminRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/products", productRoute);
 
 //listen server
 const port = process.env.PORT || 5000;
