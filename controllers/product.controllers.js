@@ -40,10 +40,21 @@ const updateProduct = async (req, res) => {
 const getProduct = async (req, res) => {
   const productSlug = req.product.slug;
   try {
-    const product = await Product.findOne({ slug: productSlug }).populate({
-      path: "category",
-      select: "title",
-    });
+    // const product = await Product.findOne({ slug: productSlug }).populate({
+    //   path: "category",
+    //   select: "title",
+    // });
+    const product = await Product.aggregate([
+      { $match: { slug: productSlug } },
+      {
+        $lookup: {
+          from: "reviews",
+          localField: "_id",
+          foreignField: "product",
+          as: "reviews",
+        },
+      },
+    ]);
     return res.status(200).json(product);
   } catch (err) {
     return res.status(500).json(err);

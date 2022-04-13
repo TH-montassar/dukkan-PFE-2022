@@ -12,10 +12,20 @@ const {
   getProducts,
   deleteProduct,
 } = require("../controllers/product.controllers");
-const { addReview } = require("../controllers/productReview.controllers");
-const { isMerchant, verifyToken } = require("../middlewares");
+const {
+  addReview,
+  updateReview,
+  getReviewByproduct,
+} = require("../controllers/productReview.controllers");
+const {
+  isMerchant,
+  isCustomer,
+  verifyToken,
+  isReviewOwner,
+} = require("../middlewares");
 const Category = require("../models/category.models");
 const Product = require("../models/product.models");
+const Review = require("../models/productReview.models");
 
 const router = require("express").Router();
 //   const  = require("../middlewares/verifyToken");
@@ -51,6 +61,21 @@ router.param("category", async (req, res, next, id) => {
     return res.status(500).json(err);
   }
 });
+//param category
+router.param("review", async (req, res, next, id) => {
+  try {
+    const review = await Review.findById(id);
+
+    if (!review) {
+      return res.status(404).json("not found review");
+    } else {
+      req.review = review;
+      next();
+    }
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 
 //product routes
 router.post("/product/:category", verifyToken, isMerchant, createProduct);
@@ -67,6 +92,8 @@ router.get("/category/:categorySlug", verifyToken, getCategory);
 router.get("/category", getCategories);
 router.delete("/category/:category", verifyToken, isMerchant, deleteCategory);
 //review routes
-router.post("/:product/review", verifyToken, addReview);
+router.post("/:product/review", verifyToken, isCustomer, addReview);
+router.put("/review/:review", verifyToken, isReviewOwner, updateReview);
+router.get("/:product/review", verifyToken, getReviewByproduct);
 
 module.exports = router;
