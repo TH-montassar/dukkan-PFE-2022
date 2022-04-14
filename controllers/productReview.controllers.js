@@ -29,18 +29,6 @@ const addReview = async (req, res) => {
   }
 };
 
-const getReviewByproduct = async (req, res) => {
-  const limit = req.query.limit ? parseInt(req.query.limit) : 999;
-  const product = req.product._id;
-  try {
-    const review = await Review.find(product).limit(limit);
-
-    return res.status(200).json(review);
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-};
-
 const updateReview = async (req, res) => {
   const id = req.review._id;
   try {
@@ -55,4 +43,3 @@ const updateReview = async (req, res) => {
 
 module.exports.addReview = addReview;
 module.exports.updateReview = updateReview;
-module.exports.getReviewByproduct = getReviewByproduct;

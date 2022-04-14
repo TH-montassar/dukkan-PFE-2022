@@ -94,6 +94,6 @@ router.delete("/category/:category", verifyToken, isMerchant, deleteCategory);
 //review routes
 router.post("/:product/review", verifyToken, isCustomer, addReview);
 router.put("/review/:review", verifyToken, isReviewOwner, updateReview);
-router.get("/:product/review", verifyToken, getReviewByproduct);
+//router.get("/:product/review", verifyToken, getReviewByproduct);
 
 module.exports = router;
