@@ -1,10 +1,12 @@
 const Category = require("../models/category.models");
 
 const createCategory = async (req, res) => {
+  const host = process.env.HOST;
+  const port = process.env.PORT;
   const newCategory = new Category({
     title: req.body.title,
     description: req.body.description,
-    image: req.body.image,
+    image: `${host}:${port}/images/${req.file.filename}`,
     store: req.verifiedUser.store,
   });
 

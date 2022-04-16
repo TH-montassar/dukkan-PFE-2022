@@ -24,7 +24,7 @@ const Register = () => {
   const onInputChange = (e) => {
     e.preventDefault(); //man5alouch navigateur ya3mel relode
     setForm({ ...Form, [e.target.name]: e.target.value });
-    console.log(Form);
+   // console.log(Form);
   };
   const OnSubmitForm = (e) => {
     e.preventDefault(); //man5alouch navigateur ya3mel relode

@@ -13,6 +13,7 @@ module.exports = {
       fontFamily: {
         Montserrat: "Montserrat, sans-serif",
         cairo: "Cairo, sans-serif",
+        Roboto: "Roboto, sans-serif",
       },
       colors: {
         Primary: "#1A5899",

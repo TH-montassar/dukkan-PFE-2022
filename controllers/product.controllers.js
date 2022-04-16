@@ -2,14 +2,15 @@ const Category = require("../models/category.models");
 const Product = require("../models/product.models");
 
 const createProduct = async (req, res) => {
-  // console.log("this is from create product",req.verifiedUser._id)
+  const host = process.env.HOST;
+  const port = process.env.PORT;
   const newProduct = new Product({
     title: req.body.title,
     description: req.body.description,
     price: req.body.price,
-    category: req.category._id,
+    category: req.body._id,
     user: req.verifiedUser._id,
-    image: req.body.image,
+    image: `${host}:${port}/images/${req.file.filename}`,
     //  promotionPrice:req.body.promotionPrice,
     reference: req.body.reference,
     // isPromotion: req.body.isPromotion

@@ -77,8 +77,34 @@ router.param("review", async (req, res, next, id) => {
   }
 });
 
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: "./uploads",
+  filename: (req, file, cb) => {
+    return cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  // limits: {
+  //   fileSize: 500000,
+  // },
+});
+
 //product routes
-router.post("/product/:category", verifyToken, isMerchant, createProduct);
+router.post(
+  "/product",
+  verifyToken,
+  // isMerchant,
+  upload.single("image"),
+  createProduct
+);
 router.put("/:product", verifyToken, isMerchant, updateProduct);
 router.get("/product/:product", getProduct);
 
@@ -86,7 +112,13 @@ router.get("/", getProducts);
 router.delete("/:product", verifyToken, isMerchant, deleteProduct);
 
 //category routes
-router.post("/category", verifyToken, isMerchant, createCategory);
+router.post(
+  "/category",
+  verifyToken,
+  isMerchant,
+  upload.single("image"),
+  createCategory
+);
 router.put("/category/:category", verifyToken, isMerchant, updateCategory);
 router.get("/category/:categorySlug", verifyToken, getCategory);
 router.get("/category", getCategories);
