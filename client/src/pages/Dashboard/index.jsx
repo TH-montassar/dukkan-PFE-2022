@@ -12,6 +12,7 @@ import avatar from "../../assets/image/profilelINKDINE.png";
 import { Link, Routes, Route } from "react-router-dom";
 
 import AddProduct from "./components/AddProduct";
+import PrivateRoutes from "../../guards/PrivateRoutes";
 const Dashboard = () => {
   return (
     <div className="flex flex-row w-full font-sans	">
@@ -110,7 +111,14 @@ const Dashboard = () => {
         </div>
 
         <Routes>
-          <Route path="/addProduct" element={<AddProduct />}></Route>
+          <Route
+            path="/addProduct"
+            element={
+              <PrivateRoutes>
+                <AddProduct />
+              </PrivateRoutes>
+            }
+          ></Route>
         </Routes>
       </section>
     </div>

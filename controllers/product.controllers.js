@@ -8,12 +8,12 @@ const createProduct = async (req, res) => {
     title: req.body.title,
     description: req.body.description,
     price: req.body.price,
-    category: req.body._id,
+    category: req.body.category,
     user: req.verifiedUser._id,
     image: `${host}:${port}/images/${req.file.filename}`,
     //  promotionPrice:req.body.promotionPrice,
     reference: req.body.reference,
-    // isPromotion: req.body.isPromotion
+    isPromotion: req.body.isPromotion,
     countInStock: req.body.countInStock,
     store: req.verifiedUser.store,
   });

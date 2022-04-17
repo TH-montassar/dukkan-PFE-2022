@@ -45,6 +45,7 @@ const getCategories = async (req, res) => {
     return res.status(500).json(err);
   }
 };
+
 const deleteCategory = async (req, res) => {
   const id = req.category._id;
   try {
@@ -56,6 +57,7 @@ const deleteCategory = async (req, res) => {
 };
 
 module.exports.createCategory = createCategory;
+
 module.exports.updateCategory = updateCategory;
 module.exports.getCategory = getCategory;
 module.exports.getCategories = getCategories;

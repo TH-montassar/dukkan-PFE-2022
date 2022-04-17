@@ -4,6 +4,7 @@ const {
   getCategory,
   getCategories,
   deleteCategory,
+ 
 } = require("../controllers/category.controllers");
 const {
   createProduct,
@@ -115,13 +116,15 @@ router.delete("/:product", verifyToken, isMerchant, deleteProduct);
 router.post(
   "/category",
   verifyToken,
-  isMerchant,
+  // isMerchant,
   upload.single("image"),
   createCategory
 );
+
 router.put("/category/:category", verifyToken, isMerchant, updateCategory);
 router.get("/category/:categorySlug", verifyToken, getCategory);
-router.get("/category", getCategories);
+router.get("/categories", getCategories);
+
 router.delete("/category/:category", verifyToken, isMerchant, deleteCategory);
 //review routes
 router.post("/:product/review", verifyToken, isCustomer, addReview);
