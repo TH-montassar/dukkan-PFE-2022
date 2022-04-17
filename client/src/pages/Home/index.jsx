@@ -6,9 +6,9 @@ const Home = () => {
     return state.authReducers;
   });
 
-  if (!isAuthenticated) {
-    return <Navigate to={"/login"} />;
-  }
+  // if (!isAuthenticated) {
+  //   return <Navigate to={"/login"} />;
+  // }
   if (user?.role === "merchant") {
     return <Navigate to={"/dashboard"} />;
   }

@@ -1,26 +1,30 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Listbox, Transition } from "@headlessui/react";
+import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate, Routes, Route } from "react-router-dom";
 import { addProduct } from "../../../../redux/Actions/product.action";
-import { getCategories } from "../../../../redux/Actions/category.action";
 import Spinner from "../../../../shared/Spinner";
 const AddProduct = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getCategories());
-  }, []);
-
+  const navigate = useNavigate();
   const { isLoading, categories } = useSelector((state) => {
     return state.categoryReducers;
   });
 
   const [selectedCategory, setSelectedCategory] = useState(
-    categories[0]?.title
+    categories[0]
   );
+  const [query, setQuery] = useState("");
+  const filteredCategories =
+  query === ""
+    ? categories
+    : categories.filter((category) =>
+        category.title
+          .toLowerCase()
+          .replace(/\s+/g, "")
+          .includes(query.toLowerCase().replace(/\s+/g, ""))
+      );
 
   const [Promotion, setPromotion] = useState(false);
   console.log(Promotion);
@@ -68,8 +72,9 @@ const AddProduct = () => {
 
       description: "",
     });
-    navigate("#");
+    navigate("/dashboard/product");
   };
+ 
   return isLoading ? (
     <Spinner />
   ) : (
@@ -136,65 +141,75 @@ const AddProduct = () => {
               </select>
             </div> */}
             <div className="w-full ">
-              <Listbox value={selectedCategory} onChange={setSelectedCategory}>
-                <div className="relative mt-1">
-                  <Listbox.Button className="relative border w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg  cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-                    <span className="block truncate">
-                      {selectedCategory?.title}
-                    </span>
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <SelectorIcon
-                        className="w-5 h-5 text-gray-400"
-                        aria-hidden="true"
-                      />
-                    </span>
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                      {categories.map((category, categoryIdx) => (
-                        <Listbox.Option
-                          key={categoryIdx}
-                          className={({ active }) =>
-                            `cursor-default select-none relative py-2 pl-10 pr-4 ${
-                              active
-                                ? "text-amber-100 bg-info"
-                                : "text-gray-900"
-                            }`
-                          }
-                          value={category}
-                        >
-                          {({ selectedCategory }) => (
-                            <>
+              
+              <Combobox value={selectedCategory} onChange={setSelectedCategory}>
+            <div className="relative mt-1">
+              <div className="relative w-full text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-teal-300 focus-visible:ring-offset-2 sm:text-sm overflow-hidden">
+                <Combobox.Input
+                  className="w-full border-none  focus:ring-0 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 "
+                  displayValue={(category) => category.title}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+                <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                  <SelectorIcon
+                    className="w-5 h-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </Combobox.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+                afterLeave={() => setQuery("")}
+              >
+                <Combobox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {filteredCategories.length === 0 && query !== "" ? (
+                    <div className="cursor-default select-none relative py-2 px-4 text-gray-700">
+                      Nothing found.
+                    </div>
+                  ) : (
+                    filteredCategories.map((category) => (
+                      <Combobox.Option
+                        key={category.id}
+                        className={({ active }) =>
+                          `cursor-default select-none relative py-2 pl-10 pr-4 ${
+                            active ? "text-white bg-teal-600" : "text-gray-900"
+                          }`
+                        }
+                        value={category}
+                      >
+                        {({ selected, active }) => (
+                          <>
+                            <span
+                              className={`block truncate ${
+                                selected ? "font-medium" : "font-normal"
+                              }`}
+                            >
+                              {category.title}
+                            </span>
+                            {selected ? (
                               <span
-                                className={`block truncate ${
-                                  selectedCategory
-                                    ? "font-medium"
-                                    : "font-normal"
+                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                  active ? "text-white" : "text-teal-600"
                                 }`}
                               >
-                                {category?.title}
+                                <CheckIcon
+                                  className="w-5 h-5"
+                                  aria-hidden="true"
+                                />
                               </span>
-                              {selectedCategory ? (
-                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                  <CheckIcon
-                                    className="w-5 h-5"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                              ) : null}
-                            </>
-                          )}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </Listbox>
+                            ) : null}
+                          </>
+                        )}
+                      </Combobox.Option>
+                    ))
+                  )}
+                </Combobox.Options>
+              </Transition>
+            </div>
+          </Combobox>
             </div>
           </div>
 
