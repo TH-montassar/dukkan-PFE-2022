@@ -19,25 +19,30 @@ import Product from "./components/Products";
 import Spinner from "../../shared/Spinner";
 import { logout } from "../../redux/Actions/auth.action";
 import { getCategories } from "../../redux/Actions/category.action";
+import { getStoreWithProduct } from "../../redux/Actions/store.action";
 
 const Dashboard = () => {
-
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCategories());
   }, []);
- 
+
   const { isLoading, user } = useSelector((state) => {
     return state.authReducers;
   });
-  console.log(user);
+  useEffect(() => {
+    dispatch(getStoreWithProduct({ store: user.store }));
+  }, []);
+  const { store } = useSelector((state) => {
+    return state.storeReducers;
+  });
+
   return isLoading ? (
     <Spinner />
   ) : (
-    <div className="flex flex-row w-full font-sans	">
+    <div className="flex flex-row w-full font-sans 	h-screen mb-10">
       <aside className="bg-info fixed  min-h-screen h-full overflow-y-auto  w-1/6 text-white font-medium">
         <i className="fa-solid fa-align-right pt-5 flex justify-end pr-2  text-lg lg:text-sm  "></i>
         <div className="pt-2 flex flex-row items-center justify-between pl-10 pr-12 lg:pl-4">
@@ -102,7 +107,7 @@ const Dashboard = () => {
         </Link>
       </aside>
       <section className="w-5/6 pt-10 ml-[17rem] pb-16 lg:ml-44">
-        <div className="shadow-md rounded-xl	 w-[90%] m-auto min-h-max flex flex-row justify-between items-center px-5 py-2">
+        <div className="  bg-white shadow-md rounded-xl	 w-[90%] m-auto min-h-max flex flex-row justify-between items-center px-5 py-2">
           <div className="flex flex-row items-center justify-center gap-2">
             <p className="min-w-min lg:text-sm"> go to my website</p>
             <img src={goTo} alt="go to" />
@@ -122,7 +127,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="flex flex-row items-center gap-3">
-              <div className=" text-right">
+              <div className=" text-right z-[9999]">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium   bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
@@ -169,7 +174,7 @@ const Dashboard = () => {
                           )}
                         </Menu.Item>
                       </div>
-                      <div className="px-1 py-1">
+                      <div className="px-1 py-1 border-gray">
                         <Menu.Item>
                           {({ active }) => (
                             <button
@@ -195,7 +200,7 @@ const Dashboard = () => {
                           )}
                         </Menu.Item>
                       </div>
-                      <div className="px-1 py-1">
+                      <div className="px-1 py-1 border-gray">
                         <Menu.Item>
                           {({ active }) => (
                             <button
@@ -206,9 +211,9 @@ const Dashboard = () => {
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
                               {active ? (
-                                <i class="fa-solid fa-right-from-bracket pr-2"></i>
+                                <i className="fa-solid fa-right-from-bracket pr-2"></i>
                               ) : (
-                                <i class="fa-solid fa-person-walking-arrow-right pr-2 text-info"></i>
+                                <i className="fa-solid fa-person-walking-arrow-right pr-2 text-info"></i>
                               )}
                               Log out
                             </button>
@@ -221,7 +226,7 @@ const Dashboard = () => {
               </div>
 
               <img
-                className="max-w-[4rem]  rounded-full"
+                className="max-w-[3rem]  rounded-full"
                 src={avatar}
                 alt="avatar"
               />

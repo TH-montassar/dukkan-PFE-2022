@@ -24,6 +24,7 @@ module.exports = {
         infoDark: "#014A4D",
         whiteDark: "D6D6D6",
         gray: "#C4C4C4",
+        background:"#f3f3f8",
       },
     },
 

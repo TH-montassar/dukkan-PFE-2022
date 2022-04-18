@@ -11,6 +11,6 @@ module.exports /*.verifyToken*/ = (req, res, next) => {
     req.verifiedUser = verifiedUser;
     next();
   } catch (err) {
-    return res.status(403).json("no token valide");
+    return res.status(403).json("no token valid");
   }
 };

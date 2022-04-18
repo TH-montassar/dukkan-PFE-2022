@@ -26,22 +26,24 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register />}></Route>
+        <div className="container   w-full">
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/register" element={<Register />}></Route>
 
-          <Route
-            path="/dashboard/*"
-            element={
-              <PrivateRoutes>
-                <Dashboard />
-              </PrivateRoutes>
-            }
-          ></Route>
+            <Route
+              path="/dashboard/*"
+              element={
+                <PrivateRoutes>
+                  <Dashboard />
+                </PrivateRoutes>
+              }
+            ></Route>
 
-          {/* <Route path="*" element={<ErrorPage />}></Route> */}
-        </Routes>
+            {/* <Route path="*" element={<ErrorPage />}></Route> */}
+          </Routes>
+        </div>
       </BrowserRouter>
     </Provider>
   );

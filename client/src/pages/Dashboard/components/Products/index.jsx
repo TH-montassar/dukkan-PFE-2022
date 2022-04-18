@@ -1,8 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Combobox, Transition } from "@headlessui/react";
+import { Combobox, Transition, Dialog } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../../../shared/Spinner";
+import productImag from "../../../../assets/image/product.png";
+import { deleteProduct } from "../../../../redux/Actions/product.action";
 const Product = () => {
   const { isLoading, categories } = useSelector((state) => {
     return state.categoryReducers;
@@ -19,10 +21,31 @@ const Product = () => {
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
+  const dispatch = useDispatch();
+
+  const { store } = useSelector((state) => {
+    return state.storeReducers;
+  });
+
+  const handlerClickdelete = (e, id) => {
+    e.preventDefault();
+    dispatch(deleteProduct(id));
+  };
+
+  // let [isOpen, setIsOpen] = useState(true);
+
+  // function closeModal() {
+  //   setIsOpen(false);
+  // }
+
+  // function openModal() {
+  //   setIsOpen(true);
+  // }
+
   return isLoading ? (
     <Spinner />
   ) : (
-    <div>
+    <div className="font-Roboto">
       <div className="flex flex-row justify-between items-center px-10 py-11  ">
         <p>Products</p>
         <div className="w-56">
@@ -56,10 +79,10 @@ const Product = () => {
                   ) : (
                     filteredCategories.map((category) => (
                       <Combobox.Option
-                        key={category.id}
+                        key={category._id}
                         className={({ active }) =>
                           `cursor-default select-none relative py-2 pl-10 pr-4 ${
-                            active ? "text-white bg-teal-600" : "text-gray-900"
+                            active ? "text-white bg-info" : "text-gray-900"
                           }`
                         }
                         value={category}
@@ -94,6 +117,163 @@ const Product = () => {
               </Transition>
             </div>
           </Combobox>
+        </div>
+      </div>
+
+      <div className="pt-10 w-[94%] m-auto">
+        <div className="flex flex-row justify-between font-semibold">
+          <p className="pr-6">Product details </p> <p>Category</p> <p>Price</p>
+          <p>Stock </p> <p>Reference</p> <p>Promotion </p> <p>Rate</p>
+          <p>Action</p>
+        </div>
+        <hr className=" text-gray" />
+        <div className="py-4 w-full flex flex-col justify-center pt-10 gap-5 ">
+          {store.map(
+            (s) =>
+              s.products?.length > 0 &&
+              s.products?.map((product) => {
+                return (
+                  <div className="  w-full rounded-lg bg-white  max-h-20  flex flex-row  items-center shadow-md	py-2 px-2">
+                    <div className=" flex flex-row items-center gap-3 w-[20%]">
+                      {/* <img
+                className=" h-full object-contain rounded-md"
+                src={productImag}
+                alt="fhfh"
+              /> */}
+                      <div className="w-full">
+                        <p>{product.title}</p>
+                        <p className="truncate w-full">{product.description}</p>
+                      </div>
+                    </div>
+                    <div className="w-full flex flex-row justify-between ">
+                      <div> category</div>
+                      <div>{product.price} TND</div>
+                      <div>{product.countInStock}</div>
+                      <div>{product.reference}</div>
+                      <div>
+                        {product?.isPromotion ? (
+                          <div> yes</div>
+                        ) : (
+                          <div> no </div>
+                        )}
+                      </div>
+                      <ul className="flex justify-center">
+                        <li>
+                          <svg
+                            aria-hidden="true"
+                            focusable="false"
+                            data-prefix="fas"
+                            data-icon="star"
+                            className="w-4 text-yellow-500 mr-1"
+                            role="img"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"
+                            ></path>
+                          </svg>
+                        </li>
+                        <li>
+                          <svg
+                            aria-hidden="true"
+                            focusable="false"
+                            data-prefix="fas"
+                            data-icon="star"
+                            className="w-4 text-yellow-500 mr-1"
+                            role="img"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"
+                            ></path>
+                          </svg>
+                        </li>
+                        <li>
+                          <svg
+                            aria-hidden="true"
+                            focusable="false"
+                            data-prefix="fas"
+                            data-icon="star"
+                            className="w-4 text-yellow-500 mr-1"
+                            role="img"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"
+                            ></path>
+                          </svg>
+                        </li>
+                        <li>
+                          <svg
+                            aria-hidden="true"
+                            focusable="false"
+                            data-prefix="far"
+                            data-icon="star"
+                            className="w-4 text-yellow-500 mr-1"
+                            role="img"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"
+                            ></path>
+                          </svg>
+                        </li>
+                        <li>
+                          <svg
+                            aria-hidden="true"
+                            focusable="false"
+                            data-prefix="far"
+                            data-icon="star"
+                            className="w-4 text-yellow-500"
+                            role="img"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 576 512"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"
+                            ></path>
+                          </svg>
+                        </li>
+                      </ul>
+                      <div className="flex flex-row gap-2">
+                        
+                          <div>
+                            <button
+                            //  onClick={openModal}
+                              type="button"
+                              className="bg-white border-2 py-1 px-2 hover:bg-info hover:text-white text-Success"
+                            >
+                              <i className="fa-solid fa-pen-to-square "></i>
+                            </button>
+
+                            
+
+
+                            
+                          </div>
+                        
+                        <button
+                          type="button"
+                          onClick={(e) => handlerClickdelete(e, product._id)}
+                          className="bg-white border-2 py-1 px-2 hover:bg-info hover:text-white text-danger"
+                        >
+                          <i className="fa-solid fa-trash "></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+          )}
         </div>
       </div>
     </div>
