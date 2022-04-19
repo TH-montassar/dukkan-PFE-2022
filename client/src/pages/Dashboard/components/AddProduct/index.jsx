@@ -78,7 +78,7 @@ const AddProduct = () => {
   ) : (
     <form
       onSubmit={(e) => onSubmitForm(e)}
-      className=" bg-white font-Roboto shadow-xl border border-1 border-black mx-auto w-[80%] mt-32 px-10 py-10  flex flex-row overflow-y-auto"
+      className=" bg-white font-Roboto shadow-xl   mx-auto w-[80%] mt-32 px-10 py-10  flex flex-row overflow-y-auto rounded-lg"
     >
       <div className="flex flex-col gap-7 w-1/2">
         <div className="flex flex-col gap-2 w-[80%]">

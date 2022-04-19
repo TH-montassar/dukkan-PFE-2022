@@ -10,6 +10,7 @@ import { setAuthToken } from "./utils/setAuthToken";
 import { authCheck, logout } from "./redux/Actions/auth.action";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoutes from "./guards/PrivateRoutes";
+import Landing from "./pages/Landing";
 function App() {
   useEffect(() => {
     if (localStorage.token) {
@@ -26,9 +27,10 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className="container   w-full">
+        <div className=" w-full">
           <Routes>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<Landing />}></Route>
+            <Route path="/home" element={<Home />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
 

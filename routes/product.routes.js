@@ -4,7 +4,6 @@ const {
   getCategory,
   getCategories,
   deleteCategory,
- 
 } = require("../controllers/category.controllers");
 const {
   createProduct,
@@ -102,11 +101,17 @@ const upload = multer({
 router.post(
   "/product",
   verifyToken,
-  // isMerchant,
+  isMerchant,
   upload.single("image"),
   createProduct
 );
-router.put("/:product", verifyToken, isMerchant, updateProduct);
+router.put(
+  "/:product/update",
+  verifyToken,
+  isMerchant,
+  upload.single("image"),
+  updateProduct
+);
 router.get("/product/:product", getProduct);
 
 router.get("/", getProducts);
@@ -116,7 +121,7 @@ router.delete("/:product", verifyToken, isMerchant, deleteProduct);
 router.post(
   "/category",
   verifyToken,
-  // isMerchant,
+  isMerchant,
   upload.single("image"),
   createCategory
 );

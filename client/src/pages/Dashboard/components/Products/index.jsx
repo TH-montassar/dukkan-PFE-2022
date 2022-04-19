@@ -2,14 +2,20 @@ import React, { Fragment, useState } from "react";
 import { Combobox, Transition, Dialog } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
+
 import Spinner from "../../../../shared/Spinner";
 import productImag from "../../../../assets/image/product.png";
-import { deleteProduct } from "../../../../redux/Actions/product.action";
+import {
+  deleteProduct,
+  updateProduct,
+} from "../../../../redux/Actions/product.action";
+
 const Product = () => {
   const { isLoading, categories } = useSelector((state) => {
     return state.categoryReducers;
   });
   const [selected, setSelected] = useState(categories[0]);
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [query, setQuery] = useState("");
 
   const filteredCategories =
@@ -32,15 +38,71 @@ const Product = () => {
     dispatch(deleteProduct(id));
   };
 
-  // let [isOpen, setIsOpen] = useState(true);
+  let [isOpen, setIsOpen] = useState(false);
 
-  // function closeModal() {
-  //   setIsOpen(false);
-  // }
+  function closeModal() {
+    setIsOpen(false);
+  }
 
-  // function openModal() {
-  //   setIsOpen(true);
-  // }
+  const openModal = (e) => {
+    e.preventDefault();
+    setIsOpen(true);
+  };
+  let [isDelete, setIsDelete] = useState(false);
+  function closeDelete() {
+    setIsDelete(false);
+  }
+
+  const openDeleteModal = (e) => {
+    e.preventDefault();
+    setIsDelete(true);
+  };
+  const [Promotion, setPromotion] = useState(false);
+  const [IdProduct, setIdProduct] = useState(null);
+  const [url, setUrl] = useState("");
+  const [file, setFile] = useState(null);
+  const [Form, setForm] = useState({
+    title: "",
+    price: "",
+    countInStock: "",
+    reference: "",
+    //category: "",
+
+    description: "",
+  });
+  const onInputChange = (e) => {
+    e.preventDefault();
+
+    setForm({ ...Form, [e.target.name]: e.target.value });
+    console.log(Form);
+  };
+  const onSubmitForm = (e) => {
+    e.preventDefault();
+
+    const product = new FormData();
+    product.append("title", Form.title);
+    product.append("price", Form.price);
+    product.append("countInStock", Form.countInStock);
+    product.append("category", selectedCategory._id);
+    product.append("isPromotion", Promotion);
+    product.append("reference", Form.reference);
+    product.append("description", Form.description);
+    product.append("image", file);
+    dispatch(updateProduct(IdProduct, product));
+    setPromotion(false);
+    setUrl("");
+    setFile(null);
+    setForm({
+      ...Form,
+      title: "",
+      price: "",
+      countInStock: "",
+      reference: "",
+      // category: "",
+      description: "",
+    });
+    setIsOpen(false);
+  };
 
   return isLoading ? (
     <Spinner />
@@ -133,16 +195,21 @@ const Product = () => {
               s.products?.length > 0 &&
               s.products?.map((product) => {
                 return (
-                  <div className="  w-full rounded-lg bg-white  max-h-20  flex flex-row  items-center shadow-md	py-2 px-2">
+                  <div
+                    key={product._id}
+                    className="  w-full rounded-lg bg-white  max-h-20  flex flex-row  items-center shadow-md	py-2 px-2"
+                  >
                     <div className=" flex flex-row items-center gap-3 w-[20%]">
-                      {/* <img
-                className=" h-full object-contain rounded-md"
-                src={productImag}
-                alt="fhfh"
-              /> */}
-                      <div className="w-full">
+                      <img
+                        className=" h-full max-w-[30%] object-contain rounded-md"
+                        src={product.image}
+                        alt="fhfh"
+                      />
+                      <div className="w-[70%]">
                         <p>{product.title}</p>
-                        <p className="truncate w-full">{product.description}</p>
+                        <p className="truncate w-full text-[14px]">
+                          {product.description}
+                        </p>
                       </div>
                     </div>
                     <div className="w-full flex flex-row justify-between ">
@@ -244,26 +311,26 @@ const Product = () => {
                           </svg>
                         </li>
                       </ul>
-                      <div className="flex flex-row gap-2">
-                        
-                          <div>
-                            <button
-                            //  onClick={openModal}
-                              type="button"
-                              className="bg-white border-2 py-1 px-2 hover:bg-info hover:text-white text-Success"
-                            >
-                              <i className="fa-solid fa-pen-to-square "></i>
-                            </button>
+                      <div className="flex flex-row gap-2 items-center">
+                        <div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              openModal(e);
+                              setIdProduct(product._id);
+                            }}
+                            className="bg-white border-2 py-[0.38rem] px-2 hover:bg-info hover:text-white text-Success"
+                          >
+                            <i className="fa-solid fa-pen-to-square "></i>
+                          </button>
+                        </div>
 
-                            
-
-
-                            
-                          </div>
-                        
                         <button
                           type="button"
-                          onClick={(e) => handlerClickdelete(e, product._id)}
+                          onClick={(e) => {
+                            handlerClickdelete(e, product._id);
+                            openDeleteModal(e);
+                          }}
                           className="bg-white border-2 py-1 px-2 hover:bg-info hover:text-white text-danger"
                         >
                           <i className="fa-solid fa-trash "></i>
@@ -274,6 +341,314 @@ const Product = () => {
                 );
               })
           )}
+          <Transition appear show={isOpen} as={Fragment}>
+            <Dialog
+              as="div"
+              className="fixed inset-0 z-10 overflow-y-auto"
+              onClose={closeModal}
+            >
+              <div className="min-h-screen px-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Dialog.Overlay className="fixed inset-0" />
+                </Transition.Child>
+
+                {/* This element is to trick the browser into centering the modal contents. */}
+                <span
+                  className="inline-block h-screen align-middle"
+                  aria-hidden="true"
+                >
+                  &#8203;
+                </span>
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <div className="inline-block   py-6 px-2 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-lg font-medium leading-6 text-gray-900"
+                    >
+                      update product
+                    </Dialog.Title>
+                    <form
+                      onSubmit={(e) => onSubmitForm(e)}
+                      className=" bg-white font-Roboto    mx-auto w-full  px-10 py-10  flex flex-row overflow-y-auto "
+                    >
+                      <div className="flex flex-col gap-7 w-1/2">
+                        <div className="flex flex-col gap-2 w-[80%]">
+                          <label className="" htmlFor="title">
+                            Product Name
+                          </label>
+                          <input
+                            className="outline-none border focus:border-Primary px-2 py-2 rounded-lg"
+                            onChange={(e) => onInputChange(e)}
+                            value={Form.title}
+                            type="text"
+                            name="title"
+                            id="title"
+                            placeholder="Product Name"
+                          />
+                        </div>
+                        <div className="flex flex-row justify-between w-full">
+                          <div className="flex flex-col w-[45%]">
+                            <label htmlFor="price">Price</label>
+                            <input
+                              className="outline-none border focus:border-Primary px-2 py-2 rounded-lg"
+                              onChange={(e) => onInputChange(e)}
+                              value={Form.price}
+                              type="number"
+                              name="price"
+                              id="price"
+                              placeholder="0000 TND"
+                            />
+                          </div>
+                          <div className="flex flex-col w-[45%]">
+                            <label htmlFor="countInStock">Count in stock</label>
+                            <input
+                              className="outline-none border focus:border-Primary px-2 py-2 rounded-lg"
+                              onChange={(e) => onInputChange(e)}
+                              value={Form.countInStock}
+                              type="number"
+                              name="countInStock"
+                              id="countInStock"
+                              placeholder="0"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex flex-row justify-between  w-full">
+                          <div className="flex  flex-col justify-center w-[45%]">
+                            <label htmlFor="category">Category</label>
+
+                            <div className="w-full ">
+                              <Combobox
+                                value={selectedCategory}
+                                onChange={setSelectedCategory}
+                              >
+                                <div className="relative mt-1">
+                                  <div className="relative w-full text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-teal-300 focus-visible:ring-offset-2 sm:text-sm overflow-hidden">
+                                    <Combobox.Input
+                                      className="w-full border-none  focus:ring-0 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 "
+                                      displayValue={(category) =>
+                                        category.title
+                                      }
+                                      onChange={(event) =>
+                                        setQuery(event.target.value)
+                                      }
+                                    />
+                                    <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                                      <SelectorIcon
+                                        className="w-5 h-5 text-gray-400"
+                                        aria-hidden="true"
+                                      />
+                                    </Combobox.Button>
+                                  </div>
+                                  <Transition
+                                    as={Fragment}
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                    afterLeave={() => setQuery("")}
+                                  >
+                                    <Combobox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                      {filteredCategories.length === 0 &&
+                                      query !== "" ? (
+                                        <div className="cursor-default select-none relative py-2 px-4 text-gray-700">
+                                          Nothing found.
+                                        </div>
+                                      ) : (
+                                        filteredCategories.map((category) => (
+                                          <Combobox.Option
+                                            key={category._id}
+                                            className={({ active }) =>
+                                              `cursor-default select-none relative py-2 pl-10 pr-4 ${
+                                                active
+                                                  ? "text-white bg-info"
+                                                  : "text-gray-900"
+                                              }`
+                                            }
+                                            value={category}
+                                          >
+                                            {({ selected, active }) => (
+                                              <>
+                                                <span
+                                                  className={`block truncate ${
+                                                    selected
+                                                      ? "font-medium"
+                                                      : "font-normal"
+                                                  }`}
+                                                >
+                                                  {category.title}
+                                                </span>
+                                                {selected ? (
+                                                  <span
+                                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                                      active
+                                                        ? "text-white"
+                                                        : "text-teal-600"
+                                                    }`}
+                                                  >
+                                                    <CheckIcon
+                                                      className="w-5 h-5"
+                                                      aria-hidden="true"
+                                                    />
+                                                  </span>
+                                                ) : null}
+                                              </>
+                                            )}
+                                          </Combobox.Option>
+                                        ))
+                                      )}
+                                    </Combobox.Options>
+                                  </Transition>
+                                </div>
+                              </Combobox>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col w-[45%]">
+                            <label htmlFor="reference">Reference</label>
+                            <input
+                              className="outline-none border focus:border-Primary px-2 py-2 rounded-lg"
+                              onChange={(e) => onInputChange(e)}
+                              value={Form.reference}
+                              type="text"
+                              name="reference"
+                              id="reference"
+                              placeholder="ref"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex flex-row items-center gap-2">
+                          <label htmlFor="isPromotion">Promotion</label>
+                          <input
+                            onChange={(e) => setPromotion(e.target.checked)}
+                            type="checkbox"
+                            name="isPromotion"
+                            id="isPromotion"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="" htmlFor="description">
+                            Description
+                          </label>
+                          <textarea
+                            onChange={(e) => onInputChange(e)}
+                            value={Form.description}
+                            name="description"
+                            className=" form-control block w-full px-3    rounded-lg   py-1.5       text-base       font-normal        text-gray-700       bg-white bg-clip-padding      border border-solid border-gray-300  transition        ease-in-out    m-0       focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none  "
+                            id="description"
+                            rows="3"
+                            placeholder="Your message"
+                          ></textarea>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-5 w-1/2 pl-5">
+                        <h3>Product image</h3>
+                        <div className="">
+                          <label
+                            htmlFor="image"
+                            className="flex flex-col items-center bg-info rounded-md text-white px-10 py-1 max-w-max"
+                          >
+                            <p> Upload image</p>
+                            <i className="fa-solid fa-upload"></i>
+                          </label>
+                          <input
+                            hidden
+                            type="file"
+                            name="image"
+                            id="image"
+                            onChange={(e) => {
+                              setFile(e.target.files[0]);
+                              setUrl(URL.createObjectURL(e.target.files[0]));
+                            }}
+                          />
+                          <img
+                            className=" max-w-sm mt-5 rounded-lg drop-shadow-lg"
+                            src={url}
+                          />
+                        </div>
+                        <div className="flex justify-end mt-auto">
+                          <button
+                            type="submit"
+                            className="bg-info hover:bg-Primary text-white py-3  rounded-xl font-Montserrat font-semibold px-5"
+                          >
+                            Update Product
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </Transition.Child>
+              </div>
+            </Dialog>
+          </Transition>
+          {/* alertDelete */}
+          <Transition appear show={isDelete} as={Fragment}>
+            <Dialog
+              as="div"
+              className="fixed inset-0 z-10 overflow-y-auto"
+              onClose={closeDelete}
+            >
+              <div className="min-h-screen px-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Dialog.Overlay className="fixed inset-0" />
+                </Transition.Child>
+
+                {/* This element is to trick the browser into centering the modal contents. */}
+                <span
+                  className="inline-block h-screen align-middle"
+                  aria-hidden="true"
+                >
+                  &#8203;
+                </span>
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-lg font-medium leading-6 text-gray-900"
+                    >
+                      delete
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        product has been successfully delete
+                      </p>
+                    </div>
+                  </div>
+                </Transition.Child>
+              </div>
+            </Dialog>
+          </Transition>
         </div>
       </div>
     </div>

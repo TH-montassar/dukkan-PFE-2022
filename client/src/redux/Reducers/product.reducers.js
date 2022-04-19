@@ -4,7 +4,7 @@ import {
   GET_PRODUCTS,
   PRODUCT_ERROR,
   PRODUCT_LOADING,
-  DELETE_PRODUCT,
+  DELETE_PRODUCT,UPDATE_PRODUCT
 } from "../Constants/action";
 
 const initialState = {
@@ -42,6 +42,12 @@ const ProductReducers = (state = initialState, action) => {
         isLoading: false,
       };
     case DELETE_PRODUCT:
+      return {
+        ...state,
+        product: payload,
+        isLoading: false,
+      };
+      case UPDATE_PRODUCT:
       return {
         ...state,
         product: payload,

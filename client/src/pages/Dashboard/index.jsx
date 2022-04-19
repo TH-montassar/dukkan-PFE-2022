@@ -20,6 +20,7 @@ import Spinner from "../../shared/Spinner";
 import { logout } from "../../redux/Actions/auth.action";
 import { getCategories } from "../../redux/Actions/category.action";
 import { getStoreWithProduct } from "../../redux/Actions/store.action";
+import UpdateProduct from "./components/UpdateProduct";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -90,10 +91,10 @@ const Dashboard = () => {
               />
               <li className="mb-3">Add Product</li>
             </Link>
-            <div className="flex flex-row gap-3 mt-1">
+            <Link to="#" className="flex flex-row gap-3 mt-1">
               <i className="fa-solid fa-cart-flatbed"></i>
               <li>Categories</li>
-            </div>
+            </Link>
           </ul>
         </div>
 
@@ -244,6 +245,7 @@ const Dashboard = () => {
             }
           ></Route>
           <Route path="/product" element={<Product />}></Route>
+          {/* <Route path="/updateProduct" element={<UpdateProduct />}></Route> */}
         </Routes>
       </section>
     </div>

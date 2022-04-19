@@ -28,11 +28,29 @@ const createProduct = async (req, res) => {
 };
 const updateProduct = async (req, res) => {
   const id = req.product._id;
+  const host = process.env.HOST;
+  const port = process.env.PORT;
 
   try {
-    const updateProduct = await Product.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
+    const updateProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        category: req.body.category,
+       // user: req.verifiedUser._id,
+        image: `${host}:${port}/images/${req.file.filename}`,
+        //  promotionPrice:req.body.promotionPrice,
+        reference: req.body.reference,
+        isPromotion: req.body.isPromotion,
+        countInStock: req.body.countInStock,
+       // store: req.verifiedUser.store,
+      },
+      {
+        new: true,
+      }
+    );
     return res.status(200).json(updateProduct);
   } catch (err) {
     return res.status(500).json(err);
@@ -60,7 +78,7 @@ const getProduct = async (req, res) => {
 };
 const getProducts = async (req, res) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 999;
-  console.log(req.verifiedUser)
+  console.log(req.verifiedUser);
 
   let filter = {};
   if (req.query.category) {
