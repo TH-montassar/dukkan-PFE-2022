@@ -45,23 +45,42 @@ const Product = () => {
     dispatch(deleteProduct(id));
   };
 
-  let [isOpen, setIsOpen] = useState(false);
+  const [Promotion, setPromotion] = useState(false);
+  const [IdProduct, setIdProduct] = useState(null);
+  const [url, setUrl] = useState("");
+  const [file, setFile] = useState(null);
+  const [Form, setForm] = useState({
+    title: "",
+    price: "",
+    countInStock: "",
+    reference: "",
 
+    description: "",
+  });
+
+  let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
   }
 
   const openModal = (e, index) => {
-    e.preventDefault()
-    const product = products[index]
+    e.preventDefault();
+    const product = products[index];
+    const category = categories[index];
+
     setForm({
       title: product.title,
-      // price: "",
-      // countInStock: "",
-      // reference: "",
+      price: product.price,
+      countInStock: product.countInStock,
+      reference: product.reference,
 
-      // description: "",
+      description: product.description,
     });
+
+    //!
+    //  setPromotion(Promotion[index])
+    // setFile(file[index]);
+    // selectedCategory(category);
 
     setIsOpen(true);
   };
@@ -74,19 +93,7 @@ const Product = () => {
     e.preventDefault();
     setIsDelete(true);
   };
-  const [Promotion, setPromotion] = useState(false);
-  const [IdProduct, setIdProduct] = useState(null);
-  const [url, setUrl] = useState("");
-  const [file, setFile] = useState(null);
-  const [Form, setForm] = useState({
-    title: "",
-    price: "",
-    countInStock: "",
-    reference: "",
-    //category: "",
 
-    description: "",
-  });
   const onInputChange = (e) => {
     e.preventDefault();
 
