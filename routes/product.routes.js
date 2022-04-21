@@ -26,7 +26,7 @@ const {
 const Category = require("../models/category.models");
 const Product = require("../models/product.models");
 const Review = require("../models/productReview.models");
-
+const Store = require("../models/store.models");
 const router = require("express").Router();
 //   const  = require("../middlewares/verifyToken");
 
@@ -40,6 +40,21 @@ router.param("product", async (req, res, next, id) => {
       return res.status(404).json("not found product");
     } else {
       req.product = product;
+      next();
+    }
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+//param Store
+router.param("store", async (req, res, next, id) => {
+  try {
+    const store = await Store.findById(id);
+
+    if (!store) {
+      return res.status(404).json("not found store");
+    } else {
+      req.store = store;
       next();
     }
   } catch (err) {
@@ -114,7 +129,8 @@ router.put(
 );
 router.get("/product/:product", getProduct);
 
-router.get("/", getProducts);
+router.get("/me", verifyToken, getProducts);
+router.get("/:store", getProducts);
 router.delete("/:product", verifyToken, isMerchant, deleteProduct);
 
 //category routes

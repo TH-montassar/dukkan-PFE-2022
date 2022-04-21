@@ -50,18 +50,26 @@ export const login = (data) => async (dispatch) => {
     });
   }
 };
-export const register = (data) => async (dispatch) => {
+export const register = (queries,data) => async (dispatch) => {
   dispatch({
     type: AUTH_LOADING,
   });
+  /* This is to create a query string for the url. */
+  let queryString = "?";
+  for (const key in queries) {
+    queryString += key + "=" + queries[key] + "&";
+    //* ? limit =8
+  }
+  console.log("form product action  " + queryString);
   try {
-    const res = await axios.post("/api/auth/register", data, {
+    const res = await axios.post(`/api/auth/register${queryString}`, data, {
       header: { "Content-Type": "application/json" },
     });
     dispatch({
       type: REGISTER,
       payload: res.data,
     });
+    
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,

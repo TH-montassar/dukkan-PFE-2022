@@ -9,33 +9,33 @@ import {
   UPDATE_PRODUCT,
 } from "../Constants/action";
 
-// export const getProducts = (queries) => async (dispatch) => {
-//   dispatch({
-//     type: PRODUCT_LOADING,
-//   });
+export const getProducts = (queries) => async (dispatch) => {
+  dispatch({
+    type: PRODUCT_LOADING,
+  });
 
-//   /* This is to create a query string for the url. */
-//   let queryString = "?";
-//   for (const key in queries) {
-//     queryString += key + "=" + queries[key] + "&";
-//     //* ? limit =8
-//   }
+  /* This is to create a query string for the url. */
+  let queryString = "?";
+  for (const key in queries) {
+    queryString += key + "=" + queries[key] + "&";
+    //* ? limit =8
+  }
 
-//   console.log("form product action  " + queryString);
+  console.log("form product action  " + queryString);
 
-//   try {
-//     const res = await axios.get(`/api/products${queryString}`, {});
-//     dispatch({
-//       type: GET_PRODUCTS,
-//       payload: res.data,
-//     });
-//   } catch (err) {
-//     dispatch({
-//       type: PRODUCT_ERROR,
-//       payload: err,
-//     });
-//   }
-// };
+  try {
+    const res = await axios.get(`/api/products/me${queryString}`, {});
+    dispatch({
+      type: GET_PRODUCTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: err,
+    });
+  }
+};
 
 export const addProduct = (data) => async (dispatch) => {
   dispatch({

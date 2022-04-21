@@ -4,7 +4,8 @@ import {
   GET_PRODUCTS,
   PRODUCT_ERROR,
   PRODUCT_LOADING,
-  DELETE_PRODUCT,UPDATE_PRODUCT
+  DELETE_PRODUCT,
+  UPDATE_PRODUCT,
 } from "../Constants/action";
 
 const initialState = {
@@ -24,7 +25,7 @@ const ProductReducers = (state = initialState, action) => {
     case GET_PRODUCTS:
       return {
         ...state,
-        //*payload. 3ibara reponce mmta3 postman
+
         products: payload,
         isLoading: false,
       };
@@ -47,7 +48,7 @@ const ProductReducers = (state = initialState, action) => {
         product: payload,
         isLoading: false,
       };
-      case UPDATE_PRODUCT:
+    case UPDATE_PRODUCT:
       return {
         ...state,
         product: payload,

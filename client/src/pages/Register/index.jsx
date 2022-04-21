@@ -2,11 +2,21 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import homeImg from "../../assets/image/homeimg.png";
 import logo from "../../assets/logo/Dukkan.png";
-import { Link, Navigate, useNavigate, NavLink } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useNavigate,
+  useLocation,
+  NavLink,
+} from "react-router-dom";
 import google from "../../assets/icon/icons8-google.svg";
 import { login, register } from "../../redux/Actions/auth.action";
 import Spinner from "../../shared/Spinner";
 const Register = () => {
+  const location = useLocation();
+  const queries = new URLSearchParams(location.search);
+  // console.log("role", queries);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [Form, setForm] = useState({
@@ -24,11 +34,16 @@ const Register = () => {
   const onInputChange = (e) => {
     e.preventDefault(); //man5alouch navigateur ya3mel relode
     setForm({ ...Form, [e.target.name]: e.target.value });
-   // console.log(Form);
+    // console.log(Form);
   };
   const OnSubmitForm = (e) => {
     e.preventDefault(); //man5alouch navigateur ya3mel relode
-    dispatch(register(Form));
+    dispatch(
+      register(
+        { role: queries.has("role") ? queries.get("role") : "customer" },
+        Form
+      )
+    );
     setForm({
       email: "",
       password: "",

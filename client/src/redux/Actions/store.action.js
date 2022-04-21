@@ -7,22 +7,13 @@ import {
   UPDATE_PRODUCT,
 } from "../Constants/action";
 
-export const getStoreWithProduct = (queries) => async (dispatch) => {
+export const getStore = (queries) => async (dispatch) => {
   dispatch({
     type: STORE_LOADING,
   });
 
-  /* This is to create a query string for the url. */
-  let queryString = "?";
-  for (const key in queries) {
-    queryString += key + "=" + queries[key] + "&";
-    //* ? limit =8
-  }
-
-  console.log("form  get store  action  " + queryString);
-
   try {
-    const res = await axios.get(`/api/store${queryString}`);
+    const res = await axios.get(`/api/store/me`);
     dispatch({
       type: GET_STORE,
       payload: res.data,

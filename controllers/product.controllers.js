@@ -39,13 +39,13 @@ const updateProduct = async (req, res) => {
         description: req.body.description,
         price: req.body.price,
         category: req.body.category,
-       // user: req.verifiedUser._id,
+        // user: req.verifiedUser._id,
         image: `${host}:${port}/images/${req.file.filename}`,
         //  promotionPrice:req.body.promotionPrice,
         reference: req.body.reference,
         isPromotion: req.body.isPromotion,
         countInStock: req.body.countInStock,
-       // store: req.verifiedUser.store,
+        // store: req.verifiedUser.store,
       },
       {
         new: true,
@@ -78,7 +78,8 @@ const getProduct = async (req, res) => {
 };
 const getProducts = async (req, res) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 999;
-  console.log(req.verifiedUser);
+
+
 
   let filter = {};
   if (req.query.category) {
@@ -90,21 +91,25 @@ const getProducts = async (req, res) => {
   if (req.query.q) {
     filter.slug = { $regex: ".*" + req.query.q + ".*", $options: "i" };
   }
-  try {
-    const products = await Product.find(filter)
+  if (req.verifiedUser === undefined) {
+    const storeId = req.store._id;
+    const products = await Product.find( { store: storeId, ...filter })
       .limit(limit)
       // .populate("user")
-      .populate("category");
-    // const products = await Product.aggregate(filter, [
-    //   {
-    //     $lookup: {
-    //       from: "reviews",
-    //       localField: "_id",
-    //       foreignField: "product",
-    //       as: "reviews",
-    //     },
-    //   },
-    // ]);
+      .populate("category")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json(products);
+  }
+  try {
+    const products = await Product.find(
+      /**filter, */ { store: req.verifiedUser.store }
+    )
+      .limit(limit)
+      // .populate("user")
+      .populate("category")
+      .sort({ createdAt: -1 });
+
     return res.status(200).json(products);
   } catch (err) {
     return res.status(500).json(err);

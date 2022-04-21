@@ -19,7 +19,7 @@ import Product from "./components/Products";
 import Spinner from "../../shared/Spinner";
 import { logout } from "../../redux/Actions/auth.action";
 import { getCategories } from "../../redux/Actions/category.action";
-import { getStoreWithProduct } from "../../redux/Actions/store.action";
+import { getStore } from "../../redux/Actions/store.action";
 import UpdateProduct from "./components/UpdateProduct";
 
 const Dashboard = () => {
@@ -34,7 +34,7 @@ const Dashboard = () => {
     return state.authReducers;
   });
   useEffect(() => {
-    dispatch(getStoreWithProduct({ store: user.store }));
+    dispatch(getStore(/**{ store: user.store } */));
   }, []);
   const { store } = useSelector((state) => {
     return state.storeReducers;
@@ -110,7 +110,10 @@ const Dashboard = () => {
       <section className="w-5/6 pt-10 ml-[17rem] pb-16 lg:ml-44">
         <div className="  bg-white shadow-md rounded-xl	 w-[90%] m-auto min-h-max flex flex-row justify-between items-center px-5 py-2">
           <div className="flex flex-row items-center justify-center gap-2">
-            <p className="min-w-min lg:text-sm"> go to my website</p>
+            <Link to={`/home/${store?._id}`} className="min-w-min lg:text-sm">
+             
+              go to my website
+            </Link>
             <img src={goTo} alt="go to" />
           </div>
           <div className="flex flex-row items-center justify-center gap-7">

@@ -30,7 +30,7 @@ function App() {
         <div className=" w-full">
           <Routes>
             <Route path="/" element={<Landing />}></Route>
-            <Route path="/home" element={<Home />}></Route>
+            <Route path="/home/:storeId" element={<Home />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
 

@@ -1,34 +1,10 @@
 const Store = require("../models/store.models");
 const mongoose = require("mongoose");
-const getStoreWithProduct = async (req, res) => {
-  const currentUserStore = req.query.store;
-  console.log(currentUserStore === undefined);
-  try {
-    if (currentUserStore === undefined) {
-      const store = await Store.aggregate([
-        {
-          $lookup: {
-            from: "products",
-            localField: "_id",
-            foreignField: "store",
-            as: "products",
-          },
-        },
-      ]).sort({ createdAt: -1 });
-      return res.status(200).json(store);
-    }
+const getMyStore = async (req, res) => {
+  const StoreId = req.verifiedUser.store;
 
-    const store = await Store.aggregate([
-      { $match: { _id: mongoose.Types.ObjectId(currentUserStore) } },
-      {
-        $lookup: {
-          from: "products",
-          localField: "_id",
-          foreignField: "store",
-          as: "products",
-        },
-      },
-    ]).sort({ createdAt: -1 });
+  try {
+    const store = await Store.findById(StoreId);
     return res.status(200).json(store);
 
     //  await Product.populate(product, { path: "category", select: "title" });
@@ -36,4 +12,4 @@ const getStoreWithProduct = async (req, res) => {
     return res.status(500).json(err);
   }
 };
-module.exports.getStoreWithProduct = getStoreWithProduct;
+module.exports.getMyStore = getMyStore;
