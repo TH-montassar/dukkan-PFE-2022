@@ -27,7 +27,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className=" w-full">
+        <div className=" w-full font-sans">
           <Routes>
             <Route path="/" element={<Landing />}></Route>
             <Route path="/home/:storeId" element={<Home />}></Route>

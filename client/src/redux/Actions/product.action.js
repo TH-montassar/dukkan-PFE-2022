@@ -36,7 +36,33 @@ export const getProducts = (queries) => async (dispatch) => {
     });
   }
 };
+export const getProductsByStore = (id,queries) => async (dispatch) => {
+  dispatch({
+    type: PRODUCT_LOADING,
+  });
 
+  /* This is to create a query string for the url. */
+  let queryString = "?";
+  for (const key in queries) {
+    queryString += key + "=" + queries[key] + "&";
+    //* ? limit =8
+  }
+
+  console.log("form product action  " + queryString);
+
+  try {
+    const res = await axios.get(`/api/products/${id}/products${queryString}`, {});
+    dispatch({
+      type: GET_PRODUCTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: err,
+    });
+  }
+};
 export const addProduct = (data) => async (dispatch) => {
   dispatch({
     type: PRODUCT_LOADING,

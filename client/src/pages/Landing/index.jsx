@@ -10,6 +10,9 @@ const Landing = () => {
   if (user?.role === "merchant") {
     return <Navigate to={"/dashboard"} />;
   }
+  if (user?.role === "customer") {
+    return <Navigate to={"/home/1"} />;
+  }
   return (
     <div className="bg-wave bg-no-repeat  px-5">
       <header className="flex items-center justify-between text-white text-2xl 	">

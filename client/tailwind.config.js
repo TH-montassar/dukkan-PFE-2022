@@ -4,10 +4,9 @@ module.exports = {
   darkMode: "media", // or 'class'
   theme: {
     extend: {
-
       backgroundImage: {
-        'wave': "url('/src/assets/image/wave.svg')",
-        
+        wave: "url('/src/assets/image/wave.svg')",
+        wavee: "url('/src/assets/image/bg.svg')",
       },
       boxShadow: {
         webkit_box_shadow: " 3px 9px 16px 2px rgba(153,148,153,1)",
@@ -29,7 +28,7 @@ module.exports = {
         infoDark: "#014A4D",
         whiteDark: "D6D6D6",
         gray: "#C4C4C4",
-        background:"#f3f3f8",
+        background: "#f3f3f8",
       },
     },
 

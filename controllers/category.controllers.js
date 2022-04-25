@@ -39,7 +39,7 @@ const getCategory = async (req, res) => {
 };
 const getCategories = async (req, res) => {
   try {
-    const getCategory = await Category.find();
+    const getCategory = await Category.find().sort({ createdAt: -1 }).limit(4);
     return res.status(200).json(getCategory);
   } catch (err) {
     return res.status(500).json(err);
