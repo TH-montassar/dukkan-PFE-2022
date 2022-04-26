@@ -11,6 +11,8 @@ import { authCheck, logout } from "./redux/Actions/auth.action";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoutes from "./guards/PrivateRoutes";
 import Landing from "./pages/Landing";
+import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
 function App() {
   useEffect(() => {
     if (localStorage.token) {
@@ -30,10 +32,13 @@ function App() {
         <div className=" w-full font-sans">
           <Routes>
             <Route path="/" element={<Landing />}></Route>
+            <Route path="/cart" element={<Cart />} />
             <Route path="/home/:storeId" element={<Home />}></Route>
             <Route path="/login" element={<Login />}></Route>
+
             <Route path="/register" element={<Register />}></Route>
 
+            <Route path="/details/:slug" element={<ProductDetails />} />
             <Route
               path="/dashboard/*"
               element={

@@ -36,6 +36,23 @@ export const getProducts = (queries) => async (dispatch) => {
     });
   }
 };
+
+export const getProduct = (slug) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/products/product/${slug}`);
+    dispatch({
+      type: GET_PRODUCT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: err,
+    });
+  }
+};
+
+
 export const getProductsByStore = (id,queries) => async (dispatch) => {
   dispatch({
     type: PRODUCT_LOADING,

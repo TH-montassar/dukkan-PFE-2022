@@ -14,21 +14,22 @@ import Footer from "../../shared/Footer";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { storeId } = useParams();
+  localStorage.setItem("store", storeId);
 
   useEffect(() => {
-    console.log("id", id);
+    console.log("id", storeId);
   }, []);
   useEffect(() => {
-    dispatch(getCategories());
+    dispatch(getCategories({limit:4}));
   }, []);
   const { isLoading, categories } = useSelector((state) => {
     return state.categoryReducers;
   });
 
   useEffect(() => {
-    dispatch(getProductsByStore(id));
-  }, [id]);
+    dispatch(getProductsByStore(storeId));
+  }, [storeId]);
   const { products } = useSelector((state) => {
     return state.productReducers;
   });
@@ -36,7 +37,7 @@ const Home = () => {
     <Spinner />
   ) : (
     <div className="bg-wavee bg-no-repeat">
-      <Header />
+      <Header/>
       <section className="pt-20 font-Roboto w-full">
         <div className="flex flex-row items-center justify-center pt-28 px-5">
           <img className="max-w-[4rem] " src={directionB} alt="direction" />

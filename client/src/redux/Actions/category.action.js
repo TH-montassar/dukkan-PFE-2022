@@ -5,12 +5,18 @@ import {
   GET_CATEGORIES,
 } from "../Constants/action";
 
-export const getCategories = () => async (dispatch) => {
+export const getCategories = (queries) => async (dispatch) => {
   dispatch({
     type: CATEGORY_LOADING,
   });
+  /* This is to create a query string for the url. */
+  let queryString = "?";
+  for (const key in queries) {
+    queryString += key + "=" + queries[key] + "&";
+    //* ? limit =8
+  }
   try {
-    const res = await axios.get(`/api/products/categories`);
+    const res = await axios.get(`/api/products/categories${queryString}`);
 
     dispatch({
       type: GET_CATEGORIES,

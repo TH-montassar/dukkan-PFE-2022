@@ -61,19 +61,19 @@ const Footer = () => {
             <div className="flex gap-2 ">
               <Link to="">
                 {/* <img className="max-w-[2rem]" src={facebook} alt="facebook" /> */}
-                <i class="fa-brands fa-facebook"></i>
+                <i className="fa-brands fa-facebook"></i>
               </Link>
               <Link to="">
-                <i class="fa-brands fa-instagram"></i>
+                <i className="fa-brands fa-instagram"></i>
               </Link>
               <Link to="">
-                <i class="fa-brands fa-twitter"></i>
+                <i className="fa-brands fa-twitter"></i>
               </Link>
               <a
                 href="https://www.linkedin.com/in/themri-montassar-160042149/"
                 // target="_blank"
               >
-                <i class="fa-brands fa-linkedin"></i>
+                <i className="fa-brands fa-linkedin"></i>
               </a>
             </div>
           </div>

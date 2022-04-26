@@ -57,7 +57,7 @@ const updateProduct = async (req, res) => {
   }
 };
 const getProduct = async (req, res) => {
-  const productSlug = req.product.slug;
+  const productSlug = req.params.productSlug;
   try {
     const product = await Product.aggregate([
       { $match: { slug: productSlug } },
@@ -71,15 +71,13 @@ const getProduct = async (req, res) => {
       },
     ]).sort({ createdAt: -1 });
     await Product.populate(product, { path: "category", select: "title" });
-    return res.status(200).json(product);
+    return res.status(200).json(product[0]);
   } catch (err) {
     return res.status(500).json(err);
   }
 };
 const getProducts = async (req, res) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 999;
-
-
 
   let filter = {};
   if (req.query.category) {
@@ -93,7 +91,7 @@ const getProducts = async (req, res) => {
   }
   if (req.verifiedUser === undefined) {
     const storeId = req.store._id;
-    const products = await Product.find( { store: storeId, ...filter })
+    const products = await Product.find({ store: storeId, ...filter })
       .limit(limit)
       // .populate("user")
       .populate("category")

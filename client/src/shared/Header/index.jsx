@@ -7,6 +7,8 @@ import search from "../../assets/icon/iconserch.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/Actions/auth.action";
 import avatar from "../../assets/image/profilelINKDINE.png";
+import { getCategories } from "../../redux/Actions/category.action";
+
 const Header = () => {
   const dispatch = useDispatch();
   const [Query, setQuery] = useState("");
@@ -33,7 +35,13 @@ const Header = () => {
   // if (user?.role === "merchant") {
   //   return <Navigate to={"/dashboard"} />;
   // }
-
+  // useEffect(() => {
+  //   dispatch(getCategories({limit:10}));
+  // }, []);
+  //!
+  const { categories } = useSelector((state) => {
+    return state.categoryReducers;
+  });
   return (
     <header className="bg-info flex w-full justify-between px-16 py-2 fixed top-0 z-50 items-center flex-wrap ">
       <Link to="/home/554t">
@@ -64,32 +72,73 @@ const Header = () => {
           <img src={search} alt="search" />
         </button>
       </div>
-      <nav className="text-white flex flex-wrap gap-20 lg:gap-10 md:gap-5 sm:gap-1">
+      <nav className="items-center text-white flex flex-wrap gap-20 lg:gap-10 md:gap-5 sm:gap-1">
         <Link
           to="/"
           className="hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
         >
           Home
         </Link>
-        <Link
-          className="hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
-          to="/categories"
-        >
-          Category
-        </Link>
+
+        <div className=" text-right z-[9999]">
+          <Menu as="div" className="relative inline-block text-left">
+            <div>
+              <Menu.Button className="inline-flex justify-center w-full px-4 py-2    bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                Category
+                <ChevronDownIcon
+                  className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
+                  aria-hidden="true"
+                />
+              </Menu.Button>
+            </div>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 max-w-max mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                {categories.map((category) => (
+                  <div className="px-1 py-1 border-gray">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to={`/product/${category.slug}`}
+                          className={`${
+                            active ? "bg-info text-white" : "text-black"
+                          } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                        >
+                          {active ? (
+                            <div> {category.image}</div>
+                          ) : (
+                            <i className="fa-solid fa-user text-info  pr-2"></i>
+                          )}
+                          {category.title}
+                        </Link>
+                      )}
+                    </Menu.Item>
+                  </div>
+                ))}
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
       </nav>
       <nav className="text-white flex flex-wrap gap-8 lg:gap-10 md:gap-5 sm:gap-1 items-center">
         <Link
           className="relative hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
-          to="#About us"
+          to="/cart"
         >
-          <div className="absolute w-3 h-3 bg-white rounded-full text-danger flex items-center justify-center font-semibold left-10 bottom-4">
-            {" "}
+          <div className=" text-xs absolute w-3 h-3 bg-white rounded-full text-danger flex items-center justify-center font-semibold left-10 bottom-4">
             1
           </div>
           cart
           <i className="fa-solid fa-cart-shopping pl-1"></i>
         </Link>
+
         {isAuthenticated && user?.role === "merchant" ? (
           <Link
             to="/login"

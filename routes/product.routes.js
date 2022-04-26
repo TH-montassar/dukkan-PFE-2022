@@ -127,7 +127,7 @@ router.put(
   upload.single("image"),
   updateProduct
 );
-router.get("/product/:product", getProduct);
+router.get("/product/:productSlug", getProduct);
 
 router.get("/me", verifyToken, getProducts);
 router.get("/:store/products", getProducts);
@@ -148,7 +148,7 @@ router.get("/categories", getCategories);
 
 router.delete("/category/:category", verifyToken, isMerchant, deleteCategory);
 //review routes
-router.post("/:product/review", verifyToken, isCustomer, addReview);
+router.post("/:product/review", verifyToken, /*isCustomer,*/ addReview);
 router.put("/review/:review", verifyToken, isReviewOwner, updateReview);
 //router.get("/:product/review", verifyToken, getReviewByproduct);
 
