@@ -1,4 +1,4 @@
-import axios from "axios";
+import { instance } from "../../apis/jsonPlaceholder.instance";
 import {
   CATEGORY_ERROR,
   CATEGORY_LOADING,
@@ -16,7 +16,7 @@ export const getCategories = (queries) => async (dispatch) => {
     //* ? limit =8
   }
   try {
-    const res = await axios.get(`/api/products/categories${queryString}`);
+    const res = await instance.get(`/api/products/categories${queryString}`);
 
     dispatch({
       type: GET_CATEGORIES,

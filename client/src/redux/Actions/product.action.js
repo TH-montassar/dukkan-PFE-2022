@@ -1,4 +1,5 @@
-import axios from "axios";
+import { instance } from "../../apis/jsonPlaceholder.instance";
+
 import {
   GET_PRODUCTS,
   GET_PRODUCT,
@@ -24,7 +25,7 @@ export const getProducts = (queries) => async (dispatch) => {
   console.log("form product action  " + queryString);
 
   try {
-    const res = await axios.get(`/api/products/me${queryString}`, {});
+    const res = await instance.get(`/api/products/me${queryString}`, {});
     dispatch({
       type: GET_PRODUCTS,
       payload: res.data,
@@ -39,7 +40,7 @@ export const getProducts = (queries) => async (dispatch) => {
 
 export const getProduct = (slug) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/products/product/${slug}`);
+    const res = await instance.get(`/api/products/product/${slug}`);
     dispatch({
       type: GET_PRODUCT,
       payload: res.data,
@@ -51,7 +52,6 @@ export const getProduct = (slug) => async (dispatch) => {
     });
   }
 };
-
 
 export const getProductsByStore = (queries) => async (dispatch) => {
   dispatch({
@@ -68,7 +68,7 @@ export const getProductsByStore = (queries) => async (dispatch) => {
   console.log("form product action  " + queryString);
 
   try {
-    const res = await axios.get(`/api/products${queryString}`);
+    const res = await instance.get(`/api/products${queryString}`);
     dispatch({
       type: GET_PRODUCTS,
       payload: res.data,
@@ -85,7 +85,7 @@ export const addProduct = (data) => async (dispatch) => {
     type: PRODUCT_LOADING,
   });
   try {
-    const res = await axios.post("/api/products/product", data, {
+    const res = await instance.post("/api/products/product", data, {
       headers: { "Content-Type": "application/json" },
     });
     dispatch({
@@ -102,7 +102,7 @@ export const addProduct = (data) => async (dispatch) => {
 
 export const deleteProduct = (idProduct) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/products//${idProduct}`);
+    const res = await instance.delete(`/api/products//${idProduct}`);
     dispatch({
       type: DELETE_PRODUCT,
       payload: res.data,
@@ -120,7 +120,7 @@ export const updateProduct = (id, data) => async (dispatch) => {
     type: PRODUCT_LOADING,
   });
   try {
-    const res = await axios.put(`/api/products/${id}/update`, data, {
+    const res = await instance.put(`/api/products/${id}/update`, data, {
       headers: { "Content-Type": "application/json" },
     });
     dispatch({

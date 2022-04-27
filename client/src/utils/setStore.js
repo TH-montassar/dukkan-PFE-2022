@@ -1,11 +1,11 @@
-import axios from "axios";
+import { instance } from "../apis/jsonPlaceholder.instance";
 
 export const setStore = (StoreId) => {
   if (StoreId) {
-    axios.defaults.headers.common["access_store"] = StoreId;
+    instance.defaults.headers.common["access_store"] = StoreId;
     localStorage.setItem("store", StoreId);
   } else {
-    delete axios.defaults.headers.common["access_store"];
+    delete instance.defaults.headers.common["access_store"];
     localStorage.removeItem("store");
   }
 };

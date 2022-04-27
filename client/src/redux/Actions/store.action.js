@@ -1,4 +1,4 @@
-import axios from "axios";
+import { instance } from "../../apis/jsonPlaceholder.instance";
 import {
   GET_STORES,
   GET_STORE,
@@ -7,13 +7,13 @@ import {
   UPDATE_PRODUCT,
 } from "../Constants/action";
 
-export const getStore = (queries) => async (dispatch) => {
+export const getStore = () => async (dispatch) => {
   dispatch({
     type: STORE_LOADING,
   });
 
   try {
-    const res = await axios.get(`/api/store/me`);
+    const res = await instance.get(`/api/store/me`);
     dispatch({
       type: GET_STORE,
       payload: res.data,

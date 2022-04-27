@@ -131,7 +131,7 @@ router.put(
 router.get("/product/:productSlug", getProduct);
 
 router.get("/me", verifyToken, getProducts);
-router.get("/", verifyStore,getProducts);
+router.get("/", verifyStore, getProducts);
 router.delete("/:product", verifyToken, isMerchant, deleteProduct);
 
 //category routes
