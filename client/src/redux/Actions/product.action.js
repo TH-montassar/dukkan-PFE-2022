@@ -53,7 +53,7 @@ export const getProduct = (slug) => async (dispatch) => {
 };
 
 
-export const getProductsByStore = (id,queries) => async (dispatch) => {
+export const getProductsByStore = (queries) => async (dispatch) => {
   dispatch({
     type: PRODUCT_LOADING,
   });
@@ -68,7 +68,7 @@ export const getProductsByStore = (id,queries) => async (dispatch) => {
   console.log("form product action  " + queryString);
 
   try {
-    const res = await axios.get(`/api/products/${id}/products${queryString}`, {});
+    const res = await axios.get(`/api/products${queryString}`);
     dispatch({
       type: GET_PRODUCTS,
       payload: res.data,

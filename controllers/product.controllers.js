@@ -89,8 +89,10 @@ const getProducts = async (req, res) => {
   if (req.query.q) {
     filter.slug = { $regex: ".*" + req.query.q + ".*", $options: "i" };
   }
-  if (req.verifiedUser === undefined) {
+  if (req.verifiedUser === undefined || req.verifiedUser.role === "customer") {
     const storeId = req.store._id;
+  
+    console.log(storeId)
     const products = await Product.find({ store: storeId, ...filter })
       .limit(limit)
       // .populate("user")
@@ -101,7 +103,7 @@ const getProducts = async (req, res) => {
   }
   try {
     const products = await Product.find(
-      /**filter, */ { store: req.verifiedUser.store }
+      /**filter, */ { store: req.verifiedUser.store, ...filter }
     )
       .limit(limit)
       // .populate("user")

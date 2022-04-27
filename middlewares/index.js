@@ -1,4 +1,5 @@
 const verifyToken = require("./verifyToken");
+const verifyStore = require("./verifyStore");
 const isAdmin = require("./isAdmin.js");
 const { isMerchant } = require("./isMerchant");
 const { isReviewOwner } = require("./isReviewOwner");
@@ -9,3 +10,4 @@ module.exports.isAdmin = isAdmin;
 module.exports.isMerchant = isMerchant;
 module.exports.isReviewOwner = isReviewOwner;
 module.exports.isCustomer = isCustomer;
+module.exports.verifyStore = verifyStore;

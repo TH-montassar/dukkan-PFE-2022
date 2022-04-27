@@ -156,7 +156,7 @@ const Cart = () => {
                   placeholder="phone"
                 /> */}
                 </div>
-                <div className="pb-16 w-full relative">
+                <div className="pb-5 w-full relative">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2 pb-2"
                     htmlFor="email"
@@ -172,7 +172,13 @@ const Cart = () => {
                   placeholder="email"
                 /> */}
                 </div>
-                <form className=" pl-2 w-full">
+                <button
+                  type="button"
+                  className="bg-info  mb-2 flex mx-auto	hover:bg-Primary text-white font-bold py-3 px-10 rounded-md text-xs"
+                >
+                  Update Info
+                </button>
+                <form className=" pl-2 pt-3 w-full">
                   <div className="pb-5 w-full relative">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2 pb-2"

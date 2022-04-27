@@ -11,33 +11,38 @@ import { getProductsByStore } from "../../redux/Actions/product.action";
 import vdAbout from "../../assets/video/cars.mp4";
 import ReactPlayer from "react-player";
 import Footer from "../../shared/Footer";
-
+import { setStore } from "../../utils/setStore";
+//import { store } from "./redux/store";
 const Home = () => {
   const dispatch = useDispatch();
   const { storeId } = useParams();
-  localStorage.setItem("store", storeId);
+
+  useEffect(() => {
+ 
+    setStore(storeId);
+
+   
+  }, []);
 
   useEffect(() => {
     console.log("id", storeId);
   }, []);
-  useEffect(() => {
-    dispatch(getCategories({limit:4}));
-  }, []);
-  const { isLoading, categories } = useSelector((state) => {
+
+  const { categories } = useSelector((state) => {
     return state.categoryReducers;
   });
 
   useEffect(() => {
-    dispatch(getProductsByStore(storeId));
-  }, [storeId]);
-  const { products } = useSelector((state) => {
+    dispatch(getProductsByStore());
+  }, []);
+  const { products, isLoading } = useSelector((state) => {
     return state.productReducers;
   });
   return isLoading ? (
     <Spinner />
   ) : (
     <div className="bg-wavee bg-no-repeat">
-      <Header/>
+      <Header />
       <section className="pt-20 font-Roboto w-full">
         <div className="flex flex-row items-center justify-center pt-28 px-5">
           <img className="max-w-[4rem] " src={directionB} alt="direction" />
@@ -63,7 +68,7 @@ const Home = () => {
         <div className="justify-center pt-20  flex flex-col items-center w-full">
           <h1 className="text-2xl font-medium pb-5">Our Top Categories</h1>
           <div className="flex flex-row items-center justify-center gap-5 flex-wrap  w-full ">
-            {categories.map((category) => (
+            {categories.slice(0, 4).map((category) => (
               <div
                 key={category._id}
                 className="flex flex-col items-center transition  ease-in-out duration-500 hover:rounded-lg hover:scale-110 bg-white"
@@ -347,7 +352,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

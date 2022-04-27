@@ -22,6 +22,7 @@ const {
   isCustomer,
   verifyToken,
   isReviewOwner,
+  verifyStore,
 } = require("../middlewares");
 const Category = require("../models/category.models");
 const Product = require("../models/product.models");
@@ -130,7 +131,7 @@ router.put(
 router.get("/product/:productSlug", getProduct);
 
 router.get("/me", verifyToken, getProducts);
-router.get("/:store/products", getProducts);
+router.get("/", verifyStore,getProducts);
 router.delete("/:product", verifyToken, isMerchant, deleteProduct);
 
 //category routes
