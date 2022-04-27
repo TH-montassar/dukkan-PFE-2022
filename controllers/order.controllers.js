@@ -2,7 +2,9 @@ const Order = require("../models/order.models");
 const Cart = require("../models/cart.models");
 
 const createOrder = async (req, res) => {
-  const cart = await Cart.findById(req.verifiedUser.cart);
+  const cart = await Cart.findOne({
+    $and: [{ store: req.store._id }, { customer: req.verifiedUser._id }],
+  });
   const newOrder = new Order({
     items: cart.items,
     totalPrice: cart.totalPrice,
@@ -10,7 +12,8 @@ const createOrder = async (req, res) => {
     taxPercentage: cart.taxPercentage,
 
     address: req.verifiedUser.address,
-    client: req.verifiedUser._id,
+    customer: req.verifiedUser._id,
+    store: req.store._id,
   });
 
   try {
@@ -21,7 +24,7 @@ const createOrder = async (req, res) => {
   }
 };
 const getOrder = async (req, res) => {
-  const id = req.params.orderId;
+  const id = req.order._id;
   try {
     const getOrder = await Order.findById(id);
     return res.status(200).json(getOrder);
@@ -29,16 +32,11 @@ const getOrder = async (req, res) => {
     return res.status(500).json(err);
   }
 };
-const getMYOrderByID = async (req, res) => {
-  const orderId = req.params.orderId;
+const getMYOrder = async (req, res) => {
+  const id = req.order._id;
 
   try {
-    const order = await Order.findById(orderId);
-    currentUser = req.verifiedUser._id;
-    console.log(currentUser);
-    if (order.client!= currentUser) {
-      return res.status(401).json("you dent have any order with this id");
-    }
+    const order = await Order.findById(id);
 
     return res.status(200).json(order);
   } catch (err) {
@@ -46,17 +44,17 @@ const getMYOrderByID = async (req, res) => {
   }
 };
 
-const meOrder = async (req, res) => {
-  const userId = req.verifiedUser._id;
+const meOrders = async (req, res) => {
+  const currentUser = req.verifiedUser._id;
   try {
-    const order = await Order.find({ client: userId });
+    const order = await Order.find({ customer: currentUser });
     const orderLength = order.length;
     if (orderLength === 0) {
       return res.status(401).json("no order");
     }
-    //!result mech mnadma
-    //return res.status(200).json(`find  ${orderLength}  order  ${order}`);
-    return res.status(200).json(order);
+    
+    return res.status(200).json({ length: `${orderLength}`, order: order });
+    //return res.status(200).json(order);
   } catch (err) {
     return res.status(500).json();
   }
@@ -64,48 +62,50 @@ const meOrder = async (req, res) => {
 
 const getOrders = async (req, res) => {
   try {
-    const getOrders = await Order.find();
-    return res.status(200).json(getOrders);
+    const orders = await Order.find();
+    const orderLength = orders.length;
+    return res.status(200).json({ length: `${orderLength}`, order: orders });
   } catch (err) {
     return res.status(500).json(err);
   }
 };
 
 const canceled = async (req, res) => {
-  const OrderId = req.params.orderId;
+  const OrderId =  req.order._id;
+ 
   try {
     const canceledOrder = await Order.findByIdAndUpdate(
       OrderId,
       { status: "canceled" },
       { new: true }
     );
-    return res.status(200).json(canceledOrder);
+    return res.status(200).json({message:"Successfully cancelled"});
   } catch (err) {
     return res.status(500).json(err);
   }
 };
 const confirmed = async (req, res) => {
-  const orderId = req.params.orderId;
+  const orderId = req.order._id;
   try {
     const confirmed = await Order.findByIdAndUpdate(
       orderId,
       { status: "confirmed" },
       { new: true }
     );
-    return res.status(200).json(confirmed);
+    return res.status(200).json({message:"Successfully confirmed"});
   } catch (err) {
     return res.status(500).json(err);
   }
 };
 const fulfilled = async (req, res) => {
-  const orderId = req.params.OrderId;
+  const orderId = req.order._id;;
   try {
-    const fulfilledOrder = await Order.findByIdAndUpdate(
+     await Order.findByIdAndUpdate(
       orderId,
       { status: "fulfilled" },
       { new: true }
     );
-    return res.status(200).json(fulfilledOrder);
+    return res.status(200).json({message:"Successfully fulfilled"});
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -114,8 +114,8 @@ const fulfilled = async (req, res) => {
 module.exports.createOrder = createOrder;
 module.exports.getOrder = getOrder;
 module.exports.getOrders = getOrders;
-module.exports.meOrder = meOrder;
+module.exports.meOrders = meOrders;
 module.exports.canceled = canceled;
 module.exports.confirmed = confirmed;
 module.exports.fulfilled = fulfilled;
-module.exports.getMYOrderByID = getMYOrderByID;
+module.exports.getMYOrder = getMYOrder;
