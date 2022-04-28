@@ -39,7 +39,8 @@ router.put("/canceled/:order", verifyToken,  canceled);
 router.put("/confirmed/:order", verifyToken,  confirmed);
 router.put("/fulfilled/:order", verifyToken,  fulfilled);
 
-router.get("/me", verifyToken, meOrders);
+router.get("/me", verifyToken, isCustomer,meOrders);
+router.get("/GetOrderByStore", verifyToken,isMerchant, meOrders);
 router.post("/", verifyToken, verifyStore, createOrder);
 
 router.get("/getMYOrder/:order", verifyToken, isCustomer, isOrderOwner,getMYOrder);

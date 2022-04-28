@@ -1,4 +1,4 @@
-import { instance } from "../../apis/jsonPlaceholder.instance";
+import { instance } from "../../apis/api.instance";
 import {
   CATEGORY_ERROR,
   CATEGORY_LOADING,

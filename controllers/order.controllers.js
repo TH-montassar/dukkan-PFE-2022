@@ -50,16 +50,33 @@ const meOrders = async (req, res) => {
     const order = await Order.find({ customer: currentUser });
     const orderLength = order.length;
     if (orderLength === 0) {
-      return res.status(401).json("no order");
+      return res.status(401).json("no order for you");
     }
+    const orderc = await Order.find({ customer: currentUser }).countDocuments();
+
+    return res.status(200).json({ length: orderc, order: order });
     
-    return res.status(200).json({ length: `${orderLength}`, order: order });
-    //return res.status(200).json(order);
   } catch (err) {
     return res.status(500).json();
   }
 };
 
+const merchantOrders = async (req, res) => {
+  const currentUserStore = req.verifiedUser.store;
+
+  try {
+    const order = await Order.find({ store: currentUserStore });
+    const orderLength = order.length;
+    if (orderLength === 0) {
+      return res.status(401).json("no order for you");
+    }
+
+    return res.status(200).json({ length: order.length, order: order });
+    //return res.status(200).json(order);
+  } catch (err) {
+    return res.status(500).json();
+  }
+};
 const getOrders = async (req, res) => {
   try {
     const orders = await Order.find();
@@ -71,15 +88,15 @@ const getOrders = async (req, res) => {
 };
 
 const canceled = async (req, res) => {
-  const OrderId =  req.order._id;
- 
+  const OrderId = req.order._id;
+
   try {
     const canceledOrder = await Order.findByIdAndUpdate(
       OrderId,
       { status: "canceled" },
       { new: true }
     );
-    return res.status(200).json({message:"Successfully cancelled"});
+    return res.status(200).json({ message: "Successfully cancelled" });
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -92,20 +109,20 @@ const confirmed = async (req, res) => {
       { status: "confirmed" },
       { new: true }
     );
-    return res.status(200).json({message:"Successfully confirmed"});
+    return res.status(200).json({ message: "Successfully confirmed" });
   } catch (err) {
     return res.status(500).json(err);
   }
 };
 const fulfilled = async (req, res) => {
-  const orderId = req.order._id;;
+  const orderId = req.order._id;
   try {
-     await Order.findByIdAndUpdate(
+    await Order.findByIdAndUpdate(
       orderId,
       { status: "fulfilled" },
       { new: true }
     );
-    return res.status(200).json({message:"Successfully fulfilled"});
+    return res.status(200).json({ message: "Successfully fulfilled" });
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -115,6 +132,7 @@ module.exports.createOrder = createOrder;
 module.exports.getOrder = getOrder;
 module.exports.getOrders = getOrders;
 module.exports.meOrders = meOrders;
+
 module.exports.canceled = canceled;
 module.exports.confirmed = confirmed;
 module.exports.fulfilled = fulfilled;

@@ -1,5 +1,4 @@
-import { instance } from "../apis/jsonPlaceholder.instance";
-
+import { instance } from "../apis/api.instance";
 
 export const setAuthToken = (token) => {
   if (token) {

@@ -19,7 +19,6 @@ export const ADD_PRODUCT = "ADD_PRODUCT";
 export const PRODUCT_ERROR = "PRODUCT_ERROR";
 export const PRODUCT_LOADING = "PRODUCT_LOADING";
 
-
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORY = "GET_CATEGORY";
 export const ADD_CATEGORY = "ADD_CATEGORY";
@@ -31,3 +30,22 @@ export const GET_STORE = "GET_STORE";
 export const STORE_ERROR = "STORE_ERROR";
 export const STORE_LOADING = "STORE_LOADING";
 //export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+
+export const CART_LOADING = "CART_LOADING";
+export const ADD_TO_CART = "ADD_TO_CART";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const EMPTY_CART = "EMPTY_CART";
+export const GET_OWNED_CART = "GET_OWNED_CART";
+export const CART_ERROR = "CART_ERROR";
+
+export const ORDER_LOADING = "ORDER_LOADING";
+export const CREATE_ORDER = "CREATE_ORDER";
+export const GET_ORDER = "GET_ORDER";
+export const GET_MY_ORDER = "GET_MY_ORDER";
+export const GET_MY_ORDERS = "GET_MY_ORDERS";
+export const GET_ORDERS_BY_STORE = "GET_ORDERS_BY_STORE";
+export const GET_ORDERS = "GET_ORDERS";
+export const CANCELED_ORDER = "CANCELED_ORDER";
+export const CONFIRMED_ORDER = "CONFIRMED_ORDER";
+export const FULFILLED_ORDER = "FULFILLED_ORDER";
+export const ORDER_ERROR = "ORDER_ERROR";

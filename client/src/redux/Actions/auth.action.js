@@ -1,4 +1,3 @@
-
 import {
   AUTH_ERROR,
   AUTH_CHECK,
@@ -8,7 +7,7 @@ import {
   LOGOUT,
 } from "../Constants/action";
 import { setAuthToken } from "../../utils/setAuthToken";
-import { instance } from "../../apis/jsonPlaceholder.instance";
+import { instance } from "../../apis/api.instance";
 
 export const authCheck = () => async (dispatch) => {
   dispatch({
@@ -52,7 +51,7 @@ export const login = (data) => async (dispatch) => {
     });
   }
 };
-export const register = (queries,data) => async (dispatch) => {
+export const register = (queries, data) => async (dispatch) => {
   dispatch({
     type: AUTH_LOADING,
   });
@@ -71,7 +70,6 @@ export const register = (queries,data) => async (dispatch) => {
       type: REGISTER,
       payload: res.data,
     });
-    
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
