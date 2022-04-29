@@ -18,6 +18,11 @@ const createOrder = async (req, res) => {
 
   try {
     const savedOrder = await newOrder.save();
+    cart.items = [];
+        cart.totalPrice = 0;
+        cart.totalPriceWithTax = 0;
+        await cart.save();
+
     return res.status(201).json(savedOrder);
   } catch (err) {
     return res.status(500).json(err);
@@ -48,14 +53,17 @@ const meOrders = async (req, res) => {
   const currentUser = req.verifiedUser._id;
   try {
     const order = await Order.find({ customer: currentUser });
-    const orderLength = order.length;
-    if (orderLength === 0) {
-      return res.status(401).json("no order for you");
+    const count = await Order.find({ customer: currentUser }).countDocuments();
+    if (count === 0) {
+      return res
+        .status(401)
+        .json({ length: count, message: "no order for you" });
     }
-    const orderc = await Order.find({ customer: currentUser }).countDocuments();
 
-    return res.status(200).json({ length: orderc, order: order });
-    
+    return res.status(200).json({
+      length: count,
+      order: order,
+    });
   } catch (err) {
     return res.status(500).json();
   }
@@ -66,12 +74,17 @@ const merchantOrders = async (req, res) => {
 
   try {
     const order = await Order.find({ store: currentUserStore });
-    const orderLength = order.length;
-    if (orderLength === 0) {
-      return res.status(401).json("no order for you");
+
+    const count = await Order.find({
+      store: currentUserStore,
+    }).countDocuments();
+    if (count === 0) {
+      return res
+        .status(401)
+        .json({ length: count, message: "no order for you" });
     }
 
-    return res.status(200).json({ length: order.length, order: order });
+    return res.status(200).json({ length: count, order: order });
     //return res.status(200).json(order);
   } catch (err) {
     return res.status(500).json();
@@ -132,7 +145,7 @@ module.exports.createOrder = createOrder;
 module.exports.getOrder = getOrder;
 module.exports.getOrders = getOrders;
 module.exports.meOrders = meOrders;
-
+module.exports.merchantOrders = merchantOrders;
 module.exports.canceled = canceled;
 module.exports.confirmed = confirmed;
 module.exports.fulfilled = fulfilled;

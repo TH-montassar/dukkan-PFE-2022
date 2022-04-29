@@ -51,6 +51,7 @@ const Cart = () => {
               <div> Price</div>
               <div> Quantity</div>
               <div> Total </div>
+             
             </div>
             {/* -----order---- */}
             <div className="my-5  bg-white flex justify-between items-center h-20 px-5 shadow-md rounded-md">

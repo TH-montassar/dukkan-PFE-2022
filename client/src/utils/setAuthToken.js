@@ -7,6 +7,5 @@ export const setAuthToken = (token) => {
   } else {
     delete instance.defaults.headers.common["access_token"];
     localStorage.removeItem("token");
-    localStorage.removeItem("token");
   }
 };

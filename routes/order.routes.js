@@ -7,6 +7,7 @@ const {
   getOrders,
   meOrders,
   getMYOrder,
+  merchantOrders,
 } = require("../controllers/order.controllers");
 const {
   verifyToken,
@@ -14,6 +15,7 @@ const {
   isCustomer,
   verifyStore,
   isOrderOwner,
+  isAdmin,
 } = require("../middlewares");
 const Order = require("../models/order.models");
 
@@ -35,16 +37,29 @@ router.param("order", async (req, res, next, id) => {
   }
 });
 
-router.put("/canceled/:order", verifyToken,  canceled);
-router.put("/confirmed/:order", verifyToken,  confirmed);
-router.put("/fulfilled/:order", verifyToken,  fulfilled);
+router.get("/canceled/:order", verifyToken, isMerchant,canceled);
+router.get("/confirmed/:order", verifyToken, isMerchant,confirmed);
+router.get("/fulfilled/:order", verifyToken, isMerchant,fulfilled);
 
-router.get("/me", verifyToken, isCustomer,meOrders);
-router.get("/GetOrderByStore", verifyToken,isMerchant, meOrders);
-router.post("/", verifyToken, verifyStore, createOrder);
+router.get("/me", verifyToken, isCustomer, meOrders);
+router.get("/merchantOrders", verifyToken, isMerchant, merchantOrders);
+router.get("/checkout", verifyToken, verifyStore, isCustomer, createOrder);
 
-router.get("/getMYOrder/:order", verifyToken, isCustomer, isOrderOwner,getMYOrder);
-router.get("/:order", verifyToken, isMerchant, getOrder);
-router.get("/", verifyToken, isMerchant, getOrders);
+router.get(
+  "/getMYOrder/:order",
+  verifyToken,
+  isCustomer,
+  isOrderOwner,
+  getMYOrder
+);
+router.get(
+  "/merchantOrder/:order",
+  verifyToken,
+  isMerchant,
+  isOrderOwner,
+  getMYOrder
+);
+router.get("/:order", verifyToken, isAdmin, getOrder);
+router.get("/", verifyToken, isAdmin, getOrders);
 
 module.exports = router;
