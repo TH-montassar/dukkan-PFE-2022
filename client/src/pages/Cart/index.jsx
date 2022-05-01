@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import car from "../../assets/image/car.png";
@@ -6,28 +6,69 @@ import YouMayAlsoLike from "../../shared/YouMayAlsoLike";
 import Spinner from "../../shared/Spinner";
 import Header from "../../shared/Header";
 import Footer from "../../shared/Footer";
+import { Navigate } from "react-router-dom";
+import {
+  emptyCart,
+  getOwnedCart,
+  removeFromCart,
+} from "../../redux/Actions/cart.action";
+import { checkoutOrder } from "../../redux/Actions/order.action";
+import { updateMyAddress } from "../../redux/Actions/address.action";
 const Cart = () => {
-  const [Form, setForm] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    street: "",
-    city: "",
-    zipCode: "",
-    county: "",
-    number: "",
-    confirmPassword: "",
+  const { isAuthenticated, user } = useSelector((state) => {
+    return state.authReducers;
+  });
+
+  const dispatch = useDispatch();
+  const [Address, setAddress] = useState({
+    street: user?.address?.street,
+    city: user?.address?.city,
+    zipCode: user?.address?.zipCode,
+    country: user?.address?.country,
   });
   const onInputChange = (e) => {
     e.preventDefault(); //man5alouch navigateur ya3mel relode
-    setForm({ ...Form, [e.target.name]: e.target.value });
-    // console.log(Form);
+    setAddress({ ...Address, [e.target.name]: e.target.value });
+    // console.log(Address);
+  };
+  const onSubmitAddress = (e) => {
+    e.preventDefault();
+    dispatch(updateMyAddress(Address));
+    //ba3ed maykamel yraja formul fer8a
+    setAddress({
+      ...Address,
+      street: user?.address?.street,
+      city: user?.address?.city,
+      zipCode: user?.address?.zipCode,
+      country: user?.address?.country,
+    });
   };
 
-  const { isLoading, isAuthenticated, user } = useSelector((state) => {
-    return state.authReducers;
-  });
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getOwnedCart());
+    }
+  }, [isAuthenticated]);
+
+  const { items, isLoading, totalPrice, totalPriceWithTax, taxPercentage } =
+    useSelector((state) => state.cartReducers);
+
+  const removeItem = (e, id) => {
+    e.preventDefault();
+    dispatch(removeFromCart(id));
+  };
+  const empty = (e) => {
+    e.preventDefault();
+    dispatch(emptyCart());
+  };
+  const checkout = (e) => {
+    e.preventDefault();
+    dispatch(checkoutOrder());
+  };
+
+  if (!isAuthenticated) {
+    return <Navigate to={`/home/${localStorage.store}`} />;
+  }
   return isLoading ? (
     <Spinner />
   ) : (
@@ -51,48 +92,84 @@ const Cart = () => {
               <div> Price</div>
               <div> Quantity</div>
               <div> Total </div>
-             
             </div>
             {/* -----order---- */}
-            <div className="my-5  bg-white flex justify-between items-center h-20 px-5 shadow-md rounded-md">
-              <div className="flex h-full gap-3 items-center">
-                <img
-                  className="h-full  object-contain rounded-md"
-                  src={car}
-                  alt="car"
-                />
-                <div className=" flex flex-col">
-                  <div>Motos</div>
-                  <div>Ref:542sjd57d</div>
+            {items?.length > 0 &&
+              items.map((product) => (
+                <div className="my-5  bg-white flex justify-between items-center h-20 px-5 shadow-md rounded-md">
+                  <Link
+                    to={`/details/${product.product?.slug}`}
+                    className="flex h-full gap-3 items-center"
+                  >
+                    <img
+                      className="h-full  object-contain rounded-md"
+                      src={product.product?.image}
+                      alt="car"
+                    />
+                    <div className=" flex flex-col">
+                      <div> {product.product?.title} </div>
+                      <div>Ref: {product.product?.reference}</div>
+                    </div>
+                  </Link>
+                  <div> {product.price} TND</div>
+                  <div className="flex justify-between items-center gap-2">
+                    <div className="rounded-full w-5 h-5  bg-Warning flex justify-center items-center">
+                      <i className=" text-white fa-solid fa-minus"></i>
+                    </div>
+                    <div className=" px-10 sm:px-0 shadow-md">
+                      {" "}
+                      {product.quantity}
+                    </div>
+                    <div className="rounded-full w-5 h-5  bg-Success flex justify-center items-center">
+                      <i className="fa-solid fa-plus text-white"></i>
+                    </div>
+                  </div>
+                  <div>{product.total} TND</div>
+                  <button
+                    type="button"
+                    onClick={(e) => removeItem(e, product.product?._id)}
+                    className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                  >
+                    {" "}
+                    <i className="fa-solid fa-trash text-white"></i>
+                  </button>
                 </div>
-              </div>
-              <div> 156255 TND</div>
-              <div className="flex justify-between items-center gap-2">
-                <div className="rounded-full w-5 h-5  bg-Warning flex justify-center items-center">
-                  <i className=" text-white fa-solid fa-minus"></i>
-                </div>
-                <div className=" px-10 sm:px-0 shadow-md">02</div>
-                <div className="rounded-full w-5 h-5  bg-Success flex justify-center items-center">
-                  <i class="fa-solid fa-plus text-white"></i>
-                </div>
-              </div>
-              <div>8844444 TND</div>
-              <i className="fa-solid fa-trash text-danger"></i>
-            </div>
+              ))}
+
             {/* -----order---- */}
 
             <div className="flex justify-between items-baseline pt-5">
               <div>
-                Total Price :
-                <span className="text-xl font-bold"> 350000 TND</span>
+                <div>
+                  tax :
+                  <span className="text-xl font-bold"> {taxPercentage} %</span>
+                </div>
+                <div>
+                  Total Price :
+                  <span className="text-xl font-bold"> {totalPrice} TND</span>
+                </div>
+                <div>
+                  Total Price with Tax :
+                  <span className="text-xl font-bold">
+                    {" "}
+                    {totalPriceWithTax} TND
+                  </span>
+                </div>
               </div>
-              <button type="button" className="text-gray-400">
+              <button
+                onClick={(e) => empty(e)}
+                type="button"
+                className="text-gray-400"
+              >
                 Empty cart <i className="fa-solid fa-trash text-danger"></i>
               </button>
             </div>
             {isAuthenticated ? (
               <button
                 type="submit"
+                onClick={(e) => {
+                  checkout(e);
+                }}
                 className="bg-info  mb-2 flex mx-auto	hover:bg-Primary text-white font-bold py-3 px-10 rounded-md text-xs"
               >
                 Checkout
@@ -179,7 +256,10 @@ const Cart = () => {
                 >
                   Update Info
                 </button>
-                <form className=" pl-2 pt-3 w-full">
+                <form
+                  onSubmit={(e) => onSubmitAddress(e)}
+                  className=" pl-2 pt-3 w-full"
+                >
                   <div className="pb-5 w-full relative">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2 pb-2"
@@ -192,7 +272,7 @@ const Cart = () => {
                       <input
                         className=" outline-none focus:border-Primary pl-5 border-r-0   border-2 border-gray rounded-l-full h-[3rem]  sm:h-5  w-1/2 "
                         onChange={(e) => onInputChange(e)}
-                        value={Form.country}
+                        value={Address.country}
                         type="text"
                         name="country"
                         id="country"
@@ -202,7 +282,7 @@ const Cart = () => {
                       <input
                         className=" outline-none focus:border-Primary border-l-0  border-2 border-gray rounded-r-full h-[3rem]  sm:h-5  w-1/2 "
                         onChange={(e) => onInputChange(e)}
-                        value={Form.city}
+                        value={Address.city}
                         type="text"
                         name="city"
                         id="city"
@@ -215,7 +295,7 @@ const Cart = () => {
                       <input
                         className=" outline-none focus:border-Primary pl-5 border-r-0   border-2 border-gray rounded-l-full h-[3rem]  sm:h-5  w-1/2 "
                         onChange={(e) => onInputChange(e)}
-                        value={Form.street}
+                        value={Address.street}
                         type="text"
                         name="street"
                         id="street"
@@ -225,7 +305,7 @@ const Cart = () => {
                       <input
                         className=" outline-none focus:border-Primary border-l-0  border-2 border-gray rounded-r-full h-[3rem]  sm:h-5  w-1/2 "
                         onChange={(e) => onInputChange(e)}
-                        value={Form.zipCode}
+                        value={Address.zipCode}
                         type="number"
                         name="zipCode"
                         id="zipCode"

@@ -35,17 +35,14 @@ const getAddress = async (req, res) => {
 };
 
 const meAddresses = async (req, res) => {
-  const addressId=req.verifiedUser.address
+  const addressId = req.verifiedUser.address;
   try {
-      const address = await Address.findById(addressId);
-      return res.status(200).json(address);
+    const address = await Address.findById(addressId);
+    return res.status(200).json(address);
   } catch (err) {
-      return res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
-
-
-
 
 const getAddresses = async (req, res) => {
   try {
@@ -55,8 +52,9 @@ const getAddresses = async (req, res) => {
     return res.status(500).json(err);
   }
 };
-const updateAddress = async (req, res) => {
-  const id = req.params.addressId;
+const updateMyAddress = async (req, res) => {
+  const id = req.verifiedUser.address;
+  console.log(id);
   try {
     const updateAddress = await Address.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -76,12 +74,10 @@ const deleteAddress = async (req, res) => {
   }
 };
 
-
 module.exports.meAddresses = meAddresses;
-
 
 module.exports.createAddress = createAddress;
 module.exports.getAddress = getAddress;
 module.exports.getAddresses = getAddresses;
-module.exports.updateAddress = updateAddress;
+module.exports.updateMyAddress = updateMyAddress;
 module.exports.deleteAddress = deleteAddress;

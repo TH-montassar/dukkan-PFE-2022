@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useMatch } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -14,6 +14,8 @@ import Landing from "./pages/Landing";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Search from "./pages/search";
+import Header from "./shared/Header";
+import Profile from "./pages/profile";
 function App() {
   useEffect(() => {
     if (localStorage.token) {
@@ -26,18 +28,19 @@ function App() {
       if (!localStorage.token) store.dispatch(logout());
     });
   }, []);
-  // const match = useMatch("/")
+  // const match = useMatch("/home/:storeId");
   return (
     <Provider store={store}>
       <BrowserRouter>
         <div className=" w-full font-sans">
-        {/* {match  && <Header/>} */}
+          {/* {match && <Header />} */}
           <Routes>
             <Route path="/" element={<Landing />}></Route>
             <Route path="/cart" element={<Cart />} />
             <Route path="/search" element={<Search />} />
             <Route path="/home/:storeId" element={<Home />}></Route>
             <Route path="/login" element={<Login />}></Route>
+            <Route path="/profile/*" element={<Profile />}></Route>
 
             <Route path="/register" element={<Register />}></Route>
 

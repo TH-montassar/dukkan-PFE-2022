@@ -46,7 +46,7 @@ router.post(`/register`, async (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        number:req.body.number,
+        number: req.body.number,
         role: role,
         password: hashedPassword,
         address: savedAddress._id,
@@ -120,7 +120,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/check", verifyToken, async (req, res) => {
   try {
-    const user = await User.findById(req.verifiedUser._id);
+    const user = await User.findById(req.verifiedUser._id).populate("address");
     if (!user) {
       return res.status(404).json("not found admin");
     } else {

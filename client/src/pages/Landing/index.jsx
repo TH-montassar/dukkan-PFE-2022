@@ -11,7 +11,7 @@ const Landing = () => {
     return <Navigate to={"/dashboard"} />;
   }
   if (user?.role === "customer") {
-    return <Navigate to={"/home/62588fd3bb9ff1153efefc78"} />;
+    return <Navigate to={`/home/${localStorage.store}`} />;
   }
   return (
     <div className="bg-wave bg-no-repeat  px-5">

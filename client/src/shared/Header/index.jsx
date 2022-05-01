@@ -1,5 +1,7 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Menu, Dialog, Transition } from "@headlessui/react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { Navigate, Link, useLocation, useNavigate } from "react-router-dom";
 import logoStore from "../../assets/logo/logostore.svg";
@@ -10,9 +12,8 @@ import avatar from "../../assets/image/profilelINKDINE.png";
 import { getCategories } from "../../redux/Actions/category.action";
 import Spinner from "../Spinner";
 import Login from "../../pages/Login";
-import {useMatch} from 'react-router-dom';
+import { useMatch } from "react-router-dom";
 const Header = () => {
-
   const dispatch = useDispatch();
   const [Query, setQuery] = useState("");
   const location = useLocation();
@@ -45,21 +46,22 @@ const Header = () => {
   const { isLoading, isAuthenticated, user } = useSelector((state) => {
     return state.authReducers;
   });
-  // if (user?.role === "merchant") {
-  //   return <Navigate to={"/dashboard"} />;
-  // }
+
   useEffect(() => {
     dispatch(getCategories({}));
   }, []);
-  //!
+
   const { categories } = useSelector((state) => {
     return state.categoryReducers;
   });
+
+  const closeToast = () =>
+    toast("connect to you account before", { autoClose: 500 });
+
   return isLoading ? (
     <Spinner />
   ) : (
-    
-    <header className="bg-info flex w-full justify-between px-16 py-2 fixed top-0 z-50 items-center flex-wrap ">
+    <header className="bg-info flex w-full justify-between px-16 py-2 fixed top-0 z-50 items-center sm:items-end flex-wrap ">
       <Link to={`/home/${localStorage.store}`}>
         <img
           className="max-w-[4rem] max-h-16"
@@ -88,7 +90,8 @@ const Header = () => {
           <img src={search} alt="search" />
         </button>
       </div>
-      <nav className="items-center text-white flex flex-wrap gap-20 lg:gap-10 md:gap-5 sm:gap-1">
+     <nav className="flex flex-row sm:flex-col gap-20 sm:justify-end ">
+     <div className="items-center text-white flex flex-row  sm:flex-col gap-16 lg:gap-10 md:gap-5 sm:gap-1">
         <Link
           to={`/home/${localStorage.store}`}
           className="hover:bg-blue-700  py-[h-full] focus:bg-blue-700 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-ou border border-transparent focus-within:border-white border-solid"
@@ -128,7 +131,7 @@ const Header = () => {
                           } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                         >
                           {active ? (
-                            <div> {category.image}</div>
+                            <div> category</div>
                           ) : (
                             <i className="fa-solid fa-user text-info  pr-2"></i>
                           )}
@@ -142,18 +145,32 @@ const Header = () => {
             </Transition>
           </Menu>
         </div>
-      </nav>
-      <nav className="text-white flex flex-wrap gap-8 lg:gap-10 md:gap-5 sm:gap-1 items-center">
-        <Link
-          className="relative hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
-          to="/cart"
-        >
-          <div className=" text-xs absolute w-3 h-3 bg-white rounded-full text-danger flex items-center justify-center font-semibold left-10 bottom-4">
-            1
+      </div>
+      <div className="text-white flex flex-wrap  flex-row  sm:flex-col gap-16 lg:gap-10 md:gap-5 sm:gap-1 items-center">
+        {isAuthenticated ? (
+          <Link
+            className="relative hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
+            to="/cart"
+          >
+            <div className=" text-xs absolute w-3 h-3 bg-white rounded-full text-danger flex items-center justify-center font-semibold left-10 bottom-4">
+              1
+            </div>
+            cart
+            <i className="fa-solid fa-cart-shopping pl-1"></i>
+          </Link>
+        ) : (
+          <div>
+            <button
+              onClick={closeToast}
+              className="relative hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
+            >
+              cart
+              <i className="fa-solid fa-cart-shopping pl-1"></i>
+            </button>
+            <ToastContainer autoClose={1000} />
           </div>
-          cart
-          <i className="fa-solid fa-cart-shopping pl-1"></i>
-        </Link>
+        )}
+
 
         {isAuthenticated && user?.role === "merchant" ? (
           <button
@@ -199,7 +216,8 @@ const Header = () => {
                     <div className="px-1 py-1 ">
                       <Menu.Item>
                         {({ active }) => (
-                          <button
+                          <Link
+                            to="/profile"
                             className={`${
                               active ? "bg-info text-white" : "text-black"
                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
@@ -210,7 +228,7 @@ const Header = () => {
                               <i className="fa-solid fa-user text-info  pr-2"></i>
                             )}
                             profile
-                          </button>
+                          </Link>
                         )}
                       </Menu.Item>
                     </div>
@@ -269,7 +287,8 @@ const Header = () => {
             />
           </div>
         )}
-      </nav>
+      </div>
+     </nav>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -310,16 +329,15 @@ const Header = () => {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                Authentification
+                  Authentification
                 </Dialog.Title>
-                <Login/>
+                <Login />
               </div>
             </Transition.Child>
           </div>
         </Dialog>
       </Transition>
     </header>
-    
   );
 };
 

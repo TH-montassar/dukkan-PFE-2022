@@ -62,7 +62,7 @@ export const getOwnedCart = () => async (dispatch) => {
   }
 };
 
-export const removeToCart = (itemId) => async (dispatch) => {
+export const removeFromCart = (itemId) => async (dispatch) => {
   dispatch({
     type: CART_LOADING,
   });

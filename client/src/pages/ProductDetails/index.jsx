@@ -1,20 +1,24 @@
 import React, { useEffect } from "react";
 import logo from "../../assets/logo/logostore.svg";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import imagePro from "../../assets/image/irene-kredenets-KStSiM1UvPw-unsplash.jpg";
 import profile1 from "../../assets/image/p1.jpg";
 import profile2 from "../../assets/image/p2.jpg";
 import profile3 from "../../assets/image/p3.jpg";
-
+import { parseISO, format } from "date-fns";
 import { getProduct } from "../../redux/Actions/product.action";
 import { useDispatch, useSelector } from "react-redux";
 import YouMayAlsoLike from "../../shared/YouMayAlsoLike";
 import Spinner from "../../shared/Spinner";
 import Header from "../../shared/Header";
 import Footer from "../../shared/Footer";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { addToCart } from "../../redux/Actions/cart.action";
 const ProductDetails = () => {
   const { slug } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getProduct(slug));
@@ -24,6 +28,12 @@ const ProductDetails = () => {
     return state.productReducers;
   });
 
+  const { isAuthenticated } = useSelector((state) => {
+    return state.authReducers;
+  });
+  const closeToast = () => {
+    toast("added product successfully", { autoClose: 1500 });
+  };
   return isLoading ? (
     <Spinner />
   ) : (
@@ -51,10 +61,7 @@ const ProductDetails = () => {
           </div>
           <div className="">
             <div className="flex justify-between">
-              <h1 className=" text-2xl font-semibold">
-                {" "}
-                Title{product?.title}
-              </h1>
+              <h1 className=" text-2xl font-semibold">Title{product?.title}</h1>
 
               <ul className="flex justify-center drop-shadow-lg">
                 <li>
@@ -170,20 +177,17 @@ const ProductDetails = () => {
                   <div className="">price :{product?.price} TND</div>
                 </div>
                 <div className=" pb-2">
-                  Category:{" "}
+                  Category:
                   <span className="text-lg font-semibold">
-                    {" "}
                     {product?.category?.title}
                   </span>
                 </div>
 
                 <div className=" pb-2">
-                  {" "}
-                  Added date:{" "}
+                  Added date:
                   <span className="text-lg font-semibold">
-                    {" "}
-                    {product?.createdAt}
-                  </span>{" "}
+                    {/* {format(parseISO(product?.createdAt), "P")} */}
+                  </span>
                 </div>
 
                 <div>
@@ -195,7 +199,7 @@ const ProductDetails = () => {
                   )}
                 </div>
                 <div className="text-xl font-semibold">description</div>
-                <div className="pl-5">{product?.description}</div>
+                <div className="pl-5 w-80">{product?.description}</div>
               </div>
 
               <div className="py-5">
@@ -232,19 +236,19 @@ const ProductDetails = () => {
             })}
           {/* //*------------------------------------------------------------------------------------------------------------------------ */}
         </div>
-        <div className="flex gap-20 border  items-center border-cyan-500 mx-auto max-w-max rounded shadow-2xl mt-32 max-h-24 px-10 py-[3.5rem]">
-          <div className="flex gap-5 items-center">
+        <div className="flex  border  items-center border-cyan-500 mx-auto max-w-max rounded shadow-2xl mt-32 max-h-24 px-10 py-[3.5rem] max-w-max">
+          <div className="flex max-w-xl items-center">
             <div className="text-xl">Order Summary</div>
             <div className="w-24 max-h">
               <img
                 className="object-cover w-full h-full rounded-lg"
-                src={imagePro}
+                src={product?.image}
                 alt="car"
               />
             </div>
-            <div className="">
-              <div className="text-xl font-semibold"> mercedes</div>
-              <div> 17 generation / lorem lioj jef</div>
+            <div className="w-1/4">
+              <div className="text-xl font-semibold"> {product?.title}</div>
+              <div className="truncate "> {product?.description}</div>
             </div>
           </div>
           <div className="flex justify-between items-center gap-2">
@@ -253,11 +257,29 @@ const ProductDetails = () => {
             <div className="rounded-full w-5 h-5 bg-Success">+</div>
           </div>
           <div>200000$</div>
-          <Link to="/cart">
-            <button className="bg-info hover:bg-infoDark text-white font-bold py-2 px-4 rounded-full">
-              add to Cart
-            </button>
-          </Link>
+
+          <button
+            onClick={() => {
+              if (isAuthenticated) {
+                dispatch(
+                  addToCart({
+                    product: product._id,
+                    price: product.price,
+                    quantity: 1,
+                  })
+                );
+              } else {
+                navigate("/login");
+                //  <ToastContainer autoClose={1000} />;
+              }
+              closeToast();
+            }}
+            type="button"
+            className="bg-info hover:bg-infoDark text-white font-bold py-2 px-4 rounded-full"
+          >
+            add to Cart
+          </button>
+          <ToastContainer autoClose={1000} />
         </div>
         <div className="w-max mx-auto pt-24"> YOU MAY ALSO LIKE</div>
 

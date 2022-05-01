@@ -12,7 +12,8 @@ import {
   GET_MY_ORDERS,
   CANCELED_ORDER,
   CONFIRMED_ORDER,
-  FULFILLED_ORDER,GET_ORDER_MERCHANT
+  FULFILLED_ORDER,
+  GET_ORDER_MERCHANT,
 } from "../Constants/action";
 export const checkoutOrder = () => async (dispatch) => {
   dispatch({
@@ -25,9 +26,9 @@ export const checkoutOrder = () => async (dispatch) => {
       type: CHECKOUT_ORDER,
       payload: res.data,
     });
-    // dispatch({
-    // 	type: EMPTY_CART,
-    // });
+    dispatch({
+      type: EMPTY_CART,
+    });
   } catch (err) {
     dispatch({
       type: ORDER_ERROR,
@@ -92,7 +93,6 @@ export const merchantOrders = () => async (dispatch) => {
     });
   }
 };
-
 
 export const canceledOrder = (id) => async (dispatch) => {
   try {

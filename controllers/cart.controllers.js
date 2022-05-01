@@ -6,6 +6,9 @@ const getOwnedCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({
       $and: [{ store: store }, { customer: currentUser }],
+    }).populate({
+      path: "items.product",
+      select: "reference image title slug description countInStock",
     });
     return res.status(200).json(cart);
   } catch (err) {

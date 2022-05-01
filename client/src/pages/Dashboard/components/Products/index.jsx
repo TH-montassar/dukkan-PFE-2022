@@ -4,7 +4,6 @@ import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 
 import Spinner from "../../../../shared/Spinner";
-import productImag from "../../../../assets/image/product.png";
 import {
   deleteProduct,
   updateProduct,
