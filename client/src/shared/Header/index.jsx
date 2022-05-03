@@ -121,7 +121,7 @@ const Header = () => {
             >
               <Menu.Items className="absolute right-0 max-w-max mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 {categories.map((category) => (
-                  <div className="px-1 py-1 border-gray">
+                  <div key={category._id} className="px-1 py-1 border-gray">
                     <Menu.Item>
                       {({ active }) => (
                         <Link

@@ -65,7 +65,7 @@ export const merchantOrder = (id) => async (dispatch) => {
     });
   }
 };
-export const getMyOrders = () => async (dispatch) => {
+export const MyOrders = () => async (dispatch) => {
   try {
     const res = await instance.get(`/api/orders/me`);
     dispatch({

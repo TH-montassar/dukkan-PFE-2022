@@ -5,7 +5,7 @@ const OrderSchema = mongoose.Schema(
     //item dinormalize
     items: [
       {
-        Product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
         price: { type: Number, min: 0 },
         quantity: { type: Number, min: 0 },
         total: { type: Number, min: 0 },

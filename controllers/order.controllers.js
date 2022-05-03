@@ -19,9 +19,9 @@ const createOrder = async (req, res) => {
   try {
     const savedOrder = await newOrder.save();
     cart.items = [];
-        cart.totalPrice = 0;
-        cart.totalPriceWithTax = 0;
-        await cart.save();
+    cart.totalPrice = 0;
+    cart.totalPriceWithTax = 0;
+    await cart.save();
 
     return res.status(201).json(savedOrder);
   } catch (err) {
@@ -52,7 +52,13 @@ const getMYOrder = async (req, res) => {
 const meOrders = async (req, res) => {
   const currentUser = req.verifiedUser._id;
   try {
-    const order = await Order.find({ customer: currentUser });
+    const order = await Order.find({ customer: currentUser })
+      .populate("address")
+      .populate({ path: "store", select: "title" })
+      .populate({
+        path: "items.product",
+        select: "reference image title slug description countInStock",
+      });
     const count = await Order.find({ customer: currentUser }).countDocuments();
     if (count === 0) {
       return res
@@ -62,7 +68,7 @@ const meOrders = async (req, res) => {
 
     return res.status(200).json({
       length: count,
-      order: order,
+      orders: order,
     });
   } catch (err) {
     return res.status(500).json();

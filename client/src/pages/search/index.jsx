@@ -81,7 +81,7 @@ const Search = () => {
               <div className="text-red-500 text-xs">CLEAR</div>
             </div>
             <div className="relative pt-1">
-              <label for="PriceRange" className="form-label">
+              <label htmlFor="PriceRange" className="form-label">
                 Price range
               </label>
               <input
