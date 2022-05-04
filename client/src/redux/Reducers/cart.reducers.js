@@ -5,9 +5,11 @@ import {
   EMPTY_CART,
   GET_OWNED_CART,
   CART_LOADING,
+  GET_MY_CARTS,
 } from "../Constants/action";
 const initialState = {
   items: [],
+  carts: [],
   totalPrice: 0,
   totalPriceWithTax: 0,
   taxPercentage: 0,
@@ -27,6 +29,12 @@ const CartReducers = (state = initialState, action) => {
         ...state,
         ...payload,
 
+        isLoading: false,
+      };
+    case GET_MY_CARTS:
+      return {
+        ...state,
+        carts: payload,
         isLoading: false,
       };
     case ADD_TO_CART:

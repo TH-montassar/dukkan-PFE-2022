@@ -10,9 +10,7 @@ const Orders = () => {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    // if (isAuthenticated) {
-    //   dispatch(MyOrders());
-    // }
+    
     dispatch(MyOrders());
   }, [isAuthenticated]);
   const { orders, isLoading } = useSelector((state) => state.orderReducers);
@@ -25,8 +23,8 @@ const Orders = () => {
         <h1 className=" "> number of orders :{orders.length}</h1>
       </div>
 
-      <div className=" w-full px-3 grid grid-flow-col justify-around pt-10 text-2xl font-semibold">
-        <div className="pr-28"> ID</div>
+      <div className=" w-full px-3 grid grid-flow-col justify-around py-10 text-xl font-semibold">
+        <div className="pr-32"> ID</div>
         <div>DATE</div>
         <div>TOTAL</div>
         <div>WITH TAX</div>
@@ -36,7 +34,7 @@ const Orders = () => {
       </div>
       <div className="w-full flex flex-col justify-center items-center">
         {orders.orders?.length > 0 &&
-          orders.orders.map((order) => (
+          orders.orders.slice(0, 10).map((order) => (
             <div className="w-[90%] pb-10 border-t 	border-gray-700	 ">
               <div className="grid grid-flow-col justify-between items-center font-medium	 ">
                 <td>{order._id}</td>
@@ -68,7 +66,7 @@ const Orders = () => {
                           price: <span>{product.price} </span>
                         </p>
                         <p>
-                          quantity : <span>{product.price} </span>
+                          quantity : <span>{product.quantity} </span>
                         </p>
                         <p>
                           total : <span>{product.total} </span>{" "}

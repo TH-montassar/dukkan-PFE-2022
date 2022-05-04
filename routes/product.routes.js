@@ -117,7 +117,7 @@ const upload = multer({
 router.post(
   "/product",
   verifyToken,
-  isMerchant,
+   isMerchant,
   upload.single("image"),
   createProduct
 );
@@ -138,7 +138,7 @@ router.delete("/:product", verifyToken, isMerchant, deleteProduct);
 router.post(
   "/category",
   verifyToken,
-  isMerchant,
+  // isMerchant,
   upload.single("image"),
   createCategory
 );

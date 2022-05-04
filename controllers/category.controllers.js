@@ -7,6 +7,7 @@ const createCategory = async (req, res) => {
     title: req.body.title,
     description: req.body.description,
     image: `${host}:${port}/images/${req.file.filename}`,
+
     store: req.verifiedUser.store,
   });
 
@@ -29,7 +30,6 @@ const updateCategory = async (req, res) => {
   }
 };
 const getCategory = async (req, res) => {
-  
   const categorySlug = req.params.categorySlug;
   try {
     const category = await Category.findOne({ slug: categorySlug });
@@ -41,7 +41,9 @@ const getCategory = async (req, res) => {
 const getCategories = async (req, res) => {
   try {
     const limit = req.query.limit ? parseInt(req.query.limit) : 999;
-    const getCategory = await Category.find().sort({ createdAt: -1 }).limit(limit);
+    const getCategory = await Category.find()
+      .sort({ createdAt: -1 })
+      .limit(limit);
     return res.status(200).json(getCategory);
   } catch (err) {
     return res.status(500).json(err);

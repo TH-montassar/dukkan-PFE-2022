@@ -58,7 +58,8 @@ const meOrders = async (req, res) => {
       .populate({
         path: "items.product",
         select: "reference image title slug description countInStock",
-      });
+      })
+      .sort({ createdAt: -1 });
     const count = await Order.find({ customer: currentUser }).countDocuments();
     if (count === 0) {
       return res
@@ -79,8 +80,14 @@ const merchantOrders = async (req, res) => {
   const currentUserStore = req.verifiedUser.store;
 
   try {
-    const order = await Order.find({ store: currentUserStore });
-
+    const order = await Order.find({ store: currentUserStore })
+      .populate("address")
+      .populate({ path: "customer", select: "firstName lastName number" })
+      .populate({
+        path: "items.product",
+        select: "reference image title slug description countInStock",
+      })
+      .sort({ createdAt: -1 });
     const count = await Order.find({
       store: currentUserStore,
     }).countDocuments();
@@ -90,8 +97,10 @@ const merchantOrders = async (req, res) => {
         .json({ length: count, message: "no order for you" });
     }
 
-    return res.status(200).json({ length: count, order: order });
-    //return res.status(200).json(order);
+    return res.status(200).json({
+      length: count,
+      orders: order,
+    });
   } catch (err) {
     return res.status(500).json();
   }

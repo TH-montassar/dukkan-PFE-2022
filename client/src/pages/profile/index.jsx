@@ -14,8 +14,8 @@ const Profile = () => {
 
       <div className="pt-20 w-full  mx-auto ">
         <h1 className="mx-auto w-max text-2xl font-semibold ">My account </h1>
-        <article className="w-[85%] flex flex-row m-auto h-full justify-start items-start  gap-4 py-9">
-          <aside className=" bg-white w-1/5  rounded-lg   m-auto flex flex-col justify-around h-full  ">
+        <article className="w-[85%] flex flex-row m-auto  justify-start items-start  gap-4 py-9">
+          <aside className=" bg-white w-1/5  rounded-lg flex flex-col justify-around h-full  ">
             <Link
               to="/profile/"
               className="    hover:bg-info   rounded-lg  hover:text-white flex flex-col gap-2 items-center justify-center h-1/5 py-7  py-7"
@@ -54,7 +54,7 @@ const Profile = () => {
               <h3 className="sm:truncate sm:w-0 sm:h-0 ">my carts</h3>
             </Link>
           </aside>
-          <section className="w-4/5  rounded-lg   m-auto flex flex-col bg-white min-h-screen ">
+          <section className="w-4/5  rounded-lg   flex flex-col bg-white  overflow-scroll  overscroll-y-contain snap-y	snap-mandatory min-h-screen">
             <Routes>
               <Route path="/" element={<PersonnelInformation />}></Route>
               <Route path="/orders" element={<Orders />}></Route>

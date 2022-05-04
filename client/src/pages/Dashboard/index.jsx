@@ -20,7 +20,7 @@ import Spinner from "../../shared/Spinner";
 import { logout } from "../../redux/Actions/auth.action";
 import { getCategories } from "../../redux/Actions/category.action";
 import { getStore } from "../../redux/Actions/store.action";
-import UpdateProduct from "./components/UpdateProduct";
+import Category from "./components/Category";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -91,7 +91,7 @@ const Dashboard = () => {
               />
               <li className="mb-3">Add Product</li>
             </Link>
-            <Link to="#" className="flex flex-row gap-3 mt-1">
+            <Link to="/dashboard/category" className="flex flex-row gap-3 mt-1">
               <i className="fa-solid fa-cart-flatbed"></i>
               <li>Categories</li>
             </Link>
@@ -110,8 +110,11 @@ const Dashboard = () => {
       <section className="w-5/6 pt-10 ml-[17rem] pb-16 lg:ml-44">
         <div className="  bg-white shadow-md rounded-xl	 w-[90%] m-auto min-h-max flex flex-row justify-between items-center px-5 py-2">
           <div className="flex flex-row items-center justify-center gap-2">
-            <Link to={`/home/${store?._id}`} className="min-w-min lg:text-sm">
-             
+            <Link
+              onClick={() => dispatch(logout())}
+              to={`/home/${store?._id}`}
+              className="min-w-min lg:text-sm"
+            >
               go to my website
             </Link>
             <img src={goTo} alt="go to" />
@@ -248,7 +251,7 @@ const Dashboard = () => {
             }
           ></Route>
           <Route path="/product" element={<Product />}></Route>
-          {/* <Route path="/updateProduct" element={<UpdateProduct />}></Route> */}
+          <Route path="/category" element={<Category />}></Route>
         </Routes>
       </section>
     </div>
@@ -282,54 +285,6 @@ function EditActiveIcon(props) {
     >
       <path
         d="M4 13V16H7L16 7L13 4L4 13Z"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
-
-function DuplicateInactiveIcon(props) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M4 4H12V12H4V4Z"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-      <path
-        d="M8 8H16V16H8V8Z"
-        fill="#EDE9FE"
-        stroke="#A78BFA"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
-
-function DuplicateActiveIcon(props) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M4 4H12V12H4V4Z"
-        fill="#8B5CF6"
-        stroke="#C4B5FD"
-        strokeWidth="2"
-      />
-      <path
-        d="M8 8H16V16H8V8Z"
         fill="#8B5CF6"
         stroke="#C4B5FD"
         strokeWidth="2"

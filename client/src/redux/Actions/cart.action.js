@@ -6,8 +6,26 @@ import {
   EMPTY_CART,
   GET_OWNED_CART,
   REMOVE_FROM_CART,
+  GET_MY_CARTS,
 } from "../Constants/action";
 
+export const getMyCarts = () => async (dispatch) => {
+  dispatch({
+    type: CART_LOADING,
+  });
+  try {
+    const res = await instance.get(`/api/cart/myCarts`);
+    dispatch({
+      type: GET_MY_CARTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: CART_ERROR,
+      payload: err,
+    });
+  }
+};
 export const addToCart = (itemData) => async (dispatch) => {
   dispatch({
     type: CART_LOADING,
