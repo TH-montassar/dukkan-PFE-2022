@@ -13,16 +13,14 @@ import ReactPlayer from "react-player";
 import Footer from "../../shared/Footer";
 import { setStore } from "../../utils/setStore";
 import ProductItem from "../../shared/ProductItem";
-//import { store } from "./redux/store";
+
+import { getOwnedCart } from "../../redux/Actions/cart.action";
 const Home = () => {
   const dispatch = useDispatch();
   const { storeId } = useParams();
 
   useEffect(() => {
- 
     setStore(storeId);
-
-   
   }, []);
 
   useEffect(() => {
@@ -39,6 +37,15 @@ const Home = () => {
   const { products, isLoading } = useSelector((state) => {
     return state.productReducers;
   });
+  const { isAuthenticated } = useSelector((state) => {
+    return state.authReducers;
+  });
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getOwnedCart());
+    }
+  }, [isAuthenticated]);
+
   return isLoading ? (
     <Spinner />
   ) : (
@@ -86,7 +93,7 @@ const Home = () => {
           <h1 className="text-2xl font-medium pb-5 pt-28">Popular Product</h1>
           <div className="flex flex-1 gap-12 overflow-x-auto snap-x	snap-mandatory pt-4 pl-10 pb-10">
             {products.map((product) => (
-             <ProductItem key={product._id} product={product} />
+              <ProductItem key={product._id} product={product} />
             ))}
           </div>
           <h1 className="text-2xl font-medium pb-5 pt-10">New Product</h1>

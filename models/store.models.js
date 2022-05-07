@@ -5,6 +5,7 @@ const StoreSchema = new mongoose.Schema(
     title: { type: String },
     logo: { type: String },
     social: { type: String },
+    bio: { type: String },
   },
   { timestamps: true }
 );

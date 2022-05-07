@@ -10,10 +10,10 @@ router.post(`/register`, async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      return res.status(422).json("Email already exist");
+      return res.status(422).json({ message: "Email already exist" });
     }
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).json({ message: err });
   }
 
   try {
@@ -77,7 +77,7 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-      return res.status(401).json("wrong email or password ");
+      return res.status(401).json({ message: "wrong password or email" });
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -85,7 +85,7 @@ router.post("/login", async (req, res) => {
       user.password
     );
     if (!isPasswordValid) {
-      return res.status(401).json("wrong password or email");
+      return res.status(401).json({ message: "wrong password or email" });
     }
 
     const token = jwt.sign(
@@ -94,6 +94,7 @@ router.post("/login", async (req, res) => {
         email: user.email,
         name: user.firstName,
         store: user.store,
+        profile: user.profile,
         address: user.address,
         isAdmin: user.isAdmin,
         role: user.role,
@@ -104,6 +105,43 @@ router.post("/login", async (req, res) => {
     //console.log(user._id)
 
     return res.status(200).json({ user: user, token: token });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+router.put("/updateInfo", verifyToken, async (req, res) => {
+  const currentUser = req.verifiedUser._id;
+  try {
+    const user = await User.findById(currentUser);
+    // const old = req.body.oldPassword;
+    // console.log(old);
+    const isPasswordValid = await bcrypt.compare(
+      req.body.oldPassword,
+      user.password
+    );
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "wrong password " });
+    }
+    const salt = await bcrypt.genSalt(16);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    const updateUser = await User.findByIdAndUpdate(
+      currentUser,
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        number: req.body.number,
+        password: hashedPassword,
+      },
+      {
+        new: true,
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ message: "Update Successfully", updateUser: updateUser });
   } catch (err) {
     return res.status(500).json(err);
   }

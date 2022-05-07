@@ -4,6 +4,7 @@ import {
   AUTH_LOADING,
   LOGIN,
   REGISTER,
+  UPDATE_MY_INFO,
   LOGOUT,
 } from "../Constants/action";
 import { setAuthToken } from "../../utils/setAuthToken";
@@ -85,4 +86,24 @@ export const logout = () => async (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
+};
+
+export const updateMyInfo = (data) => async (dispatch) => {
+  dispatch({
+    type: AUTH_LOADING,
+  });
+  try {
+    const res = await instance.put(`api/auth/updateInfo`, data, {
+      headers: { "Content-Type": "application/json" },
+    });
+    dispatch({
+      type: UPDATE_MY_INFO,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+      payload: err,
+    });
+  }
 };

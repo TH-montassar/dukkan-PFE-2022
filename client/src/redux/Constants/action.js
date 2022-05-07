@@ -6,10 +6,16 @@ export const ADMIN_LOGOUT = "ADMIN_LOGOUT";
 
 export const LOGIN = "LOGIN";
 export const REGISTER = "REGISTER";
+export const UPDATE_MY_INFO = "UPDATE_MY_INFO";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const AUTH_LOADING = "AUTH_LOADING";
 export const AUTH_CHECK = "AUTH_CHECK";
 export const LOGOUT = "LOGOUT";
+
+export const GET_MY_PROFILE = "GET_MY_PROFILE";
+export const PROFILE_ERROR = "PROFILE_ERROR";
+export const PROFILE_LOADING = "PROFILE_LOADING";
+export const UPDATE_PROFILE = " UPDATE_PROFILE";
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT = "GET_PRODUCT";
@@ -29,7 +35,7 @@ export const GET_STORES = "GET_STORES";
 export const GET_STORE = "GET_STORE";
 export const STORE_ERROR = "STORE_ERROR";
 export const STORE_LOADING = "STORE_LOADING";
-//export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const UPDATE_STORE = "UPDATE_STORE";
 
 export const CART_LOADING = "CART_LOADING";
 export const ADD_TO_CART = "ADD_TO_CART";

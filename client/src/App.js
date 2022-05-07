@@ -16,6 +16,7 @@ import Cart from "./pages/Cart";
 import Search from "./pages/search";
 import Header from "./shared/Header";
 import Profile from "./pages/profile";
+import PersonnelInformation from "./pages/profile/components/PersonnelInformation";
 function App() {
   useEffect(() => {
     if (localStorage.token) {
@@ -43,6 +44,8 @@ function App() {
             <Route path="/profile/*" element={<Profile />}></Route>
 
             <Route path="/register" element={<Register />}></Route>
+            <Route path="/personnelInformation" element={<PersonnelInformation />}></Route>
+            
 
             <Route path="/details/:slug" element={<ProductDetails />} />
             <Route

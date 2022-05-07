@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,  } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import car from "../../assets/image/car.png";
@@ -9,7 +9,6 @@ import Footer from "../../shared/Footer";
 import { Navigate } from "react-router-dom";
 import {
   emptyCart,
-  getOwnedCart,
   removeFromCart,
 } from "../../redux/Actions/cart.action";
 import { checkoutOrder } from "../../redux/Actions/order.action";
@@ -44,12 +43,7 @@ const Cart = () => {
     });
   };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(getOwnedCart());
-    }
-  }, [isAuthenticated]);
-
+ 
   const { items, isLoading, totalPrice, totalPriceWithTax, taxPercentage } =
     useSelector((state) => state.cartReducers);
 
@@ -118,7 +112,7 @@ const Cart = () => {
                     </div>
                     <div className=" px-10 sm:px-0 shadow-md">
                       {" "}
-                      {product.quantity}
+                      {product.quantity }
                     </div>
                     <div className="rounded-full w-5 h-5  bg-Success flex justify-center items-center">
                       <i className="fa-solid fa-plus text-white"></i>
@@ -223,7 +217,7 @@ const Cart = () => {
                     className="block text-gray-700 text-sm font-bold mb-2 pb-2"
                     htmlFor="phone"
                   >
-                    phone :{user.number}
+                    phone :{user?.number}
                     {/* <span className="text-Danger">*</span> */}
                   </label>
                   {/* <i className="fa-solid fa-phone  absolute right-3  top-[calc(50%-3px)]"></i>
@@ -239,7 +233,7 @@ const Cart = () => {
                     className="block text-gray-700 text-sm font-bold mb-2 pb-2"
                     htmlFor="email"
                   >
-                    email : {user.email}
+                    email : {user?.email}
                     {/*<span className="text-Danger">*</span> */}
                   </label>
                   {/* <i className="fa-solid fa-envelope  absolute right-3  top-[calc(50%-3px)]"></i>
@@ -250,12 +244,13 @@ const Cart = () => {
                   placeholder="email"
                 /> */}
                 </div>
-                <button
+                <Link
+                  to="/profile/"
                   type="button"
-                  className="bg-info  mb-2 flex mx-auto	hover:bg-Primary text-white font-bold py-3 px-10 rounded-md text-xs"
+                  className="bg-info  mb-2 flex mx-auto	hover:bg-Primary text-white font-bold py-3 px-10 rounded-md text-xs max-w-max"
                 >
                   Update Info
-                </button>
+                </Link>
                 <form
                   onSubmit={(e) => onSubmitAddress(e)}
                   className=" pl-2 pt-3 w-full"

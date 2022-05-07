@@ -1,119 +1,228 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import profile from "../../../../assets/image/p2.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { updateMyInfo } from "../../../../redux/Actions/auth.action";
+import { parseISO, format } from "date-fns";
+import {
+  getMyProfile,
+  updateMyProfile,
+} from "../../../../redux/Actions/profile.action";
 const PersonnelInformation = () => {
+  const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector((state) => {
+    return state.authReducers;
+  });
+
+  const { isLoading, profile } = useSelector((state) => {
+    return state.profileReducers;
+  });
   const [file, setFile] = useState(null);
-  const [url, setUrl] = useState(profile);
+  const [birthDay, setBirthDay] = useState("");
+  const [url, setUrl] = useState(profile?.avatar);
+  console.log(birthDay);
+  const [Form, setForm] = useState({
+    email: user?.email,
+    oldPassword: "",
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    number: user?.number,
+    password: "",
+  });
+  const onInputChange = (e) => {
+    e.preventDefault();
+    setForm({ ...Form, [e.target.name]: e.target.value });
+    console.log(Form);
+  };
+  const onSubmitAddress = (e) => {
+    e.preventDefault();
+
+    const newProfile = new FormData();
+    newProfile.append("avatar", file);
+    newProfile.append("birthday", birthDay);
+    // newProfile.append("bio", bio);
+
+    dispatch(updateMyProfile(newProfile));
+    dispatch(updateMyInfo(Form));
+    setForm({
+      ...Form,
+      email: user?.email,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      number: user?.number,
+    });
+  };
+
+  // const updateAvatar =(e)=>{
+
+  //   const newProfile = new FormData();
+  //   newProfile.append("avatar", file);
+  //   dispatch(updateMyProfile(newProfile));
+  // }
+  useEffect(() => {
+    if (user) {
+      setForm({
+        ...Form,
+        email: user?.email,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        number: user?.number,
+      });
+      setUrl(profile?.avatar);
+      //setBirthDay(format(parseISO(profile?.birthday), "P"));
+    }
+  }, [user]);
+
   return (
     <div className=" m-auto flex flex-row md:flex-col justify-around p-5 items-center">
-      <form className="w-1/2">
-        <div>
-          <div className="w-full flex -mx-3 sm:flex-col">
-            <div className="w-1/2 px-3 mb-5">
-              <label htmlFor="" className="text-xs font-semibold px-1">
-                First name
-              </label>
-              <div className="flex">
-                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                  <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
-                </div>
-                <input
-                  type="text"
-                  className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                  placeholder="John"
-                />
+      <form onSubmit={(e) => onSubmitAddress(e)} className="w-1/2">
+        <div className="w-full flex -mx-3 sm:flex-col">
+          <div className="w-1/2 px-3 mb-5">
+            <label htmlFor="" className="text-xs font-semibold px-1">
+              First name
+            </label>
+            <div className="flex">
+              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
               </div>
-            </div>
-            <div className="w-1/2 px-3 mb-5">
-              <label htmlFor="" className="text-xs font-semibold px-1">
-                Last name
-              </label>
-              <div className="flex">
-                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                  <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
-                </div>
-                <input
-                  type="text"
-                  className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                  placeholder="Smith"
-                />
-              </div>
+              <input
+                onChange={(e) => onInputChange(e)}
+                value={Form.firstName}
+                type="text"
+                name="firstName"
+                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                placeholder="John"
+              />
             </div>
           </div>
-          <div className="flex -mx-3">
-            <div className="w-full px-3 mb-5">
-              <label htmlFor="" className="text-xs font-semibold px-1">
-                Email
-              </label>
-              <div className="flex">
-                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                  <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
-                </div>
-                <input
-                  type="email"
-                  className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                  placeholder="johnsmith@example.com"
-                />
+          <div className="w-1/2 px-3 mb-5">
+            <label htmlFor="" className="text-xs font-semibold px-1">
+              Last name
+            </label>
+            <div className="flex">
+              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
               </div>
+              <input
+                onChange={(e) => onInputChange(e)}
+                value={Form.lastName}
+                type="text"
+                name="lastName"
+                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                placeholder="Smith"
+              />
             </div>
           </div>
-          <div className="flex -mx-3 sm:flex-col">
-            <div className="w-full px-3 mb-5">
-              <label htmlFor="" className="text-xs font-semibold px-1">
-                Password
-              </label>
-              <div className="flex">
-                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                  <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
-                </div>
-                <input
-                  type="password"
-                  className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                  placeholder="************"
-                />
+        </div>
+        <div className="flex -mx-3">
+          <div className="w-full px-3 mb-5">
+            <label htmlFor="" className="text-xs font-semibold px-1">
+              Email
+            </label>
+            <div className="flex">
+              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
               </div>
-            </div>
-            <div className="w-full px-3 mb-5">
-              <label htmlFor="" className="text-xs font-semibold px-1">
-                New Password
-              </label>
-              <div className="flex">
-                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                  <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
-                </div>
-                <input
-                  type="password"
-                  className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                  placeholder="************"
-                />
-              </div>
+              <input
+                onChange={(e) => onInputChange(e)}
+                value={Form.email}
+                type="email"
+                name="email"
+                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                placeholder="johnsmith@example.com"
+              />
             </div>
           </div>
-          <div className="flex -mx-3">
-            <div className="w-full px-3 mb-5">
-              <label htmlFor="Number" className="text-xs font-semibold px-1">
-                Number
-              </label>
-              <div className="flex">
-                <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                  <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
-                </div>
-                <input
-                  type="number"
-                  name="Number"
-                  id="Number"
-                  className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                  placeholder="0000000"
-                />
+        </div>
+        <div className="flex -mx-3 sm:flex-col">
+          <div className="w-full px-3 mb-5">
+            <label htmlFor="" className="text-xs font-semibold px-1">
+              Password
+            </label>
+            <div className="flex">
+              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
               </div>
+              <input
+                onChange={(e) => onInputChange(e)}
+                value={Form.oldPassword}
+                type="password"
+                name="oldPassword"
+                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                placeholder="************"
+              />
             </div>
           </div>
+          <div className="w-full px-3 mb-5">
+            <label htmlFor="" className="text-xs font-semibold px-1">
+              New Password
+            </label>
+            <div className="flex">
+              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+              </div>
+              <input
+              required
+                onChange={(e) => onInputChange(e)}
+                value={Form.password}
+                type="password"
+                name="password"
+                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                placeholder="************"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex -mx-3">
+          <div className="w-full px-3 mb-5">
+            <label htmlFor="Number" className="text-xs font-semibold px-1">
+              Number
+            </label>
+            <div className="flex">
+              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
+              </div>
+              <input
+                onChange={(e) => onInputChange(e)}
+                value={Form.number}
+                type="number"
+                name="number"
+                id="Number"
+                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                placeholder="0000000"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex -mx-3">
+          <div className="w-full px-3 mb-5">
+            <label htmlFor="Number" className="text-xs font-semibold px-1">
+              birthDay
+            </label>
+            <div className="flex">
+              <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
+              </div>
+              <input
+                onChange={(e) => setBirthDay(e.target.value)}
+                value={birthDay}
+                type="date"
+                name="birthday"
+                id="birthday"
+                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                placeholder="0000000"
+              />
+            </div>
+          </div>
+        </div>
 
-          <div className="flex -mx-3">
-            <div className="w-full px-3 mb-5">
-              <button className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">
-                Update NOW
-              </button>
-            </div>
+        <div className="flex -mx-3">
+          <div className="w-full px-3 mb-5">
+            <button
+              type="submit"
+              className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+            >
+              Update NOW
+            </button>
           </div>
         </div>
       </form>
@@ -141,6 +250,7 @@ const PersonnelInformation = () => {
           onChange={(e) => {
             setFile(e.target.files[0]);
             setUrl(URL.createObjectURL(e.target.files[0]));
+            //  updateAvatar(e);
           }}
         />
       </div>

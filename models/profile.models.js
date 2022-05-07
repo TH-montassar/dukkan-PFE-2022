@@ -4,6 +4,7 @@ const ProfileSchema = new mongoose.Schema(
   {
     birthday: { type: Date },
     avatar: { type: String },
+    bio: { type: String },
   },
   { timestamps: true }
 );

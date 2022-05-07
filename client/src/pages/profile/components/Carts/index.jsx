@@ -23,14 +23,14 @@ const Carts = () => {
         <h1 className=" "> My Carts </h1>
         <h1 className=" "> number of carts :{carts?.length}</h1>
       </div>
-      <div className=" font-Roboto  mx-auto w-[90%]  px-10 py-10 rounded-lg gird grid-flow-col">
+      <div className=" font-Roboto  mx-auto w-[90%]  px-10 py-10 rounded-lg grid grid-cols-4">
         {carts?.carts?.length > 0 &&
           carts.carts?.map((cart) => {
             return (
               <Link
                 to={`/home/${cart.store?._id}`}
                 key={cart._id}
-                className="flex flex-col items-center transition  ease-in-out duration-500 hover:rounded-lg hover:scale-110 bg-white w-1/5 h-max"
+                className="flex flex-col items-center transition hover:border ease-in-out duration-500 hover:rounded-lg hover:scale-110 bg-white  h-max"
               >
                 <img
                   className="object-contain"

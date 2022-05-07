@@ -5,6 +5,7 @@ import {
   LOGIN,
   LOGOUT,
   REGISTER,
+  UPDATE_MY_INFO,
 } from "../Constants/action";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   error: {},
   isLoading: false,
   isAuthenticated: false,
+  message: "",
 };
 
 const AuthReducers = (state = initialState, action) => {
@@ -23,6 +25,12 @@ const AuthReducers = (state = initialState, action) => {
         ...state,
         user: payload,
         isLoading: true,
+      };
+    case UPDATE_MY_INFO:
+      return {
+        ...state,
+        user: payload,
+        isLoading: false,
       };
     case LOGIN:
       return {
@@ -54,6 +62,7 @@ const AuthReducers = (state = initialState, action) => {
         isAuthenticated: false,
         error: payload,
         isLoading: false,
+        message: payload.message,
       };
     case LOGOUT:
       localStorage.removeItem("token");

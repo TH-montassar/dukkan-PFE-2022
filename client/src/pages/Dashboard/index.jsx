@@ -21,6 +21,7 @@ import { logout } from "../../redux/Actions/auth.action";
 import { getCategories } from "../../redux/Actions/category.action";
 import { getStore } from "../../redux/Actions/store.action";
 import Category from "./components/Category";
+import Store from "./components/Store";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -39,21 +40,26 @@ const Dashboard = () => {
   const { store } = useSelector((state) => {
     return state.storeReducers;
   });
-
+  let [isOpen, setIsOpen] = useState(false);
   return isLoading ? (
     <Spinner />
   ) : (
     <div className="flex flex-row w-full font-sans 	h-screen mb-10">
+      <Store isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+
       <aside className="bg-info fixed  min-h-screen h-full overflow-y-auto  w-1/6 text-white font-medium">
         <i className="fa-solid fa-align-right pt-5 flex justify-end pr-2  text-lg lg:text-sm  "></i>
-        <div className="pt-2 flex flex-row items-center justify-between pl-10 pr-12 lg:pl-4">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="pt-2 flex flex-row items-center justify-between pl-10 pr-12 lg:pl-4"
+        >
           <img
-            className="max-w-[4rem] xl:max-w-[3rem]"
-            src={logo}
+            className="w-[4rem] h-[4rem] xl:w-[3rem] xl:h-[3rem] object-contain"
+            src={store?.logo}
             alt="logoStore"
           />
-          <p className="text-white text-lg lg:text-sm">StoreName</p>
-        </div>
+          <p className="text-white text-lg lg:text-sm pl-5">{store?.title}</p>
+        </button>
         <div className="max-w-[90%] ml-16   pt-10 lg:ml-0">
           <h2 className="text-lg font-semibold tracking-widest text-[#a9e1f9]		">
             OPERATION
@@ -111,7 +117,7 @@ const Dashboard = () => {
         <div className="  bg-white shadow-md rounded-xl	 w-[90%] m-auto min-h-max flex flex-row justify-between items-center px-5 py-2">
           <div className="flex flex-row items-center justify-center gap-2">
             <Link
-              onClick={() => dispatch(logout())}
+              // onClick={() => dispatch(logout())}
               to={`/home/${store?._id}`}
               className="min-w-min lg:text-sm"
             >
@@ -232,11 +238,13 @@ const Dashboard = () => {
                 </Menu>
               </div>
 
-              <img
-                className="max-w-[3rem]  rounded-full"
-                src={avatar}
-                alt="avatar"
-              />
+              <Link to="/personnelInformation">
+                <img
+                  className="max-w-[3rem]  rounded-full"
+                  src={avatar}
+                  alt="avatar"
+                />
+              </Link>
             </div>
           </div>
         </div>

@@ -10,6 +10,7 @@ const getOwnedCart = async (req, res) => {
       path: "items.product",
       select: "reference image title slug description countInStock",
     });
+
     return res.status(200).json(cart);
   } catch (err) {
     return res.status(500).json(err);
@@ -103,10 +104,10 @@ const getMyCarts = async (req, res) => {
   try {
     const count = await Cart.find({ customer: currentUser }).countDocuments();
     const cart = await Cart.find({ customer: currentUser })
-      .populate({
-        path: "items.product",
-        select: "reference image title slug description countInStock",
-      })
+      // .populate({
+      //   path: "items.product",
+      //   select: "reference image title slug description countInStock",
+      // })
       .populate("store");
     return res.status(200).json({
       length: count,

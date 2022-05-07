@@ -3,7 +3,8 @@ import {
   GET_STORE,
   STORE_ERROR,
   STORE_LOADING,
-  UPDATE_PRODUCT,
+  
+  UPDATE_STORE,
 } from "../Constants/action";
 
 const initialState = {
@@ -28,6 +29,12 @@ const StoreReducers = (state = initialState, action) => {
         isLoading: false,
       };
     case GET_STORE:
+      return {
+        ...state,
+        store: payload,
+        isLoading: false,
+      };
+    case UPDATE_STORE:
       return {
         ...state,
         store: payload,

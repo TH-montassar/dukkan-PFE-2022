@@ -1,9 +1,8 @@
 const {
-  getMyStore,
-  updateStore,
-  getStore,
-} = require("../controllers/store.controllers");
-const { verifyToken, isMerchant, verifyStore } = require("../middlewares");
+  getMyProfile,
+  updateProfile,
+} = require("../controllers/profile.controllers");
+const { verifyToken } = require("../middlewares");
 
 const router = require("express").Router();
 
@@ -27,8 +26,6 @@ const upload = multer({
   // },
 });
 
-router.get("/me", verifyToken, isMerchant, getMyStore);
-router.get("/store", verifyToken, verifyStore, getStore);
-router.put("/update", verifyToken, upload.single("logo"), updateStore);
-
+router.get("/", verifyToken, getMyProfile);
+router.put("/", verifyToken, upload.single("avatar"), updateProfile);
 module.exports = router;

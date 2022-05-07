@@ -23,6 +23,7 @@ const storeRouter = require("./routes/store.routes");
 const cartRouter = require("./routes/cart.routes");
 const orderRouter = require("./routes/order.routes");
 const addressRouter = require("./routes/address.routes");
+const profileRouter = require("./routes/profile.routes");
 //middelware
 app.use(cors());
 app.use(
@@ -43,6 +44,7 @@ app.use("/api/store", storeRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/address", addressRouter);
+app.use("/api/profile", profileRouter);
 
 //listen server
 const port = process.env.PORT || 5000;

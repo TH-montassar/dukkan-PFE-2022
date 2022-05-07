@@ -7,6 +7,7 @@ import storeReducers from "./store.reducers";
 import cartReducers from "./cart.reducers";
 import orderReducers from "./order.reducers";
 import addressReducers from "./address.reducers";
+import profileReducers from "./profile.reducers";
 export default combineReducers({
   adminReducers,
   authReducers,
@@ -16,4 +17,5 @@ export default combineReducers({
   cartReducers,
   orderReducers,
   addressReducers,
+  profileReducers,
 });
