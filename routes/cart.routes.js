@@ -18,7 +18,7 @@ const router = require("express").Router();
 
 router.get("/me", verifyToken, verifyStore, getOwnedCart);
 router.get("/myCarts", verifyToken, isCustomer, getMyCarts);
-router.get("/myCustomer", verifyToken, isMerchant, getCustomer);
+router.get("/my_customer", verifyToken, isMerchant, getCustomer);
 router.put("/empty", verifyToken, verifyStore, emptyCart);
 
 router.put("/add", verifyToken, verifyStore, addItemToCart);

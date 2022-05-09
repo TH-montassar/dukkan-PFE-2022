@@ -32,7 +32,7 @@ export const getCustomerByCarts = () => async (dispatch) => {
     type: CART_LOADING,
   });
   try {
-    const res = await instance.get(`/api/cart/myCustomer`);
+    const res = await instance.get(`/api/cart/my_customer`);
     dispatch({
       type: GET_MY_CUSTOMER,
       payload: res.data,

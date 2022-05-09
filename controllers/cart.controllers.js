@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Cart = require("../models/cart.models");
 const User = require("../models/user.models");
 
@@ -134,18 +135,28 @@ const getCustomerByCarts = async (req, res) => {
   }
 };
 const getCustomer = async (req, res) => {
-  const storeId = req.verifiedUser.store;
+  const storeId = mongoose.Types.ObjectId(req.verifiedUser.store);
   console.log(storeId);
   try {
     const customer = await User.aggregate([
       { $match: { role: "customer" } },
       {
         $lookup: {
+          let: {
+            userId: "$_id",
+          },
           from: "carts",
-          localField: "_id",
-          foreignField: "customer",
           as: "carts",
-          pipeline: [{ $match: { store: storeId } }],
+          pipeline: [
+            {
+              $match: {
+               $and: [
+                 { $expr: { $eq: ["$customer", "$$userId"] }},
+                 { $expr: { $eq: ["$store", storeId] }}
+               ]
+              },
+            },
+          ],
         },
       },
     ]).sort({ createdAt: -1 });

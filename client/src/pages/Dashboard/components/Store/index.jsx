@@ -155,6 +155,7 @@ const Store = ({ isOpen, closeModal }) => {
                   <div className="w-full px-3 mb-5">
                     <button
                       type="submit"
+                      onClick={closeModal}
                       className="block w-full max-w-xs mx-auto bg-info hover:bg-Primary focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
                     >
                       Update NOW
