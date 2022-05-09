@@ -1,4 +1,5 @@
 const Cart = require("../models/cart.models");
+const User = require("../models/user.models");
 
 const getOwnedCart = async (req, res) => {
   const currentUser = req.verifiedUser._id;
@@ -117,10 +118,55 @@ const getMyCarts = async (req, res) => {
     return res.status(500).json(err);
   }
 };
+const getCustomerByCarts = async (req, res) => {
+  const storeId = req.verifiedUser.store;
+
+  try {
+    const count = await Cart.find({ store: storeId }).countDocuments();
+    const cart = await Cart.find({ store: storeId }).populate("customer");
+
+    return res.status(200).json({
+      length: count,
+      carts: cart,
+    });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+const getCustomer = async (req, res) => {
+  const storeId = req.verifiedUser.store;
+  console.log(storeId);
+  try {
+    const customer = await User.aggregate([
+      { $match: { role: "customer" } },
+      {
+        $lookup: {
+          from: "carts",
+          localField: "_id",
+          foreignField: "customer",
+          as: "carts",
+          pipeline: [{ $match: { store: storeId } }],
+        },
+      },
+    ]).sort({ createdAt: -1 });
+
+    console.log(customer.map((cart) => cart.carts.length > 0));
+    await User.populate(customer, {
+      path: "profile",
+      select: "avatar ",
+    });
+    await User.populate(customer, { path: "address" });
+    return res.status(200).json(customer);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
 
 module.exports.getOwnedCart = getOwnedCart;
 
 module.exports.emptyCart = emptyCart;
 module.exports.getMyCarts = getMyCarts;
+module.exports.getCustomerByCarts = getCustomerByCarts;
+module.exports.getCustomer = getCustomer;
 module.exports.addItemToCart = addItemToCart;
 module.exports.removeItemFromCart = removeItemFromCart;

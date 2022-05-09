@@ -6,6 +6,7 @@ import {
   STORE_LOADING,
   UPDATE_PRODUCT,
   UPDATE_STORE,
+  GET_MY_STORE,
 } from "../Constants/action";
 
 export const getStore = () => async (dispatch) => {
@@ -14,9 +15,27 @@ export const getStore = () => async (dispatch) => {
   });
 
   try {
-    const res = await instance.get(`/api/store/me`);
+    const res = await instance.get(`/api/store`);
     dispatch({
       type: GET_STORE,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: STORE_ERROR,
+      payload: err,
+    });
+  }
+};
+export const getMyStore = () => async (dispatch) => {
+  dispatch({
+    type: STORE_LOADING,
+  });
+
+  try {
+    const res = await instance.get(`/api/store/me`);
+    dispatch({
+      type: GET_MY_STORE,
       payload: res.data,
     });
   } catch (err) {
@@ -32,7 +51,7 @@ export const updateStore = (data) => async (dispatch) => {
   });
 
   try {
-    const res = await instance.put(`/api/store/update`,data);
+    const res = await instance.put(`/api/store/update`, data);
     dispatch({
       type: UPDATE_STORE,
       payload: res.data,

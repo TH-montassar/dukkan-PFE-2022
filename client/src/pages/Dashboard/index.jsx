@@ -19,11 +19,17 @@ import Product from "./components/Products";
 import Spinner from "../../shared/Spinner";
 import { logout } from "../../redux/Actions/auth.action";
 import { getCategories } from "../../redux/Actions/category.action";
-import { getStore } from "../../redux/Actions/store.action";
+import { getMyStore } from "../../redux/Actions/store.action";
 import Category from "./components/Category";
 import Store from "./components/Store";
+import Customer from "./components/Customer";
+import Order from "./components/Order";
+import { merchantOrders } from "../../redux/Actions/order.action";
 
 const Dashboard = () => {
+  const { isLoading, isAuthenticated, user } = useSelector((state) => {
+    return state.authReducers;
+  });
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,16 +37,19 @@ const Dashboard = () => {
     dispatch(getCategories());
   }, []);
 
-  const { isLoading, user } = useSelector((state) => {
-    return state.authReducers;
-  });
   useEffect(() => {
-    dispatch(getStore(/**{ store: user.store } */));
+    dispatch(getMyStore(/**{ store: user.store } */));
   }, []);
   const { store } = useSelector((state) => {
     return state.storeReducers;
   });
   let [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(merchantOrders());
+  }, [isAuthenticated]);
+  const { orders } = useSelector((state) => state.orderReducers);
+
   return isLoading ? (
     <Spinner />
   ) : (
@@ -69,14 +78,14 @@ const Dashboard = () => {
               <i className="fa-solid fa-house"></i>
               <li className="mb-3">Home</li>
             </div>
-            <div className="flex flex-row gap-3 mt-1">
+            <Link to="/dashboard/customer" className="flex flex-row gap-3 mt-1">
               <i className="fa-solid fa-user-group"></i>
               <li className="mb-3">customer</li>
-            </div>
-            <div className="flex flex-row gap-3 mt-1">
+            </Link>
+            <Link to="/dashboard/order" className="flex flex-row gap-3 mt-1">
               <img className="max-w-[1.3rem]" src={order} alt="order" />
               <li>Orders</li>
-            </div>
+            </Link>
           </ul>
           <h2 className="mt-7 text-lg font-semibold tracking-widest text-[#a9e1f9]">
             SETUP
@@ -130,7 +139,7 @@ const Dashboard = () => {
               <p>order </p>
               <div className="relative">
                 <p className="absolute left-5 bottom-8 rounded-full bg-Primary text-white w-4 h-4 flex items-center justify-center sm:text-[1rem]">
-                  0
+                  {orders.length}
                 </p>
                 <img
                   className="max-w-[1.97rem]"
@@ -259,6 +268,8 @@ const Dashboard = () => {
             }
           ></Route>
           <Route path="/product" element={<Product />}></Route>
+          <Route path="/customer" element={<Customer />}></Route>
+          <Route path="/order" element={<Order />}></Route>
           <Route path="/category" element={<Category />}></Route>
         </Routes>
       </section>

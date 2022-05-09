@@ -6,6 +6,7 @@ import {
   GET_OWNED_CART,
   CART_LOADING,
   GET_MY_CARTS,
+  GET_MY_CUSTOMER,
 } from "../Constants/action";
 const initialState = {
   items: [],
@@ -32,6 +33,12 @@ const CartReducers = (state = initialState, action) => {
         isLoading: false,
       };
     case GET_MY_CARTS:
+      return {
+        ...state,
+        carts: payload,
+        isLoading: false,
+      };
+    case GET_MY_CUSTOMER:
       return {
         ...state,
         carts: payload,

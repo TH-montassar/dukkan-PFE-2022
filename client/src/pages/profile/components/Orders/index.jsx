@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../../../shared/Spinner";
 import "./index.css";
 import { parseISO, format } from "date-fns";
+import { ChevronUpIcon } from "@heroicons/react/solid";
+import { Disclosure } from "@headlessui/react";
 const Orders = () => {
   const { isAuthenticated, user } = useSelector((state) => {
     return state.authReducers;
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    
     dispatch(MyOrders());
   }, [isAuthenticated]);
   const { orders, isLoading } = useSelector((state) => state.orderReducers);
@@ -24,7 +25,7 @@ const Orders = () => {
       </div>
 
       <div className=" w-full px-3 grid grid-flow-col justify-around py-10 text-xl font-semibold">
-        <div className="pr-32"> ID</div>
+        <div className="pr-36"> ID</div>
         <div>DATE</div>
         <div>TOTAL</div>
         <div>WITH TAX</div>
@@ -32,17 +33,22 @@ const Orders = () => {
         <div>ADDRESS</div>
         <div>STORE</div>
       </div>
-      <div className="w-full flex flex-col justify-center items-center">
-        {orders.orders?.length > 0 &&
-          orders.orders.slice(0, 10).map((order) => (
-            <div className="w-[90%] pb-10 border-t 	border-gray-700	 ">
-              <div className="grid grid-flow-col justify-between items-center font-medium	 ">
+
+      <Disclosure>
+        {({ open }) =>
+          orders.orders?.length > 0 &&
+          orders.orders.map((order) => (
+            <div
+              key={order._id}
+              className="w-[90%] 	border-gray pb-10 flex flex-col justify-center items-center border-t mx-auto "
+            >
+              <Disclosure.Button className="grid grid-flow-col gap-10 items-center font-medium	 ">
                 <td>{order._id}</td>
                 <td> {format(parseISO(order.createdAt), "P")}</td>
                 <td>{order.totalPrice} TND</td>
                 <td>{order.totalPriceWithTax} TND</td>
                 <td>{order.status}</td>
-                <td className="grid grid-flow-col grid-rows-2	">
+                <td className="grid grid-flow-col grid-rows-2">
                   <div>
                     {order.address.country},{order.address.city}
                   </div>
@@ -52,9 +58,14 @@ const Orders = () => {
                 </td>
 
                 <td>{order.store.title}</td>
-              </div>
+                <ChevronUpIcon
+                  className={`${
+                    open ? "rotate-180 transform" : ""
+                  } h-5 w-5 text-info`}
+                />
+              </Disclosure.Button>
 
-              <div className="pt-5 grid grid-flow-row sm:grid-flow-row w-[80%] items-center justify-center mx-auto">
+              <Disclosure.Panel className="pt-5 grid grid-flow-row sm:grid-flow-row w-[80%] items-center justify-center mx-auto">
                 {order.items.length > 0 &&
                   order.items.map((product) => {
                     return (
@@ -74,10 +85,11 @@ const Orders = () => {
                       </div>
                     );
                   })}
-              </div>
+              </Disclosure.Panel>
             </div>
-          ))}
-      </div>
+          ))
+        }
+      </Disclosure>
     </div>
   );
 };

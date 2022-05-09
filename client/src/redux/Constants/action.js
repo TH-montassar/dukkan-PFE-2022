@@ -33,6 +33,7 @@ export const CATEGORY_LOADING = "CATEGORY_LOADING";
 
 export const GET_STORES = "GET_STORES";
 export const GET_STORE = "GET_STORE";
+export const GET_MY_STORE = "GET_MY_STORE";
 export const STORE_ERROR = "STORE_ERROR";
 export const STORE_LOADING = "STORE_LOADING";
 export const UPDATE_STORE = "UPDATE_STORE";
@@ -42,7 +43,9 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const GET_OWNED_CART = "GET_OWNED_CART";
-export const GET_MY_CARTS = "GET_MY_CARTS";
+export const GET_MY_CARTS = "GET_MY_CARTS"
+export const GET_MY_CUSTOMER = "GET_MY_CUSTOMER"
+;
 export const CART_ERROR = "CART_ERROR";
 
 export const ORDER_LOADING = "ORDER_LOADING";

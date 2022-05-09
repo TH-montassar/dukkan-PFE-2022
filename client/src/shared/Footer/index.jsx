@@ -2,29 +2,30 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logoStore from "../../assets/logo/logostore.svg";
 import logo from "../../assets/logo/dukkan2.png";
-
+import { useSelector } from "react-redux";
 const Footer = () => {
+  const { store } = useSelector((state) => {
+    return state.storeReducers;
+  });
   return (
     <footer className="bg-info flex flex-col w-full px-16 py-3 gap-y-1 flex-wrap">
       <div className="flex justify-around items-center">
         <div className="flex gap-5 items-center ">
           <div className="flex flex-col items-center justify-center gap-5">
-            <Link to="/">
-              <img className="max-w-lg" src={logoStore} alt="montaProduct" />
+            <Link className="w-20 h-20" to={`/home/${localStorage.store}`}>
+              <img
+                className="object-cover rounded-full  w-full h-full"
+                src={store?.logo}
+                alt="montaProduct"
+              />
             </Link>
-            <Link to="/">
+            <Link to={`/home/${localStorage.store}`}>
               <img className="max-w-[5rem] " src={logo} alt="montaProduct" />
             </Link>
           </div>
           <div className="text-white flex flex-col gap-2">
-            <h1> Store Name</h1>
-            <p className="max-w-sm sm:max-w-xs">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Exercitationem, mollitia quasi. Eveniet praesentium aliquam nam
-              aut possimus quia soluta totam ullam tempora. Quas itaque ad
-              incidunt voluptatibus? Perspiciatis, molestiae dolor. Modit maxime
-              officia
-            </p>
+            <h1>{store?.title}</h1>
+            <p className="max-w-sm sm:max-w-xs">{store?.bio}</p>
           </div>
         </div>
         <div className="grid  grid-rows-1 grid-flow-col gap-4 sm:grid-rows-2 text-white ">

@@ -36,9 +36,9 @@ const Carts = () => {
                   className="object-contain"
                   // src={cart.store.logo}
                   src={logoStore}
-                  alt={cart.store.title}
+                  alt={cart?.store.title}
                 />
-                <p className="h-1/2"> {cart.store.title} title</p>
+                <p className="h-1/2"> {cart?.store?.title} title</p>
               </Link>
             );
           })}

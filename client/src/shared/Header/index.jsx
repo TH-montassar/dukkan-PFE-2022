@@ -16,6 +16,7 @@ import {
   getMyProfile,
   updateMyProfile,
 } from "../../redux/Actions/profile.action";
+import { getStore } from "../../redux/Actions/store.action";
 
 import { useMatch } from "react-router-dom";
 const Header = () => {
@@ -77,14 +78,25 @@ const Header = () => {
   const { profile } = useSelector((state) => {
     return state.profileReducers;
   });
+  useEffect(() => {
+    dispatch(getStore());
+  }, []);
+
+  const { store } = useSelector((state) => {
+    return state.storeReducers;
+  });
+
   return isLoading ? (
     <Spinner />
   ) : (
     <header className="bg-info flex w-full justify-between px-16 py-2 fixed top-0 z-50 items-center sm:items-end flex-wrap ">
-      <Link to={`/home/${localStorage.store}`}>
+      <Link
+        to={`/home/${localStorage.store}`}
+        className=" w-14 h-14 sm:w-10 sm:h-10"
+      >
         <img
-          className="max-w-[4rem] max-h-16"
-          src={logoStore}
+          className="rounded-full object-cover  w-full h-full"
+          src={store?.logo}
           alt="logoStore"
         />
       </Link>

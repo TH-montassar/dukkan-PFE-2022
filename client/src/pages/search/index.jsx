@@ -74,7 +74,7 @@ const Search = () => {
           </div>
         </div>
 
-        <div className="flex  flex-row flex-wrap  pl-32 items-start pt-20">
+        <div className="flex  flex-row   pl-32 items-start pt-20">
           <div className="pr-5 overflow-y-auto">
             <div className="flex justify-between items-center pr-1 pb-3">
               <div className="font-bold"> FILTERS</div>
@@ -158,7 +158,7 @@ const Search = () => {
               </div>
             </div>
 
-            <div className=" grid grid-cols-4 gap-12 pt-4 pl-10">
+            <div className=" grid grid-cols-4 gap-12 md:gap-4 lg:gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 pt-4 pl-10">
               {products.map((product) => (
                 <ProductItem key={product._id} product={product} />
               ))}

@@ -91,7 +91,7 @@ const Home = () => {
             ))}
           </div>
           <h1 className="text-2xl font-medium pb-5 pt-28">Popular Product</h1>
-          <div className="flex flex-1 gap-12 overflow-x-auto snap-x	snap-mandatory pt-4 pl-10 pb-10">
+          <div className="grid grid-cols-5 grid-flow-col		 gap-12 overflow-x-auto snap-x	snap-mandatory pt-4 pl-10 pb-10">
             {products.map((product) => (
               <ProductItem key={product._id} product={product} />
             ))}

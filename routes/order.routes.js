@@ -37,9 +37,9 @@ router.param("order", async (req, res, next, id) => {
   }
 });
 
-router.get("/canceled/:order", verifyToken, isMerchant,canceled);
-router.get("/confirmed/:order", verifyToken, isMerchant,confirmed);
-router.get("/fulfilled/:order", verifyToken, isMerchant,fulfilled);
+router.get("/canceled/:order", verifyToken, isMerchant, canceled);
+router.get("/confirmed/:order", verifyToken, isMerchant, confirmed);
+router.get("/fulfilled/:order", verifyToken, isMerchant, fulfilled);
 
 router.get("/me", verifyToken, isCustomer, meOrders);
 router.get("/merchantOrders", verifyToken, isMerchant, merchantOrders);
