@@ -67,9 +67,9 @@ const Header = () => {
   const { items } = useSelector((state) => state.cartReducers);
 
   const number = () => {
-    let p = 0;
-    items?.map((product) => (p = p + product.quantity));
-    return p;
+    let countItem = 0;
+    items?.map((product) => (countItem = countItem + product.quantity));
+    return countItem;
   };
   useEffect(() => {
     dispatch(getMyProfile());
@@ -312,11 +312,13 @@ const Header = () => {
                   </Transition>
                 </Menu>
               </div>
-              <img
-                className="max-w-[3rem]  rounded-full"
-                src={profile?.avatar}
-                alt="avatar"
-              />
+              <Link to="/profile" className=" w-14 h-14 sm:w-10 sm:h-10">
+                <img
+                  className="rounded-full object-cover  w-full h-full"
+                  src={profile?.avatar}
+                  alt="avatar"
+                />
+              </Link>
             </div>
           )}
         </div>

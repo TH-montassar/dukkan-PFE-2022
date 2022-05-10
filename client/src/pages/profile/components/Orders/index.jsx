@@ -47,7 +47,19 @@ const Orders = () => {
                 <td> {format(parseISO(order.createdAt), "P")}</td>
                 <td>{order.totalPrice} TND</td>
                 <td>{order.totalPriceWithTax} TND</td>
-                <td>{order.status}</td>
+                <td>
+                  <div className="cursor-pointer  select-none py-1.5 rounded-md transition	duration-300		 	hover:scale-95 ">
+                    {order.status === "pending" ? (
+                      <div className="text-Warning ">{order.status}</div>
+                    ) : order.status === "canceled" ? (
+                      <div className="text-danger">{order.status}</div>
+                    ) : order.status === "confirmed" ? (
+                      <div className="text-info">{order.status}</div>
+                    ) : (
+                      <div className="text-Success">{order.status}</div>
+                    )}
+                  </div>
+                </td>
                 <td className="grid grid-flow-col grid-rows-2">
                   <div>
                     {order.address.country},{order.address.city}
