@@ -1,20 +1,25 @@
 import React, { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/solid";
 import { parseISO, format } from "date-fns";
 import Spinner from "../Spinner";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import OrderAction from "./OrderAction";
 const OrderItem = () => {
   let [isOpen, setIsOpen] = useState(false);
+  const [IdOrder, setIdOrder] = useState(null);
 
   const { orders, isLoading } = useSelector((state) => state.orderReducers);
   return isLoading ? (
     <Spinner />
   ) : (
     <div>
-      <OrderAction isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+      <OrderAction
+        isOpen={isOpen}
+        closeModal={() => setIsOpen(false)}
+        id={IdOrder}
+      />
       <table className=" w-full m-auto bg-white">
         <thead>
           <tr>
@@ -33,18 +38,16 @@ const OrderItem = () => {
           <Disclosure>
             {({ open }) =>
               orders.orders?.length > 0 &&
-              orders.orders.slice(0, 10).map((order) => (
+              orders.orders.map((order) => (
                 <Fragment key={order._id}>
-                  <tr
-                    className="border-gray border-t " 
-                  >
+                  <tr className="border-gray border-t">
                     <td className="text-slate-500 hover:text-black">
                       {order._id}
                     </td>
                     <td>
                       {order.customer.lastName} {order.customer.firstName}
                     </td>
-                    <td className=" flex flex-wrap flex-row gap-1">
+                    <td className="grid grid-cols-1 gap-2 justify-center">
                       <div>
                         {order.address.country},{order.address.city}
                       </div>
@@ -57,16 +60,24 @@ const OrderItem = () => {
                     <td>{order.totalPrice} TND</td>
                     <td>{order.totalPriceWithTax} TND</td>
                     <td>{order.taxPercentage} </td>
-                    <td className="cursor-pointer" onClick={() => setIsOpen(true)}>
-                      {order.status === "pending" ? (
-                        <div className="text-Warning">{order.status}</div>
-                      ) : order.status === "canceled" ? (
-                        <div className="text-danger">{order.status}</div>
-                      ) : order.status === "confirmed" ? (
-                        <div className="text-Success">{order.status}</div>
-                      ) : (
-                        <div>{order.status}</div>
-                      )}
+                    <td>
+                      <div
+                        className="cursor-pointer  select-none border py-1.5 rounded-md transition	duration-300		 	hover:scale-95 "
+                        onClick={() => {
+                          setIsOpen(true);
+                          setIdOrder(order._id);
+                        }}
+                      >
+                        {order.status === "pending" ? (
+                          <div className="text-Warning ">{order.status}</div>
+                        ) : order.status === "canceled" ? (
+                          <div className="text-danger">{order.status}</div>
+                        ) : order.status === "confirmed" ? (
+                          <div className="text-info">{order.status}</div>
+                        ) : (
+                          <div className="text-Success">{order.status}</div>
+                        )}
+                      </div>
                     </td>
                     <td>
                       <Disclosure.Button className="flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
@@ -78,20 +89,42 @@ const OrderItem = () => {
                       </Disclosure.Button>
                     </td>
                   </tr>
-                  <tr colSpan="2">
-                    <Disclosure.Panel colSpan="2" className=" ">
-                      {order.items.length > 0 &&
-                        order.items.map((product) => {
-                          return (
-                            <div className="font-medium	 grid grid-flow-col gap-7 sm:grid-flow-row w-[80%] items-center  mx-auto">
-                              <p>product:{product.product?.title}</p>
-                              <p>price: {product.price}</p>
-                              <p>quantity :{product.quantity}</p>
-                              <p>total: {product.total}</p>
-                            </div>
-                          );
-                        })}
-                    </Disclosure.Panel>
+                  <tr>
+                    <td colSpan={10}>
+                      <Disclosure.Panel className=" ">
+                        {order.items.length > 0 &&
+                          order.items.map((product) => {
+                            return (
+                              <div className="font-medium  grid grid-cols-4 md:grid-cols-7 mx-auto max-w-2xl text-left			pl-10 leading-8	">
+                                <div className="">
+                                  product:
+                                  <span className="text-info">
+                                    {product.product?.title}
+                                  </span>
+                                </div>
+                                <div className=" ">
+                                  price:
+                                  <span className="text-info">
+                                    {product.price} TND
+                                  </span>
+                                </div>
+                                <div className="">
+                                  quantity:
+                                  <span className="text-info">
+                                    {product.quantity}
+                                  </span>
+                                </div>
+                                <div className=" ">
+                                  total:
+                                  <span className="text-info">
+                                    {product.total} TND
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </Disclosure.Panel>
+                    </td>
                   </tr>
                 </Fragment>
               ))

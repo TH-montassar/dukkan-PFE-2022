@@ -55,7 +55,7 @@ const Store = ({ isOpen, closeModal }) => {
         className="fixed  inset-0 z-10 overflow-y-auto"
         onClose={closeModal}
       >
-        <div className="bg-white min-h-screen px-4 text-center  bg-secondary-dark bg-opacity-50">
+        <div className="bg-black min-h-screen px-4 text-center  bg-secondary-dark bg-opacity-50">
           <Dialog.Overlay className="fixed inset-0" />
 
           {/* This element is to trick the browser into centering the modal contents. */}

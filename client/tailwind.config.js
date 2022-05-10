@@ -22,10 +22,12 @@ module.exports = {
       colors: {
         Primary: "#1A5899",
         Success: "#189122",
+        SuccessDark: "#0C6824",
         Warning: "#AF9803",
         danger: "#AA3C14",
+        dangerDark: "#7A180A",
         info: "#009BDD",
-        infoDark: "#014A4D",
+        infoDark: "#005A9F",
         whiteDark: "D6D6D6",
         gray: "#C4C4C4",
         background: "#f3f3f8",

@@ -15,6 +15,8 @@ const initialState = {
   isLoading: false,
   isAuthenticated: false,
   message: "",
+  isError: false,
+  isSuccess: false,
 };
 
 const AuthReducers = (state = initialState, action) => {

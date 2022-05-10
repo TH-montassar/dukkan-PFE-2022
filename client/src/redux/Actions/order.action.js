@@ -125,7 +125,7 @@ export const confirmedOrder = (id) => async (dispatch) => {
 
 export const fulfilledOrder = (id) => async (dispatch) => {
   try {
-    const res = await instance.get(`/api/orders/confirmed/${id}`);
+    const res = await instance.get(`/api/orders/fulfilled/${id}`);
     dispatch({
       type: FULFILLED_ORDER,
       payload: res.data,
