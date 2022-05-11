@@ -1,12 +1,14 @@
 import React from "react";
 import { Tab } from "@headlessui/react";
 import OrderItem from "../../../../shared/OrderItem";
-
+import { merchantOrders } from "../../../../redux/Actions/order.action";
+import { useDispatch } from "react-redux";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Order = () => {
+  const dispatch = useDispatch();
   return (
     <div className="w-full  px-2 py-16 sm:px-0 mx-auto ">
       <Tab.Group>
@@ -14,7 +16,7 @@ const Order = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-info",
                 "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                 selected
                   ? "bg-white shadow"
@@ -22,12 +24,20 @@ const Order = () => {
               )
             }
           >
-            all orders
+            <button
+              className="w-full h-full"
+              type="button"
+              onClick={() => {
+                dispatch(merchantOrders());
+              }}
+            >
+              all orders
+            </button>
           </Tab>
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                "w-full rounded-lg  text-sm font-medium leading-5 text-blue-700",
                 "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                 selected
                   ? "bg-white shadow"
@@ -35,12 +45,20 @@ const Order = () => {
               )
             }
           >
-            Pending orders
+            <button
+              className="w-full h-full"
+              type="button"
+              onClick={() => {
+                dispatch(merchantOrders({ status: "pending" }));
+              }}
+            >
+              Pending orders
+            </button>
           </Tab>
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                "w-full rounded-lg  text-sm font-medium leading-5 text-blue-700",
                 "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                 selected
                   ? "bg-white shadow"
@@ -48,12 +66,20 @@ const Order = () => {
               )
             }
           >
-            delivered orders
+            <button
+              className="w-full h-full"
+              type="button"
+              onClick={() => {
+                dispatch(merchantOrders({ status: "fulfilled" }));
+              }}
+            >
+              delivered orders
+            </button>
           </Tab>
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                "w-full rounded-lg  text-sm font-medium leading-5 text-blue-700",
                 "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                 selected
                   ? "bg-white shadow"
@@ -61,7 +87,15 @@ const Order = () => {
               )
             }
           >
-            canceled orders
+            <button
+              className="w-full h-full"
+              type="button"
+              onClick={() => {
+                dispatch(merchantOrders({ status: "canceled" }));
+              }}
+            >
+              canceled orders
+            </button>
           </Tab>
         </Tab.List>
         <Tab.Panels className=" w-full mt-2">

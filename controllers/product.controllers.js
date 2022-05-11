@@ -103,7 +103,7 @@ const getProducts = async (req, res) => {
   }
   try {
     const products = await Product.find(
-      /**filter, */ { store: req.verifiedUser.store, ...filter }
+      { store: req.verifiedUser.store, ...filter }
     )
       .limit(limit)
       // .populate("user")

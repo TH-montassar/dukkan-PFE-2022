@@ -119,21 +119,21 @@ const getMyCarts = async (req, res) => {
     return res.status(500).json(err);
   }
 };
-const getCustomerByCarts = async (req, res) => {
-  const storeId = req.verifiedUser.store;
+// const getCustomerByCarts = async (req, res) => {
+//   const storeId = req.verifiedUser.store;
 
-  try {
-    const count = await Cart.find({ store: storeId }).countDocuments();
-    const cart = await Cart.find({ store: storeId }).populate("customer");
+//   try {
+//     const count = await Cart.find({ store: storeId }).countDocuments();
+//     const cart = await Cart.find({ store: storeId }).populate("customer");
 
-    return res.status(200).json({
-      length: count,
-      carts: cart,
-    });
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-};
+//     return res.status(200).json({
+//       length: count,
+//       carts: cart,
+//     });
+//   } catch (err) {
+//     return res.status(500).json(err);
+//   }
+// };
 const getCustomer = async (req, res) => {
   const storeId = mongoose.Types.ObjectId(req.verifiedUser.store);
   console.log(storeId);
@@ -150,10 +150,10 @@ const getCustomer = async (req, res) => {
           pipeline: [
             {
               $match: {
-               $and: [
-                 { $expr: { $eq: ["$customer", "$$userId"] }},
-                 { $expr: { $eq: ["$store", storeId] }}
-               ]
+                $and: [
+                  { $expr: { $eq: ["$customer", "$$userId"] } },
+                  { $expr: { $eq: ["$store", storeId] } },
+                ],
               },
             },
           ],
@@ -177,7 +177,7 @@ module.exports.getOwnedCart = getOwnedCart;
 
 module.exports.emptyCart = emptyCart;
 module.exports.getMyCarts = getMyCarts;
-module.exports.getCustomerByCarts = getCustomerByCarts;
+// module.exports.getCustomerByCarts = getCustomerByCarts;
 module.exports.getCustomer = getCustomer;
 module.exports.addItemToCart = addItemToCart;
 module.exports.removeItemFromCart = removeItemFromCart;

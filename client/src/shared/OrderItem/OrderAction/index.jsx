@@ -6,6 +6,7 @@ import {
   confirmedOrder,
   canceledOrder,
   fulfilledOrder,
+  merchantOrders,
 } from "../../../redux/Actions/order.action";
 const OrderAction = ({ isOpen, closeModal, id }) => {
   const dispatch = useDispatch();
@@ -53,8 +54,10 @@ const OrderAction = ({ isOpen, closeModal, id }) => {
 
               <button
                 onClick={() => {
+                  dispatch(merchantOrders());
                   closeModal();
                   dispatch(fulfilledOrder(id));
+                  dispatch(merchantOrders());
                 }}
                 type="button"
                 className="inline-flex   flex-col items-center justify-center rounded-md border border-transparent bg-Success hover:bg-SuccessDark px-4 py-0.5 text-sm font-medium text-white  focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"

@@ -52,6 +52,10 @@ export const getMyOrder = (id) => async (dispatch) => {
   }
 };
 export const merchantOrder = (id) => async (dispatch) => {
+  dispatch({
+    type: ORDER_LOADING,
+  });
+
   try {
     const res = await instance.get(`/api/orders/merchantOrder/${id}`);
     dispatch({
@@ -79,9 +83,17 @@ export const MyOrders = () => async (dispatch) => {
     });
   }
 };
-export const merchantOrders = () => async (dispatch) => {
+export const merchantOrders = (queries) => async (dispatch) => {
+  // dispatch({
+  //   type: ORDER_LOADING,
+  // });
+  let queryString = "?";
+  for (const key in queries) {
+    queryString += key + "=" + queries[key] + "&";
+  }
+
   try {
-    const res = await instance.get(`/api/orders/merchantOrders`);
+    const res = await instance.get(`/api/orders/merchantOrders${queryString}`);
     dispatch({
       type: GET_ORDERS_MERCHANT,
       payload: res.data,

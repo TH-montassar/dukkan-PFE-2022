@@ -78,8 +78,36 @@ const meOrders = async (req, res) => {
 
 const merchantOrders = async (req, res) => {
   const currentUserStore = req.verifiedUser.store;
-
+  const status = req.query.status;
   try {
+    if (status) {
+      const order = await Order.find({
+        status: status,
+        store: currentUserStore,
+      })
+        .populate("address")
+        .populate({ path: "customer", select: "firstName lastName number" })
+        .populate({
+          path: "items.product",
+          select: "reference image title slug description countInStock",
+        })
+        .sort({ createdAt: -1 });
+      const count = await Order.find({
+        status: status,
+        store: currentUserStore,
+      }).countDocuments();
+      if (count === 0) {
+        return res
+          .status(401)
+          .json({ length: count, message: "no order for you" });
+      }
+
+      return res.status(200).json({
+        length: count,
+        orders: order,
+      });
+    }
+
     const order = await Order.find({ store: currentUserStore })
       .populate("address")
       .populate({ path: "customer", select: "firstName lastName number" })
