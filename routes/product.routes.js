@@ -77,7 +77,7 @@ router.param("category", async (req, res, next, id) => {
     return res.status(500).json(err);
   }
 });
-//param category
+//param  review
 router.param("review", async (req, res, next, id) => {
   try {
     const review = await Review.findById(id);
@@ -117,7 +117,7 @@ const upload = multer({
 router.post(
   "/product",
   verifyToken,
-   isMerchant,
+  isMerchant,
   upload.single("image"),
   createProduct
 );

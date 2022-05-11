@@ -41,6 +41,8 @@ const AuthReducers = (state = initialState, action) => {
         token: payload.token,
         isAuthenticated: true,
         isLoading: false,
+        isError: false,
+        isSuccess: true,
       };
     case AUTH_CHECK:
       return {
@@ -48,6 +50,8 @@ const AuthReducers = (state = initialState, action) => {
         user: payload,
         isAuthenticated: true,
         isLoading: false,
+        isError: false,
+        isSuccess: true,
       };
     case REGISTER:
       return {
@@ -55,6 +59,8 @@ const AuthReducers = (state = initialState, action) => {
         user: payload,
         isLoading: false,
         isAuthenticated: false,
+        isError: false,
+        isSuccess: true,
       };
     case AUTH_ERROR:
       localStorage.removeItem("token");
@@ -65,6 +71,8 @@ const AuthReducers = (state = initialState, action) => {
         error: payload,
         isLoading: false,
         message: payload.message,
+        isError: true,
+        isSuccess: false,
       };
     case LOGOUT:
       localStorage.removeItem("token");
@@ -74,6 +82,8 @@ const AuthReducers = (state = initialState, action) => {
         user: null,
         token: null,
         isLoading: false,
+        isError: true,
+        isSuccess: false,
       };
     default:
       return state;

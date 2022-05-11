@@ -106,11 +106,7 @@ const getMyCarts = async (req, res) => {
   try {
     const count = await Cart.find({ customer: currentUser }).countDocuments();
     const cart = await Cart.find({ customer: currentUser })
-      // .populate({
-      //   path: "items.product",
-      //   select: "reference image title slug description countInStock",
-      // })
-      .populate("store");
+    .populate("store");
     return res.status(200).json({
       length: count,
       carts: cart,
@@ -119,21 +115,7 @@ const getMyCarts = async (req, res) => {
     return res.status(500).json(err);
   }
 };
-// const getCustomerByCarts = async (req, res) => {
-//   const storeId = req.verifiedUser.store;
 
-//   try {
-//     const count = await Cart.find({ store: storeId }).countDocuments();
-//     const cart = await Cart.find({ store: storeId }).populate("customer");
-
-//     return res.status(200).json({
-//       length: count,
-//       carts: cart,
-//     });
-//   } catch (err) {
-//     return res.status(500).json(err);
-//   }
-// };
 const getCustomer = async (req, res) => {
   const storeId = mongoose.Types.ObjectId(req.verifiedUser.store);
   console.log(storeId);
@@ -161,7 +143,7 @@ const getCustomer = async (req, res) => {
       },
     ]).sort({ createdAt: -1 });
 
-    console.log(customer.map((cart) => cart.carts.length > 0));
+    // console.log(customer.map((cart) => cart.carts.length > 0));
     await User.populate(customer, {
       path: "profile",
       select: "avatar ",

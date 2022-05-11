@@ -4,13 +4,10 @@ const addReview = async (req, res) => {
   const product = req.product._id;
   const currentUser = req.verifiedUser._id;
 
-  const alreadyReviewed = (
-    await Review.find({
-      $and: [{ product: product }, { user: currentUser }],
-    })
-  ).length;
-
-  console.log(alreadyReviewed);
+  const alreadyReviewed = await Review.findOne({
+    $and: [{ product: product }, { author: currentUser }],
+  });
+  
   if (alreadyReviewed) {
     return res.status(401).json("Product already Reviewed");
   }

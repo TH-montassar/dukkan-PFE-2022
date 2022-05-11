@@ -4,9 +4,11 @@ import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/solid";
 import { parseISO, format } from "date-fns";
 import Spinner from "../Spinner";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import OrderAction from "./OrderAction";
+import { merchantOrders } from "../../redux/Actions/order.action";
 const OrderItem = () => {
+  const dispatch = useDispatch();
   let [isOpen, setIsOpen] = useState(false);
   const [IdOrder, setIdOrder] = useState(null);
 
@@ -14,10 +16,13 @@ const OrderItem = () => {
   return isLoading ? (
     <Spinner />
   ) : (
-    <div>
+    <div className="font-Roboto">
       <OrderAction
         isOpen={isOpen}
-        closeModal={() => setIsOpen(false)}
+        closeModal={() => {
+          setIsOpen(false);
+          dispatch(merchantOrders());
+        }}
         id={IdOrder}
       />
       <table className=" w-full m-auto bg-white">
@@ -38,7 +43,7 @@ const OrderItem = () => {
           <Disclosure>
             {({ open }) =>
               orders.orders?.length > 0 ? (
-                orders.orders.map((order) => (
+                orders.orders.map((order, index) => (
                   <Fragment key={order._id}>
                     <tr className="border-gray border-t">
                       <td className="text-slate-500 hover:text-black">
@@ -62,7 +67,7 @@ const OrderItem = () => {
                       <td>{order.taxPercentage} </td>
                       <td>
                         <div
-                          className="cursor-pointer focus:animate-ping		 select-none border py-1.5 rounded-md transition	duration-300		 	hover:scale-95 "
+                          className="cursor-pointer focus:animate-ping	font-medium	 select-none border py-1.5 rounded-md transition	duration-300		 	hover:scale-95 "
                           onClick={() => {
                             setIsOpen(true);
                             setIdOrder(order._id);
@@ -73,7 +78,7 @@ const OrderItem = () => {
                           ) : order.status === "canceled" ? (
                             <div className="text-danger">{order.status}</div>
                           ) : order.status === "confirmed" ? (
-                            <div className="text-info">{order.status}</div>
+                            <div className="text-[#3A5BFF]">{order.status}</div>
                           ) : (
                             <div className="text-Success">{order.status}</div>
                           )}
@@ -141,5 +146,7 @@ const OrderItem = () => {
     </div>
   );
 };
+
+
 
 export default OrderItem;

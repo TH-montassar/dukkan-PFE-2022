@@ -91,8 +91,8 @@ const getProducts = async (req, res) => {
   }
   if (req.verifiedUser === undefined || req.verifiedUser.role === "customer") {
     const storeId = req.store._id;
-  
-    console.log(storeId)
+
+    console.log(storeId);
     const products = await Product.find({ store: storeId, ...filter })
       .limit(limit)
       // .populate("user")
@@ -102,9 +102,10 @@ const getProducts = async (req, res) => {
     return res.status(200).json(products);
   }
   try {
-    const products = await Product.find(
-      { store: req.verifiedUser.store, ...filter }
-    )
+    const products = await Product.find({
+      store: req.verifiedUser.store,
+      ...filter,
+    })
       .limit(limit)
       // .populate("user")
       .populate("category")

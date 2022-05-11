@@ -43,9 +43,8 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const EMPTY_CART = "EMPTY_CART";
 export const GET_OWNED_CART = "GET_OWNED_CART";
-export const GET_MY_CARTS = "GET_MY_CARTS"
-export const GET_MY_CUSTOMER = "GET_MY_CUSTOMER"
-;
+export const GET_MY_CARTS = "GET_MY_CARTS";
+export const GET_MY_CUSTOMER = "GET_MY_CUSTOMER";
 export const CART_ERROR = "CART_ERROR";
 
 export const ORDER_LOADING = "ORDER_LOADING";
@@ -66,3 +65,8 @@ export const GET_ADDRESS = "GET_ADDRESS";
 export const UPDATE_ADDRESS = "UPDATE_ADDRESS";
 export const ADDRESS_ERROR = "ADDRESS_ERROR";
 export const ADDRESS_LOADING = "ADDRESS_LOADING";
+
+export const REVIEW_ERROR = "REVIEW_ERROR";
+export const REVIEW_LOADING = "REVIEW_LOADING";
+export const UPDATE_REVIEW = "UPDATE_REVIEW";
+export const ADD_REVIEW = "ADD_REVIEW";

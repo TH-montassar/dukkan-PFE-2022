@@ -15,7 +15,7 @@ const ProductItem = ({ product }) => {
   };
 
   return (
-    <div className="h-80 w-[15rem]  relative shadow-xl rounded-2xl snap-center">
+    <div className="h-80 min-w-[15rem] relative shadow-xl rounded-2xl snap-center">
       <button
         type="button"
         className="left-1 top-1 absolute bg-white rounded-full  w-5 h-5 flex justify-center items-center hover:bg-Primary hover:text-white"

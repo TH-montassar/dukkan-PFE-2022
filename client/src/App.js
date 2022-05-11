@@ -33,7 +33,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className=" w-full font-sans">
+        <div className=" w-full font-PtSans">
           {/* {match && <Header />} */}
           <Routes>
             <Route path="/" element={<Landing />}></Route>

@@ -48,21 +48,21 @@ const OrderAction = ({ isOpen, closeModal, id }) => {
                 }}
                 className="inline-flex   flex-col items-center justify-center rounded-md border border-transparent bg-info px-4 py-0.5 text-sm font-medium text-white hover:bg-infoDark focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               >
-                <i class=" text-3xl	   fa-regular fa-circle-check"></i>
+                <i className=" text-3xl	   fa-regular fa-circle-check"></i>
                 <div className=" "> confirm</div>
               </button>
 
               <button
                 onClick={() => {
-                  dispatch(merchantOrders());
+                 
                   closeModal();
                   dispatch(fulfilledOrder(id));
-                  dispatch(merchantOrders());
+                  
                 }}
                 type="button"
                 className="inline-flex   flex-col items-center justify-center rounded-md border border-transparent bg-Success hover:bg-SuccessDark px-4 py-0.5 text-sm font-medium text-white  focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               >
-                <i class=" text-3xl	 fa-solid fa-clipboard-check"></i>
+                <i className=" text-3xl	 fa-solid fa-clipboard-check"></i>
                 <div> fulfill</div>
               </button>
               <button
@@ -73,7 +73,7 @@ const OrderAction = ({ isOpen, closeModal, id }) => {
                 type="button"
                 className="inline-flex   flex-col items-center justify-center rounded-md border border-transparent bg-danger px-4 py-0.5 text-sm font-medium text-white hover:bg-dangerDark focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               >
-                <i class=" text-3xl fa-regular fa-rectangle-xmark"></i>
+                <i className=" text-3xl fa-regular fa-rectangle-xmark"></i>
                 <div>cancel</div>
               </button>
             </div>

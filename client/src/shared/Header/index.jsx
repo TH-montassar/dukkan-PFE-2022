@@ -110,7 +110,7 @@ const Header = () => {
           onChange={(e) => setQuery(e.target.value)}
           //te5o valour m state   wo tafichih  value={Query}
           value={Query}
-          placeholder="Searsh here"
+          placeholder="Search here"
         />
         {/**make samthig in senter top-[calc(50%-14px)] */}
         <button

@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo/logostore.svg";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import imagePro from "../../assets/image/irene-kredenets-KStSiM1UvPw-unsplash.jpg";
-import profile1 from "../../assets/image/p1.jpg";
+
 import profile2 from "../../assets/image/p2.jpg";
-import profile3 from "../../assets/image/p3.jpg";
+
 import { parseISO, format } from "date-fns";
 import { getProduct } from "../../redux/Actions/product.action";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +14,7 @@ import Footer from "../../shared/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { addToCart } from "../../redux/Actions/cart.action";
+import AddReview from "../../shared/AddReview";
 const ProductDetails = () => {
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -34,6 +34,9 @@ const ProductDetails = () => {
   const closeToast = () => {
     toast("added product successfully", { autoClose: 1500 });
   };
+
+  let [isOpen, setIsOpen] = useState(false);
+  const [IdProduct, setIdProduct] = useState(null);
   return isLoading ? (
     <Spinner />
   ) : (
@@ -60,8 +63,10 @@ const ProductDetails = () => {
             />
           </div>
           <div className="">
-            <div className="flex justify-between">
-              <h1 className=" text-2xl font-semibold">Title{product?.title}</h1>
+            <div className="flex justify-between items-center">
+              <h1 className=" text-2xl font-semibold">
+                Title :{product?.title}
+              </h1>
 
               <ul className="flex justify-center drop-shadow-lg">
                 <li>
@@ -212,31 +217,7 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        <div className="flex flex-1 gap-5 overflow-x-auto snap-x justify-center	snap-mandatory py-16">
-          {/* //*---------------------review--------------------------------------------------------------------------------------------------- */}
-          {product?.reviews?.length > 0 &&
-            product.reviews.map((review) => {
-              return (
-                <div className="min-w-[20rem]	h-44 bg-white  flex items-start	gap-3 rounded border border-sky-400	p-5 snap-center drop-shadow-lg">
-                  <img
-                    className="object-cover	 w-16 h-16   border border-Primary  rounded-full"
-                    src={profile2}
-                    alt="imgProfile"
-                  />
-
-                  <div className="font-sans w-48 ">
-                    <div className="text-2xl">foule fouleni</div>
-                    <div className="whitespace-normal pt-5">
-                      {review?.comment}
-                      {review?.rating}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          {/* //*------------------------------------------------------------------------------------------------------------------------ */}
-        </div>
-        <div className="flex  border  items-center border-cyan-500 mx-auto max-w-max rounded shadow-2xl mt-32 max-h-24 px-10 py-[3.5rem] max-w-max">
+        <div className="flex mb-5 border  items-center border-cyan-500 mx-auto rounded-lg shadow-xl max-h-24 px-10 py-[3.5rem] max-w-max">
           <div className="flex max-w-xl items-center">
             <div className="text-xl">Order Summary</div>
             <div className="w-24 max-h">
@@ -281,6 +262,54 @@ const ProductDetails = () => {
           </button>
           <ToastContainer autoClose={1000} />
         </div>
+        <button
+          /*  */
+          /*  */
+          onClick={() => {
+            setIsOpen(true);
+            setIdProduct(product._id);
+          }}
+          type="button"
+          className="bg-info hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl flex justify-center maw-w-max mx-auto"
+        >
+          Add Review
+        </button>
+        <AddReview
+          isOpen={isOpen}
+          closeModal={() => setIsOpen(false)}
+          id={IdProduct}
+        />
+        <div className="flex flex-1 gap-5 overflow-x-auto snap-x justify-center	snap-mandatory py-16">
+          {/* //*---------------------review--------------------------------------------------------------------------------------------------- */}
+          {product?.reviews?.length > 0 ? (
+            product.reviews.map((review) => {
+              return (
+                <div className="min-w-[20rem]	h-44 bg-white  flex items-start	gap-3 rounded border border-sky-400	p-5 snap-center drop-shadow-lg">
+                  <img
+                    className="object-cover	 w-16 h-16   border border-Primary  rounded-full"
+                    src={profile2}
+                    alt="imgProfile"
+                  />
+
+                  <div className="font-sans w-48 ">
+                    <div className="text-2xl">foule fouleni</div>
+                    <div className="whitespace-normal pt-5">
+                      {review?.comment}
+                      {review?.rating}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className=" bg-white">
+              <h1 className="text-center"> Review</h1>
+              <p>no reviews for this product</p>
+            </div>
+          )}
+          {/* //*------------------------------------------------------------------------------------------------------------------------ */}
+        </div>
+
         <div className="w-max mx-auto pt-24"> YOU MAY ALSO LIKE</div>
 
         {/* <YouMayAlsoLike/> */}
