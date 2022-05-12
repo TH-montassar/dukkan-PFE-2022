@@ -4,6 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { addToCart } from "../../redux/Actions/cart.action";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import {
+  addItemToWishlist,
+  getMyWishlist,
+} from "../../redux/Actions/wishlist.action";
 const ProductItem = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -13,27 +17,41 @@ const ProductItem = ({ product }) => {
   const closeToast = () => {
     toast("added product successfully", { autoClose: 1500 });
   };
+  const addWishlist = () => {
+    toast("added to wishlist successfully", { autoClose: 1500 });
+  };
 
   return (
     <div className="h-80 min-w-[15rem] relative shadow-xl rounded-2xl snap-center">
       <button
         type="button"
-        className="left-1 top-1 absolute bg-white rounded-full  w-5 h-5 flex justify-center items-center hover:bg-Primary hover:text-white"
+        onClick={() => {
+          if (isAuthenticated) {
+           
+            dispatch(addItemToWishlist(product._id));
+            dispatch(getMyWishlist());
+          } else {
+            navigate("/login");
+            //  <ToastContainer autoClose={1000} />;
+          }
+          addWishlist();
+        }}
+        className="left-2 top-2 absolute bg-white rounded-full  w-5 h-5 flex justify-center items-center  text-danger hover:bg-danger hover:text-white"
       >
         <i className="fa-regular fa-heart "></i>
       </button>
 
-      <Link to={`/details/${product.slug}`}>
+      <Link to={`/details/${product?.slug}`}>
         <img
           className="rounded-t-2xl h-2/3 ease-in-out w-full object-cover"
-          src={product.image}
-          alt={product.slug}
+          src={product?.image}
+          alt={product?.slug}
         />
       </Link>
 
       <div className="grid grid-col-1   h-1/3 w-full  pb-2 px-2 items-center">
         <div className="flex flex-row items-center justify-between">
-          <h1 className=" truncate ">{product.title}</h1>
+          <h1 className=" truncate ">{product?.title}</h1>
           <ul className="flex justify-center">
             <li>
               <svg
@@ -123,7 +141,7 @@ const ProductItem = ({ product }) => {
           </ul>
         </div>
         <div className="flex flex-row items-center justify-between">
-          <div className="truncate">{product.price} TND</div>
+          <div className="truncate">{product?.price} TND</div>
 
           <button
             onClick={() => {

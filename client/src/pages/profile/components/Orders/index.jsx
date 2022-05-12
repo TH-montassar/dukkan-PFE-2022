@@ -18,7 +18,7 @@ const Orders = () => {
   return isLoading ? (
     <Spinner />
   ) : (
-    <div className="w-full h-full">
+    <div className="w-full h-full font-Roboto">
       <div className=" flex justify-between pt-5 px-5 sm:flex-col text-3xl md:text-2xl">
         <h1 className=" "> Order History</h1>
         <h1 className=" "> number of orders :{orders.length}</h1>

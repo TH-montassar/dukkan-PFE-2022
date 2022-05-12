@@ -1,12 +1,9 @@
 import React from "react";
 import Footer from "../../shared/Footer";
 import Header from "../../shared/Header";
-import { Link, Navigate, Routes, Route } from "react-router-dom";
-import PersonnelInformation from "./components/PersonnelInformation";
-import Orders from "./components/Orders";
-import Wishlist from "./components/Wishlist";
-import Address from "./components/Address";
-import Carts from "./components/Carts";
+import { Link } from "react-router-dom";
+
+import { Outlet } from "react-router-dom";
 const Profile = () => {
   return (
     <div>
@@ -34,10 +31,10 @@ const Profile = () => {
             </Link>
             <Link
               to="/profile/wishlist"
-              className="    hover:bg-info   rounded-lg  hover:text-white flex flex-col gap-2 items-center justify-center h-1/5 py-7 px-5"
+              className="    hover:bg-info   rounded-lg  hover:text-danger flex flex-col gap-2 items-center justify-center h-1/5 py-7 px-5"
             >
-              <i className="    transition  ease-in-out duration-3000  hover:scale-110 text-5xl sm:text-xl fa-solid fa-heart-circle-check"></i>
-              <h3 className="sm:truncate sm:w-0 sm:h-0">my Wishlist</h3>
+              <i className="    transition  ease-in-out duration-3000  hover:scale-110  text-5xl sm:text-xl fa-solid fa-heart-circle-check"></i>
+              <h3 className="sm:truncate sm:w-0 sm:h-0 ">my Wishlist</h3>
             </Link>
             <Link
               to="/profile/address"
@@ -54,14 +51,8 @@ const Profile = () => {
               <h3 className="sm:truncate sm:w-0 sm:h-0 ">my carts</h3>
             </Link>
           </aside>
-          <section className="w-4/5  rounded-lg   flex flex-col bg-white  overflow-scroll  overscroll-y-contain snap-y	snap-mandatory min-h-screen">
-            <Routes>
-              <Route path="/" element={<PersonnelInformation />}></Route>
-              <Route path="/orders" element={<Orders />}></Route>
-              <Route path="/wishlist" element={<Wishlist />}></Route>
-              <Route path="/address" element={<Address />}></Route>
-              <Route path="/carts" element={<Carts />}></Route>
-            </Routes>
+          <section className="w-4/5  rounded-lg   flex flex-col bg-white   min-h-screen">
+            <Outlet />
           </section>
         </article>
       </div>

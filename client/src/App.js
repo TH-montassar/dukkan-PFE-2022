@@ -17,6 +17,16 @@ import Search from "./pages/search";
 import Header from "./shared/Header";
 import Profile from "./pages/profile";
 import PersonnelInformation from "./pages/profile/components/PersonnelInformation";
+import AddProduct from "./pages/Dashboard/components/AddProduct";
+import Product from "./pages/Dashboard/components/Products";
+import Customer from "./pages/Dashboard/components/Customer";
+import Order from "./pages/Dashboard/components/Order";
+import Category from "./pages/Dashboard/components/Category";
+import Orders from "./pages/profile/components/Orders";
+import Wishlist from "./pages/profile/components/Wishlist";
+import Address from "./pages/profile/components/Address";
+import Carts from "./pages/profile/components/Carts";
+import RequiredAuth from "./routes/RequiredAuth";
 function App() {
   useEffect(() => {
     if (localStorage.token) {
@@ -36,28 +46,49 @@ function App() {
         <div className=" w-full font-PtSans">
           {/* {match && <Header />} */}
           <Routes>
-            <Route path="/" element={<Landing />}></Route>
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/home/:storeId" element={<Home />}></Route>
+            <Route path="/" element={<RequiredAuth />}>
+              <Route path="" element={<Landing />}></Route>
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/home/:storeId" element={<Home />}></Route>
+              <Route path="/profile" element={<Profile />}>
+                <Route path="" element={<PersonnelInformation />}></Route>
+                <Route path="orders" element={<Orders />}></Route>
+                <Route path="wishlist" element={<Wishlist />}></Route>
+                <Route path="address" element={<Address />}></Route>
+                <Route path="carts" element={<Carts />}></Route>
+              </Route>
+              <Route
+                path="/personnelInformation"
+                element={<PersonnelInformation />}
+              ></Route>
+              <Route path="/details/:slug" element={<ProductDetails />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoutes>
+                    <Dashboard />
+                  </PrivateRoutes>
+                }
+              >
+                <Route
+                  path="addProduct"
+                  element={
+                    <PrivateRoutes>
+                      <AddProduct />
+                    </PrivateRoutes>
+                  }
+                ></Route>
+                <Route path="product" element={<Product />}></Route>
+                <Route path="customer" element={<Customer />}></Route>
+                <Route path="order" element={<Order />}></Route>
+                <Route path="category" element={<Category />}></Route>
+              </Route>
+
+              {/* <Route path="*" elem ent={<ErrorPage />}></Route> */}
+            </Route>
             <Route path="/login" element={<Login />}></Route>
-            <Route path="/profile/*" element={<Profile />}></Route>
-
             <Route path="/register" element={<Register />}></Route>
-            <Route path="/personnelInformation" element={<PersonnelInformation />}></Route>
-            
-
-            <Route path="/details/:slug" element={<ProductDetails />} />
-            <Route
-              path="/dashboard/*"
-              element={
-                <PrivateRoutes>
-                  <Dashboard />
-                </PrivateRoutes>
-              }
-            ></Route>
-
-            {/* <Route path="*" element={<ErrorPage />}></Route> */}
           </Routes>
         </div>
       </BrowserRouter>

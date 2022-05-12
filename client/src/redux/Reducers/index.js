@@ -8,6 +8,7 @@ import cartReducers from "./cart.reducers";
 import orderReducers from "./order.reducers";
 import addressReducers from "./address.reducers";
 import profileReducers from "./profile.reducers";
+import wishlistReducers from "./wishlist.reducers";
 export default combineReducers({
   adminReducers,
   authReducers,
@@ -18,4 +19,5 @@ export default combineReducers({
   orderReducers,
   addressReducers,
   profileReducers,
+  wishlistReducers,
 });

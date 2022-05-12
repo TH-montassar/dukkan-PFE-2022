@@ -15,7 +15,7 @@ const ProductReducers = (state = initialState, action) => {
   switch (type) {
     case REVIEW_LOADING:
       return {
-        ...state,
+        ...state, 
         isLoading: true,
       };
 

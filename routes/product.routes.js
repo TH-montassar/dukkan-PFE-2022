@@ -95,6 +95,7 @@ router.param("review", async (req, res, next, id) => {
 
 const multer = require("multer");
 const path = require("path");
+const { addToWishlist, getMyWishlist } = require("../controllers/wishlist.controllers");
 
 const storage = multer.diskStorage({
   destination: "./uploads",
@@ -151,6 +152,8 @@ router.delete("/category/:category", verifyToken, isMerchant, deleteCategory);
 //review routes
 router.post("/:product/review", verifyToken, /*isCustomer,*/ addReview);
 router.put("/review/:review", verifyToken, isReviewOwner, updateReview);
-//router.get("/:product/review", verifyToken, getReviewByproduct);
+//wishlist
+router.get("/:product/wishlist", verifyToken, isCustomer, addToWishlist);
+router.get("/wishlist", verifyToken, isCustomer, getMyWishlist);
 
 module.exports = router;

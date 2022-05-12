@@ -25,6 +25,7 @@ import Store from "./components/Store";
 import Customer from "./components/Customer";
 import Order from "./components/Order";
 import { merchantOrders } from "../../redux/Actions/order.action";
+import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   const { isLoading, isAuthenticated, user } = useSelector((state) => {
@@ -257,21 +258,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
-        <Routes>
-          <Route
-            path="/addProduct"
-            element={
-              <PrivateRoutes>
-                <AddProduct />
-              </PrivateRoutes>
-            }
-          ></Route>
-          <Route path="/product" element={<Product />}></Route>
-          <Route path="/customer" element={<Customer />}></Route>
-          <Route path="/order" element={<Order />}></Route>
-          <Route path="/category" element={<Category />}></Route>
-        </Routes>
+        <Outlet />
       </section>
     </div>
   );

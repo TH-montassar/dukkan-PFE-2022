@@ -25,7 +25,6 @@ const ProductReducers = (state = initialState, action) => {
     case GET_PRODUCTS:
       return {
         ...state,
-
         products: payload,
         isLoading: false,
       };

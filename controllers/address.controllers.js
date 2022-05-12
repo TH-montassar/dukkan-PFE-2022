@@ -11,13 +11,6 @@ const createAddress = async (req, res) => {
   });
   try {
     const savedAddress = await createAddress.save();
-    // console.log(saverAddress)
-
-    // const user =await User.findById(id)
-    //console.log(user)
-    // user.address=savedAddress._id;
-    // await user.save()
-    //
 
     return res.status(201).json(savedAddress);
   } catch (err) {

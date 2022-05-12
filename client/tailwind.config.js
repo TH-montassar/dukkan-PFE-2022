@@ -25,7 +25,7 @@ module.exports = {
         Success: "#5AB717",
         SuccessDark: "#0C6824",
         Warning: "#AF9803",
-        danger: "#DB2E36",
+        danger: "#FF3126",
         dangerDark: "#7A180A",
         info: "#009BDD",
         infoDark: "#005A9F",
