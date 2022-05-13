@@ -53,8 +53,7 @@ const OrderAction = ({ isOpen, closeModal, id }) => {
               </button>
 
               <button
-                onClick={() => {
-                 
+                onClick={() => {                 
                   closeModal();
                   dispatch(fulfilledOrder(id));
                   

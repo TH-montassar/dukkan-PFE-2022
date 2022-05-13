@@ -47,7 +47,7 @@ const Dashboard = () => {
   let [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(merchantOrders());
+    dispatch(merchantOrders({ status: "pending" }));
   }, [isAuthenticated]);
   const { orders } = useSelector((state) => state.orderReducers);
 

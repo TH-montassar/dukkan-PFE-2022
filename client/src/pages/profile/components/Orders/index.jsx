@@ -6,6 +6,7 @@ import "./index.css";
 import { parseISO, format } from "date-fns";
 import { ChevronUpIcon } from "@heroicons/react/solid";
 import { Disclosure } from "@headlessui/react";
+import { Fragment } from "react";
 const Orders = () => {
   const { isAuthenticated, user } = useSelector((state) => {
     return state.authReducers;
@@ -34,74 +35,75 @@ const Orders = () => {
         <div>STORE</div>
       </div>
 
-      <Disclosure>
-        {({ open }) =>
-          orders.orders?.length > 0 &&
-          orders.orders.map((order) => (
-            <div
-              key={order._id}
-              className="w-[90%] 	border-gray pb-10 flex flex-col justify-center items-center border-t mx-auto "
-            >
-              <Disclosure.Button className="grid grid-flow-col gap-10 items-center font-medium	 ">
-                <td>{order._id}</td>
-                <td> {format(parseISO(order.createdAt), "P")}</td>
-                <td>{order.totalPrice} TND</td>
-                <td>{order.totalPriceWithTax} TND</td>
-                <td>
-                  <div className="cursor-pointer  select-none py-1.5 rounded-md transition	duration-300		 	hover:scale-95 ">
-                    {order.status === "pending" ? (
-                      <div className="text-Warning ">{order.status}</div>
-                    ) : order.status === "canceled" ? (
-                      <div className="text-danger">{order.status}</div>
-                    ) : order.status === "confirmed" ? (
-                      <div className="text-info">{order.status}</div>
-                    ) : (
-                      <div className="text-Success">{order.status}</div>
-                    )}
-                  </div>
-                </td>
-                <td className="grid grid-flow-col grid-rows-2">
-                  <div>
-                    {order.address.country},{order.address.city}
-                  </div>
-                  <div>
-                    {order.address.street},{order.address.zipCode}
-                  </div>
-                </td>
-
-                <td>{order.store.title}</td>
-                <ChevronUpIcon
-                  className={`${
-                    open ? "rotate-180 transform" : ""
-                  } h-5 w-5 text-info`}
-                />
-              </Disclosure.Button>
-
-              <Disclosure.Panel className="pt-5 grid grid-flow-row sm:grid-flow-row w-[80%] items-center justify-center mx-auto">
-                {order.items.length > 0 &&
-                  order.items.map((product) => {
-                    return (
-                      <div className="grid grid-flow-col gap-7 ">
-                        <p>
-                          product: <span>{product.product?.title} </span>
-                        </p>
-                        <p>
-                          price: <span>{product.price} </span>
-                        </p>
-                        <p>
-                          quantity : <span>{product.quantity} </span>
-                        </p>
-                        <p>
-                          total : <span>{product.total} </span>{" "}
-                        </p>
+      {orders.orders?.length > 0 &&
+        orders.orders.map((order) => (
+          <div
+            key={order._id}
+            className="w-[90%] 	border-gray pb-10 flex flex-col justify-center items-center border-t mx-auto "
+          >
+            <Disclosure>
+              {({ open }) => (
+                <Fragment>
+                  <Disclosure.Button className="grid grid-flow-col gap-10 items-center font-medium">
+                    <td>{order._id}</td>
+                    <td> {format(parseISO(order.createdAt), "P")}</td>
+                    <td>{order.totalPrice} TND</td>
+                    <td>{order.totalPriceWithTax} TND</td>
+                    <td>
+                      <div className="cursor-pointer  select-none py-1.5 rounded-md transition	duration-300		 	hover:scale-95 ">
+                        {order.status === "pending" ? (
+                          <div className="text-Warning ">{order.status}</div>
+                        ) : order.status === "canceled" ? (
+                          <div className="text-danger">{order.status}</div>
+                        ) : order.status === "confirmed" ? (
+                          <div className="text-info">{order.status}</div>
+                        ) : (
+                          <div className="text-Success">{order.status}</div>
+                        )}
                       </div>
-                    );
-                  })}
-              </Disclosure.Panel>
-            </div>
-          ))
-        }
-      </Disclosure>
+                    </td>
+                    <td className="grid grid-flow-col grid-rows-2">
+                      <div>
+                        {order.address.country},{order.address.city}
+                      </div>
+                      <div>
+                        {order.address.street},{order.address.zipCode}
+                      </div>
+                    </td>
+
+                    <td>{order.store.title}</td>
+                    <ChevronUpIcon
+                      className={`${
+                        open ? "rotate-180 transform" : ""
+                      } h-5 w-5 text-info`}
+                    />
+                  </Disclosure.Button>
+                  <Disclosure.Panel className="pt-5 grid grid-flow-row sm:grid-flow-row w-[80%] items-center justify-center mx-auto">
+                    {order.items.length > 0 &&
+                      order.items.map((product) => {
+                        return (
+                          <div className="grid grid-flow-col gap-7 ">
+                            <p>
+                              product: <span>{product.product?.title} </span>
+                            </p>
+                            <p>
+                              price: <span>{product.price} </span>
+                            </p>
+                            <p>
+                              quantity : <span>{product.quantity} </span>
+                            </p>
+                            <p>
+                              total : <span>{product.total} </span>{" "}
+                            </p>
+                          </div>
+                        );
+                      })}
+                  </Disclosure.Panel>
+                </Fragment>
+              )}
+            </Disclosure>
+          </div>
+        ))}
     </div>
   );
 };

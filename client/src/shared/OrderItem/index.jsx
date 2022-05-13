@@ -16,10 +16,11 @@ const OrderItem = () => {
   return isLoading ? (
     <Spinner />
   ) : (
-    <div className="font-Roboto">
+    <div className="">
       <OrderAction
         isOpen={isOpen}
         closeModal={() => {
+          dispatch(merchantOrders());
           setIsOpen(false);
           dispatch(merchantOrders());
         }}
@@ -40,11 +41,11 @@ const OrderItem = () => {
           </tr>
         </thead>
         <tbody className="">
-          <Disclosure>
-            {({ open }) =>
-              orders.orders?.length > 0 ? (
-                orders.orders.map((order, index) => (
-                  <Fragment key={order._id}>
+          {orders.orders?.length > 0 ? (
+            orders.orders.map((order) => (
+              <Disclosure>
+                {({ open }) => (
+                  <Fragment>
                     <tr className="border-gray border-t">
                       <td className="text-slate-500 hover:text-black">
                         {order._id}
@@ -132,21 +133,18 @@ const OrderItem = () => {
                       </td>
                     </tr>
                   </Fragment>
-                ))
-              ) : (
-                <tr className=" flex  flex-row justify-center">
-                  {" "}
-                  <td colSpan="10">No order</td>{" "}
-                </tr>
-              )
-            }
-          </Disclosure>
+                )}
+              </Disclosure>
+            ))
+          ) : (
+            <tr className=" flex  flex-row justify-center">
+              <td colSpan="10">No order</td>{" "}
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
   );
 };
-
-
 
 export default OrderItem;
