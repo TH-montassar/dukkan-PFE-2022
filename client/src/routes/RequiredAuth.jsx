@@ -9,6 +9,7 @@ const RequiredAuth = () => {
     }
   );
   const location = useLocation();
+
   if (isError && !isSuccess && !isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

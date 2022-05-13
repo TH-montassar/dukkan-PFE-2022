@@ -20,6 +20,9 @@ const ProductItem = ({ product }) => {
   const addWishlist = () => {
     toast("added to wishlist successfully", { autoClose: 1500 });
   };
+  const loginFirst = () => {
+    toast("login first", { autoClose: 1500 });
+  };
 
   return (
     <div className="h-80 min-w-[15rem] relative shadow-xl rounded-2xl snap-center">
@@ -27,14 +30,12 @@ const ProductItem = ({ product }) => {
         type="button"
         onClick={() => {
           if (isAuthenticated) {
-           
             dispatch(addItemToWishlist(product._id));
             dispatch(getMyWishlist());
+            addWishlist();
           } else {
-            navigate("/login");
-            //  <ToastContainer autoClose={1000} />;
+            loginFirst();
           }
-          addWishlist();
         }}
         className="left-2 top-2 absolute bg-white rounded-full  w-5 h-5 flex justify-center items-center  text-danger hover:bg-danger hover:text-white"
       >
@@ -153,11 +154,10 @@ const ProductItem = ({ product }) => {
                     quantity: 1,
                   })
                 );
+                closeToast();
               } else {
-                navigate("/login");
-                //  <ToastContainer autoClose={1000} />;
+                loginFirst();
               }
-              closeToast();
             }}
             type="button"
             className="bg-info   mt-auto hover:bg-Primary text-white font-bold py-2 px-4 rounded-full"
@@ -167,7 +167,6 @@ const ProductItem = ({ product }) => {
         </div>
         <ToastContainer
           autoClose={1000}
-          position="top-center"
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

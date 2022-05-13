@@ -31,9 +31,7 @@ const ProductDetails = () => {
   const { isAuthenticated } = useSelector((state) => {
     return state.authReducers;
   });
-  const closeToast = () => {
-    toast("added product successfully", { autoClose: 1500 });
-  };
+  
 
   let [isOpen, setIsOpen] = useState(false);
   const [IdProduct, setIdProduct] = useState(null);
@@ -250,10 +248,8 @@ const ProductDetails = () => {
                   })
                 );
               } else {
-                navigate("/login");
-                //  <ToastContainer autoClose={1000} />;
+                toast("login first", { autoClose: 500 });
               }
-              closeToast();
             }}
             type="button"
             className="bg-info hover:bg-infoDark text-white font-bold py-2 px-4 rounded-full"
@@ -266,8 +262,14 @@ const ProductDetails = () => {
           /*  */
           /*  */
           onClick={() => {
-            setIsOpen(true);
-            setIdProduct(product._id);
+            if (isAuthenticated) {
+              setIsOpen(true);
+              setIdProduct(product._id);
+              
+            } else {
+              toast("login first", { autoClose: 500 });
+            }
+            
           }}
           type="button"
           className="bg-info hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl flex justify-center maw-w-max mx-auto"
@@ -276,7 +278,8 @@ const ProductDetails = () => {
         </button>
         <AddReview
           isOpen={isOpen}
-          closeModal={() => setIsOpen(false)}
+          closeModal={() => {setIsOpen(false);dispatch(getProduct(slug))}}
+         
           id={IdProduct}
         />
         <div className="flex flex-1 gap-5 overflow-x-auto snap-x justify-center	snap-mandatory py-16">

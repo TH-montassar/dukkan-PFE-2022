@@ -9,7 +9,7 @@ import search from "../../assets/icon/iconserch.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/Actions/auth.action";
 import avatar from "../../assets/image/profilelINKDINE.png";
-import { getCategories } from "../../redux/Actions/category.action";
+import { getCategories,get_categories_By_store } from "../../redux/Actions/category.action";
 import Spinner from "../Spinner";
 import Login from "../../pages/Login";
 import {
@@ -54,7 +54,7 @@ const Header = () => {
   });
 
   useEffect(() => {
-    dispatch(getCategories({}));
+    dispatch(get_categories_By_store({}));
   }, []);
 
   const { categories } = useSelector((state) => {

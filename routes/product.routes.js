@@ -4,6 +4,8 @@ const {
   getCategory,
   getCategories,
   deleteCategory,
+  getMyCategories,
+  getAllCategories,
 } = require("../controllers/category.controllers");
 const {
   createProduct,
@@ -95,7 +97,10 @@ router.param("review", async (req, res, next, id) => {
 
 const multer = require("multer");
 const path = require("path");
-const { addToWishlist, getMyWishlist } = require("../controllers/wishlist.controllers");
+const {
+  addToWishlist,
+  getMyWishlist,
+} = require("../controllers/wishlist.controllers");
 
 const storage = multer.diskStorage({
   destination: "./uploads",
@@ -139,15 +144,15 @@ router.delete("/:product", verifyToken, isMerchant, deleteProduct);
 router.post(
   "/category",
   verifyToken,
-  // isMerchant,
+  isMerchant,
   upload.single("image"),
   createCategory
 );
-
 router.put("/category/:category", verifyToken, isMerchant, updateCategory);
 router.get("/category/:categorySlug", verifyToken, getCategory);
-router.get("/categories", getCategories);
-
+router.get("/get_categories_By_store",verifyStore, getCategories);
+router.get("/me_categories", verifyToken, getCategories);
+router.get("/all_categories", getAllCategories);
 router.delete("/category/:category", verifyToken, isMerchant, deleteCategory);
 //review routes
 router.post("/:product/review", verifyToken, /*isCustomer,*/ addReview);

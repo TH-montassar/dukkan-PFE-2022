@@ -46,23 +46,23 @@ function App() {
         <div className=" w-full font-PtSans">
           {/* {match && <Header />} */}
           <Routes>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/register" element={<Register />}></Route>
+            <Route path="/landing" element={<Landing />}></Route>
+            <Route path="home/:storeId" element={<Home />}></Route>
+            <Route path="search" element={<Search />} />
+            <Route path="/details/:slug" element={<ProductDetails />} />
             <Route path="/" element={<RequiredAuth />}>
               <Route path="" element={<Landing />}></Route>
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/home/:storeId" element={<Home />}></Route>
-              <Route path="/profile" element={<Profile />}>
+              <Route path="cart" element={<Cart />} />
+              <Route path="profile" element={<Profile />}>
                 <Route path="" element={<PersonnelInformation />}></Route>
                 <Route path="orders" element={<Orders />}></Route>
                 <Route path="wishlist" element={<Wishlist />}></Route>
                 <Route path="address" element={<Address />}></Route>
                 <Route path="carts" element={<Carts />}></Route>
               </Route>
-              <Route
-                path="/personnelInformation"
-                element={<PersonnelInformation />}
-              ></Route>
-              <Route path="/details/:slug" element={<ProductDetails />} />
+
               <Route
                 path="/dashboard"
                 element={
@@ -87,8 +87,6 @@ function App() {
 
               {/* <Route path="*" elem ent={<ErrorPage />}></Route> */}
             </Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/register" element={<Register />}></Route>
           </Routes>
         </div>
       </BrowserRouter>

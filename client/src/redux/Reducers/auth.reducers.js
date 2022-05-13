@@ -60,7 +60,7 @@ const AuthReducers = (state = initialState, action) => {
         isLoading: false,
         isAuthenticated: false,
         isError: false,
-        isSuccess: true,
+        isSuccess: false,
       };
     case AUTH_ERROR:
       localStorage.removeItem("token");

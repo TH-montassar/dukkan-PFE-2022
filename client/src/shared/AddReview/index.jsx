@@ -3,6 +3,7 @@ import { Dialog } from "@headlessui/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { add_Review } from "../../redux/Actions/review.action";
+import { getProduct } from "../../redux/Actions/product.action";
 const AddReview = ({ isOpen, closeModal, id }) => {
   const [isModalOpen, setIsModalOpen] = useState(isOpen);
   useEffect(() => {
@@ -26,8 +27,9 @@ const AddReview = ({ isOpen, closeModal, id }) => {
       rating: "",
       comment: "",
     });
-    closeModal()
-    
+ 
+    closeModal();
+   
   };
   return (
     <>
@@ -36,7 +38,6 @@ const AddReview = ({ isOpen, closeModal, id }) => {
         as="div"
         onClose={closeModal}
         className="fixed inset-0 z-10 overflow-y-auto"
-
       >
         <div className=" bg-black  px-4 text-center  bg-secondary-dark bg-opacity-50">
           <Dialog.Overlay className="fixed inset-0" />
@@ -105,7 +106,6 @@ m-0"
 
                 <button
                   type="submit"
-                  
                   className=" w-full px-6 py-2.5
 bg-blue-600
 text-white

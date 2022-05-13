@@ -28,7 +28,7 @@ const upload = multer({
 });
 
 router.get("/me", verifyToken, isMerchant, getMyStore);
-router.get("/", verifyToken, verifyStore, getStore);
+router.get("/",  verifyStore, getStore);
 router.put("/update", verifyToken, upload.single("logo"), updateStore);
 
 module.exports = router;

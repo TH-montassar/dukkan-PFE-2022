@@ -7,12 +7,14 @@ const Landing = () => {
   const { isLoading, isAuthenticated, user } = useSelector((state) => {
     return state.authReducers;
   });
+
   if (user?.role === "merchant") {
     return <Navigate to={"/dashboard"} />;
   }
   if (user?.role === "customer") {
     return <Navigate to={`/home/${localStorage.store}`} />;
   }
+
   return (
     <div className="bg-wave bg-no-repeat  px-5">
       <header className="flex items-center justify-between text-white text-2xl 	">

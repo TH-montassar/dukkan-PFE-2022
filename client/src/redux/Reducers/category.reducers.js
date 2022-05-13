@@ -4,6 +4,7 @@ import {
   CATEGORY_LOADING,
   GET_CATEGORIES,
   GET_CATEGORY,
+  GET_CATEGORIES_BY_STORE,
 } from "../Constants/action";
 const initialState = {
   categories: [],
@@ -26,10 +27,23 @@ const CategoryReducers = (state = initialState, action) => {
         categories: payload,
         isLoading: false,
       };
+    case GET_CATEGORIES_BY_STORE:
+      return {
+        ...state,
+        /* Assigning the payload to the categories state. */
+        categories: payload,
+        isLoading: false,
+      };
     case GET_CATEGORY:
       return {
         ...state,
 
+        category: payload,
+        isLoading: false,
+      };
+    case ADD_CATEGORY:
+      return {
+        ...state,
         category: payload,
         isLoading: false,
       };

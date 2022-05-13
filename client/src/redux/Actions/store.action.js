@@ -51,7 +51,9 @@ export const updateStore = (data) => async (dispatch) => {
   });
 
   try {
-    const res = await instance.put(`/api/store/update`, data);
+    const res = await instance.put(`/api/store/update`, data,{
+      headers: { "Content-Type": "application/json" },
+    });
     dispatch({
       type: UPDATE_STORE,
       payload: res.data,

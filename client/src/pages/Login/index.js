@@ -34,14 +34,16 @@ const Login = () => {
 
 
   if (isAuthenticated) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={"/landing"} />;
   }
 
   return isLoading ? (
     <Spinner />
   ) : (
     <section className="px-10">
-      <img className="max-w-[13rem]" src={logo} alt="dukkan" />
+     <Link to ="/landing">
+     <img className="max-w-[13rem]" src={logo} alt="dukkan" />
+     </Link>
       <div className="flex flex-row justify-between md:flex-col items-center gap-3">
         <div className="w-[50%] flex flex-col justify-center	items-center gap-5">
           <div className="flex flex-row justify-center	items-center sm:flex-auto pb-12 font-cairo text-5xl md:text-3xl sm:text-2xl">
