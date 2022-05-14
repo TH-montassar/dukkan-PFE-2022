@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import homeImg from "../../assets/image/homeimg.png";
 import logo from "../../assets/logo/Dukkan.png";
-import { Link, Navigate, NavLink } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import google from "../../assets/icon/icons8-google.svg";
 import { login } from "../../redux/Actions/auth.action";
 import Spinner from "../../shared/Spinner";
@@ -18,7 +18,7 @@ const Login = () => {
     console.log(Form);
   };
   const OnSubmitForm = (e) => {
-    e.preventDefault(); //man5alouch navigateur ya3mel relode
+    e.preventDefault(); 
     dispatch(login(Form));
     setForm({
       email: "",

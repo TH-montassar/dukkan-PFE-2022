@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import { BrowserRouter, Routes, Route, useMatch } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -16,7 +16,7 @@ import Cart from "./pages/Cart";
 import Search from "./pages/search";
 import Header from "./shared/Header";
 import Profile from "./pages/profile";
-import PersonnelInformation from "./pages/profile/components/PersonnelInformation";
+import PersonnelInformation from "./shared/PersonnelInformation";
 import AddProduct from "./pages/Dashboard/components/AddProduct";
 import Product from "./pages/Dashboard/components/Products";
 import Customer from "./pages/Dashboard/components/Customer";
@@ -78,6 +78,10 @@ function App() {
                       <AddProduct />
                     </PrivateRoutes>
                   }
+                ></Route>
+                <Route
+                  path="my_info"
+                  element={<PersonnelInformation/>}
                 ></Route>
                 <Route path="product" element={<Product />}></Route>
                 <Route path="customer" element={<Customer />}></Route>

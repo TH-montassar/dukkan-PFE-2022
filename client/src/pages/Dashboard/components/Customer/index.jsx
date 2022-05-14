@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect } from "react";
 import { Fragment } from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 import { getCustomerByCarts } from "../../../../redux/Actions/cart.action";
 
 const Customer = () => {
-  let [countCustomer, setCountCustomer] = useState(0);
+ // let [countCustomer, setCountCustomer] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,7 +63,7 @@ const Customer = () => {
                   <div></div>;
                 }
               })}
-            {/* {setC(customerNum)} */}
+          
           </tbody>
         </table>
       </section>

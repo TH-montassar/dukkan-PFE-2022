@@ -1,7 +1,7 @@
 import React, { useState,  } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import car from "../../assets/image/car.png";
+
 import YouMayAlsoLike from "../../shared/YouMayAlsoLike";
 import Spinner from "../../shared/Spinner";
 import Header from "../../shared/Header";
@@ -26,14 +26,14 @@ const Cart = () => {
     country: user?.address?.country,
   });
   const onInputChange = (e) => {
-    e.preventDefault(); //man5alouch navigateur ya3mel relode
+    e.preventDefault(); 
     setAddress({ ...Address, [e.target.name]: e.target.value });
     // console.log(Address);
   };
   const onSubmitAddress = (e) => {
     e.preventDefault();
     dispatch(updateMyAddress(Address));
-    //ba3ed maykamel yraja formul fer8a
+    
     setAddress({
       ...Address,
       street: user?.address?.street,

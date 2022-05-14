@@ -8,7 +8,7 @@ const Footer = () => {
     return state.storeReducers;
   });
   return (
-    <footer className="bg-info flex flex-col w-full px-16 py-3 gap-y-1 flex-wrap">
+    <footer className="bg-Primary flex flex-col w-full px-16 py-3 gap-y-1 flex-wrap">
       <div className="flex justify-around items-center">
         <div className="flex gap-5 items-center ">
           <div className="flex flex-col items-center justify-center gap-5">

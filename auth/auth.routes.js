@@ -158,7 +158,9 @@ router.put("/updateInfo", verifyToken, async (req, res) => {
 
 router.get("/check", verifyToken, async (req, res) => {
   try {
-    const user = await User.findById(req.verifiedUser._id).populate("address");
+    const user = await User.findById(req.verifiedUser._id)
+      .populate("address")
+      .populate({ path: "profile", select: "avatar birthday " });
     if (!user) {
       return res.status(404).json("not found admin");
     } else {

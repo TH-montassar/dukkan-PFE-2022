@@ -49,21 +49,7 @@ router.param("product", async (req, res, next, id) => {
     return res.status(500).json(err);
   }
 });
-//param Store
-router.param("store", async (req, res, next, id) => {
-  try {
-    const store = await Store.findById(id);
 
-    if (!store) {
-      return res.status(404).json("not found store");
-    } else {
-      req.store = store;
-      next();
-    }
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-});
 //param category
 router.param("category", async (req, res, next, id) => {
   try {
@@ -150,12 +136,12 @@ router.post(
 );
 router.put("/category/:category", verifyToken, isMerchant, updateCategory);
 router.get("/category/:categorySlug", verifyToken, getCategory);
-router.get("/get_categories_By_store",verifyStore, getCategories);
+router.get("/get_categories_By_store", verifyStore, getCategories);
 router.get("/me_categories", verifyToken, getCategories);
 router.get("/all_categories", getAllCategories);
 router.delete("/category/:category", verifyToken, isMerchant, deleteCategory);
 //review routes
-router.post("/:product/review", verifyToken, /*isCustomer,*/ addReview);
+router.post("/:product/review", verifyToken, isCustomer, addReview);
 router.put("/review/:review", verifyToken, isReviewOwner, updateReview);
 //wishlist
 router.get("/:product/wishlist", verifyToken, isCustomer, addToWishlist);

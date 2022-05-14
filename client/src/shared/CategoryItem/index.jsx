@@ -1,14 +1,30 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 const CategoryItem = ({ category }) => {
+  const { isLoading, isAuthenticated, user } = useSelector((state) => {
+    return state.authReducers;
+  });
   return (
-    <div className="flex flex-col items-center transition  ease-in-out duration-500 hover:rounded-lg hover:scale-110 bg-white w-1/5 h-max">
-      <img
-        className="object-contain"
-        src={category.image}
-        alt={category.slug}
-      />
-      <p className="h-1/2"> {category.title}</p>
+    <div className="w-72 h-52 rounded-lg flex flex-col items-center justify-between   hover:border bg-white">
+      {user.role === "merchant" && isAuthenticated ? (
+        <Link className="w-full h-5/6" to="/dashboard/product">
+          <img
+            className="object-contain w-full h-full "
+            src={category.image}
+            alt={category.slug}
+          />
+        </Link>
+      ) : (
+        <Link className="w-full h-5/6" to={`/search?category=${category.slug}`}>
+          <img
+            className="object-contain w-full h-full "
+            src={category.image}
+            alt={category.slug}
+          />
+        </Link>
+      )}
+      <p className="w-full text-center h-1/6"> {category.title}</p>
     </div>
   );
 };

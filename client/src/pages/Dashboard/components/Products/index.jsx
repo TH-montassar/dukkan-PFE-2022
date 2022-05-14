@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Combobox, Transition, Dialog } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
-
 import Spinner from "../../../../shared/Spinner";
 import {
   deleteProduct,
@@ -28,9 +27,7 @@ const Product = () => {
         );
   const dispatch = useDispatch();
 
-  // const { store } = useSelector((state) => {
-  //   return state.storeReducers;
-  // });
+ 
   useEffect(() => {
     dispatch(getProducts({ limit: 999 }));
   }, []);
@@ -39,7 +36,7 @@ const Product = () => {
     return state.productReducers;
   });
 
-  const handlerClickdelete = (e, id) => {
+  const handlerClickDelete = (e, id) => {
     e.preventDefault();
     dispatch(deleteProduct(id));
   };
@@ -65,7 +62,7 @@ const Product = () => {
   const openModal = (e, index) => {
     e.preventDefault();
     const product = products[index];
-    const category = categories[index];
+    //const category = categories[index];
 
     setForm({
       title: product.title,
@@ -224,7 +221,7 @@ const Product = () => {
                     <img
                       className=" h-full max-w-[30%] object-contain rounded-md"
                       src={product.image}
-                      alt="fhfh"
+                      alt=""
                     />
                     <div className="w-[70%]">
                       <p>{product.title}</p>
@@ -345,7 +342,7 @@ const Product = () => {
                       <button
                         type="button"
                         onClick={(e) => {
-                          handlerClickdelete(e, product._id);
+                          handlerClickDelete(e, product._id);
                           openDeleteModal(e);
                         }}
                         className="bg-white border-2 py-1 px-2 hover:bg-info hover:text-white text-danger"

@@ -1,37 +1,27 @@
-import React, { useState, Fragment, useEffect, useRef } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import logo from "../../assets/logo/logostore.svg";
 import order from "../../assets/icon/order.svg";
 import product from "../../assets/icon/product.svg";
 import addProductIcon from "../../assets/icon/add.png";
-
 import admin from "../../assets/icon/admin.png";
 import goTo from "../../assets/icon/goto.svg";
 import pendingOrder from "../../assets/icon/orderPending.svg";
-import avatar from "../../assets/image/profilelINKDINE.png";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Routes, Route, useNavigate } from "react-router-dom";
 
-import AddProduct from "./components/AddProduct";
-import PrivateRoutes from "../../guards/PrivateRoutes";
-import Product from "./components/Products";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Outlet } from "react-router-dom";
 import Spinner from "../../shared/Spinner";
 import { logout } from "../../redux/Actions/auth.action";
 import { getCategories } from "../../redux/Actions/category.action";
 import { getMyStore } from "../../redux/Actions/store.action";
-import Category from "./components/Category";
 import Store from "./components/Store";
-import Customer from "./components/Customer";
-import Order from "./components/Order";
 import { merchantOrders } from "../../redux/Actions/order.action";
-import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   const { isLoading, isAuthenticated, user } = useSelector((state) => {
     return state.authReducers;
   });
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,7 +47,7 @@ const Dashboard = () => {
     <div className="flex flex-row w-full font-sans 	h-screen mb-10">
       <Store isOpen={isOpen} closeModal={() => setIsOpen(false)} />
 
-      <aside className="bg-info fixed  min-h-screen h-full overflow-y-auto  w-1/6 text-white font-medium">
+      <aside className="bg-Primary fixed  min-h-screen h-full overflow-y-auto  w-1/6 text-white font-medium">
         <i className="fa-solid fa-align-right pt-5 flex justify-end pr-2  text-lg lg:text-sm  "></i>
         <button
           onClick={() => setIsOpen(true)}
@@ -174,10 +164,10 @@ const Dashboard = () => {
                       <div className="px-1 py-1 ">
                         <Menu.Item>
                           {({ active }) => (
-                            <button
+                            <Link to="/dashboard/my_info"
                               className={`${
                                 active
-                                  ? "bg-violet-500 text-white"
+                                  ? "bg-info text-white"
                                   : "text-gray-900"
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
@@ -193,7 +183,7 @@ const Dashboard = () => {
                                 />
                               )}
                               Edit
-                            </button>
+                            </Link>
                           )}
                         </Menu.Item>
                       </div>
@@ -248,10 +238,10 @@ const Dashboard = () => {
                 </Menu>
               </div>
 
-              <Link to="/personnelInformation">
+              <Link to="/dashboard/my_info" className=" w-14 h-14 sm:w-10 sm:h-10">
                 <img
-                  className="max-w-[3rem]  rounded-full"
-                  src={avatar}
+                  className="object-cover  w-full h-full  rounded-full"
+                  src={user.profile?.avatar}
                   alt="avatar"
                 />
               </Link>
@@ -291,7 +281,7 @@ function EditActiveIcon(props) {
     >
       <path
         d="M4 13V16H7L16 7L13 4L4 13Z"
-        fill="#8B5CF6"
+        fill="#05A7FF"
         stroke="#C4B5FD"
         strokeWidth="2"
       />
@@ -357,36 +347,6 @@ function ArchiveActiveIcon(props) {
         strokeWidth="2"
       />
       <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
-    </svg>
-  );
-}
-
-function MoveInactiveIcon(props) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M10 4H16V10" stroke="#A78BFA" strokeWidth="2" />
-      <path d="M16 4L8 12" stroke="#A78BFA" strokeWidth="2" />
-      <path d="M8 6H4V16H14V12" stroke="#A78BFA" strokeWidth="2" />
-    </svg>
-  );
-}
-
-function MoveActiveIcon(props) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M10 4H16V10" stroke="#C4B5FD" strokeWidth="2" />
-      <path d="M16 4L8 12" stroke="#C4B5FD" strokeWidth="2" />
-      <path d="M8 6H4V16H14V12" stroke="#C4B5FD" strokeWidth="2" />
     </svg>
   );
 }

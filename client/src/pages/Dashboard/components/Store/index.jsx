@@ -16,7 +16,7 @@ const Store = ({ isOpen, closeModal }) => {
     bio: store?.bio,
   });
   const [file, setFile] = useState("");
-  const [url, setUrl] = useState(store?.logo);
+  const [urlLogo, setUrlLogo] = useState(store?.logo);
 
   const onInputChange = (e) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ const Store = ({ isOpen, closeModal }) => {
     newStore.append("logo", file);
     newStore.append("title", Form.title);
     newStore.append("bio", Form.bio);
-    console.log(newStore)
+    console.log(newStore);
     dispatch(updateStore(newStore));
     setForm({
       ...Form,
@@ -44,7 +44,7 @@ const Store = ({ isOpen, closeModal }) => {
         title: store.title,
         bio: store.bio,
       });
-      setUrl(store.logo);
+      setUrlLogo(store.logo);
     }
   }, [store]);
   return (
@@ -123,7 +123,7 @@ const Store = ({ isOpen, closeModal }) => {
                   </div>
                   <div className=" w-96 h-96 md:w-48 md:h-48  sm:w-24 sm:h-24 relative">
                     <img
-                      src={url}
+                      src={urlLogo}
                       alt="..."
                       className="shadow rounded-full object-cover  w-full h-full border-none "
                     />
@@ -146,7 +146,7 @@ const Store = ({ isOpen, closeModal }) => {
                       id="image"
                       onChange={(e) => {
                         setFile(e.target.files[0]);
-                        setUrl(URL.createObjectURL(e.target.files[0]));
+                        setUrlLogo(URL.createObjectURL(e.target.files[0]));
                       }}
                     />
                   </div>

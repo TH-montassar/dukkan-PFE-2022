@@ -1,5 +1,4 @@
-import React, { useState, Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddCategory from "./AddCategory";
 import { getCategories } from "../../../../redux/Actions/category.action";
@@ -29,7 +28,7 @@ const Category = () => {
           <i className="text-xl fa-regular fa-square-plus"></i>
         </button>
       </div>
-      <div className=" font-Roboto  mx-auto w-[90%]  px-10 py-10  flex flex-row flex-wrap justify-center">
+      <div className=" font-Roboto grid grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 justify-center items-center  pt-4 pl-10 pb-10">
         {categories.length > 0 &&
           categories.map((category) => (
             <CategoryItem key={category._id} category={category} />

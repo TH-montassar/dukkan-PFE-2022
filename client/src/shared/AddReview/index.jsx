@@ -1,9 +1,9 @@
 import React from "react";
 import { Dialog } from "@headlessui/react";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { add_Review } from "../../redux/Actions/review.action";
-import { getProduct } from "../../redux/Actions/product.action";
+
 const AddReview = ({ isOpen, closeModal, id }) => {
   const [isModalOpen, setIsModalOpen] = useState(isOpen);
   useEffect(() => {
@@ -27,9 +27,8 @@ const AddReview = ({ isOpen, closeModal, id }) => {
       rating: "",
       comment: "",
     });
- 
+
     closeModal();
-   
   };
   return (
     <>
@@ -83,6 +82,8 @@ m-0
                   </div>
                   <div className="form-group ">
                     <textarea
+                      minLength="10"
+                      maxlength="57"
                       onChange={(e) => onInputChange(e)}
                       value={Form.comment}
                       name="comment"

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import profile from "../../../../assets/image/p2.jpg";
+
 import { useDispatch, useSelector } from "react-redux";
-import { updateMyInfo } from "../../../../redux/Actions/auth.action";
+import { updateMyInfo } from "../../redux/Actions/auth.action";
 import { parseISO, format } from "date-fns";
 import {
   getMyProfile,
   updateMyProfile,
-} from "../../../../redux/Actions/profile.action";
+} from "../../redux/Actions/profile.action";
 const PersonnelInformation = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => {
@@ -67,7 +67,7 @@ const PersonnelInformation = () => {
         lastName: user?.lastName,
         number: user?.number,
       });
-      setUrl(profile?.avatar);
+      setUrl(user.profile?.avatar);
       //setBirthDay(format(parseISO(profile?.birthday), "P"));
     }
   }, [user]);

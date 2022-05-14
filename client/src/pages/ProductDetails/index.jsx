@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo/logostore.svg";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-import profile2 from "../../assets/image/p2.jpg";
+import ReviewItem from "../../shared/ReviewItem"
 
 import { parseISO, format } from "date-fns";
 import { getProduct } from "../../redux/Actions/product.action";
@@ -18,7 +18,6 @@ import AddReview from "../../shared/AddReview";
 const ProductDetails = () => {
   const { slug } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getProduct(slug));
@@ -31,7 +30,6 @@ const ProductDetails = () => {
   const { isAuthenticated } = useSelector((state) => {
     return state.authReducers;
   });
-  
 
   let [isOpen, setIsOpen] = useState(false);
   const [IdProduct, setIdProduct] = useState(null);
@@ -265,11 +263,9 @@ const ProductDetails = () => {
             if (isAuthenticated) {
               setIsOpen(true);
               setIdProduct(product._id);
-              
             } else {
               toast("login first", { autoClose: 500 });
             }
-            
           }}
           type="button"
           className="bg-info hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl flex justify-center maw-w-max mx-auto"
@@ -278,32 +274,18 @@ const ProductDetails = () => {
         </button>
         <AddReview
           isOpen={isOpen}
-          closeModal={() => {setIsOpen(false);dispatch(getProduct(slug))}}
-         
+          closeModal={() => {
+            setIsOpen(false);
+            dispatch(getProduct(slug));
+          }}
           id={IdProduct}
         />
         <div className="flex flex-1 gap-5 overflow-x-auto snap-x justify-center	snap-mandatory py-16">
           {/* //*---------------------review--------------------------------------------------------------------------------------------------- */}
           {product?.reviews?.length > 0 ? (
-            product.reviews.map((review) => {
-              return (
-                <div className="min-w-[20rem]	h-44 bg-white  flex items-start	gap-3 rounded border border-sky-400	p-5 snap-center drop-shadow-lg">
-                  <img
-                    className="object-cover	 w-16 h-16   border border-Primary  rounded-full"
-                    src={profile2}
-                    alt="imgProfile"
-                  />
-
-                  <div className="font-sans w-48 ">
-                    <div className="text-2xl">foule fouleni</div>
-                    <div className="whitespace-normal pt-5">
-                      {review?.comment}
-                      {review?.rating}
-                    </div>
-                  </div>
-                </div>
-              );
-            })
+            product.reviews.map((review) => (
+             <ReviewItem key={review._id} review={review}/>
+            ))
           ) : (
             <div className=" bg-white">
               <h1 className="text-center"> Review</h1>

@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, NavLink } from "react-router-dom";
+import {  useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 import logo from "../../assets/logo/dukkan2.png";
 import onlineStore from "../../assets/image/onlineStore.png";
 const Landing = () => {

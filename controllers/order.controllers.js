@@ -63,7 +63,7 @@ const meOrders = async (req, res) => {
     const count = await Order.find({ customer: currentUser }).countDocuments();
     if (count === 0) {
       return res
-        .status(401)
+        .status(200)
         .json({ length: count, message: "no order for you" });
     }
 
@@ -98,7 +98,7 @@ const merchantOrders = async (req, res) => {
       }).countDocuments();
       if (count === 0) {
         return res
-          .status(401)
+          .status(200)
           .json({ length: count, message: "no order for you" });
       }
 

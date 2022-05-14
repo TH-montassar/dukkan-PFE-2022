@@ -1,11 +1,10 @@
-import React, { useState, Fragment, useEffect, useRef } from "react";
-import { Link, Navigate, NavLink, useParams } from "react-router-dom";
+import React, {  useEffect  } from "react";
+import {useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../shared/Header";
 import direction from "../../assets/icon/directionA.svg";
 import directionB from "../../assets/icon/directionB.svg";
 import productImg from "../../assets/image/imgProduct.svg";
-import { getCategories } from "../../redux/Actions/category.action";
 import Spinner from "../../shared/Spinner";
 import { getProductsByStore } from "../../redux/Actions/product.action";
 import vdAbout from "../../assets/video/cars.mp4";
@@ -13,7 +12,7 @@ import ReactPlayer from "react-player";
 import Footer from "../../shared/Footer";
 import { setStore } from "../../utils/setStore";
 import ProductItem from "../../shared/ProductItem";
-
+import CategoryItem from "../../shared/CategoryItem";
 import { getOwnedCart } from "../../redux/Actions/cart.action";
 const Home = () => {
   const dispatch = useDispatch();
@@ -77,22 +76,12 @@ const Home = () => {
           <h1 className="text-2xl font-medium pb-5">Our Top Categories</h1>
           <div className="flex flex-row items-center justify-center gap-5 flex-wrap  w-full ">
             {categories.slice(0, 4).map((category) => (
-              <div
-                key={category._id}
-                className="flex flex-col items-center transition  ease-in-out duration-500 hover:rounded-lg hover:scale-110 bg-white"
-              >
-                <img
-                  className="max-w-[15rem] h-1/2 "
-                  src={category.image}
-                  alt={category.slug}
-                />
-                <p className="h-1/2"> {category.title}</p>
-              </div>
+              <CategoryItem key={category._id} category={category} />
             ))}
           </div>
           <h1 className="text-2xl font-medium pb-5 pt-28">Popular Product</h1>
 
-          <div className="flex gap-12 overflow-x-auto snap-x w-full snap-mandatory pt-4 pl-10 pb-10">
+          <div className="flex gap-12 overflow-x-auto snap-x w-full snap-mandatory pt-4 pl-10 pb-10 justify-center">
             {products.map((product) => (
               <ProductItem key={product._id} product={product} />
             ))}

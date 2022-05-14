@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Link, Routes, Route, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCarts } from "../../../../redux/Actions/cart.action";
-import logoStore from "../../../../assets/logo/logostore.svg";
+
 import Spinner from "../../../../shared/Spinner";
 const Carts = () => {
   const { isAuthenticated, user } = useSelector((state) => {

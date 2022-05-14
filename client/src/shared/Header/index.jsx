@@ -1,15 +1,15 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Dialog, Transition } from "@headlessui/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { Navigate, Link, useLocation, useNavigate } from "react-router-dom";
-import logoStore from "../../assets/logo/logostore.svg";
+
 import search from "../../assets/icon/iconserch.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/Actions/auth.action";
-import avatar from "../../assets/image/profilelINKDINE.png";
-import { getCategories,get_categories_By_store } from "../../redux/Actions/category.action";
+
+import { get_categories_By_store } from "../../redux/Actions/category.action";
 import Spinner from "../Spinner";
 import Login from "../../pages/Login";
 import {
@@ -89,7 +89,7 @@ const Header = () => {
   return isLoading ? (
     <Spinner />
   ) : (
-    <header className="bg-info flex w-full justify-between px-16 py-2 fixed top-0 z-50 items-center sm:items-end flex-wrap ">
+    <header className="bg-Primary flex w-full justify-between px-16 py-2 fixed top-0 z-50 items-center sm:items-end flex-wrap ">
       <Link
         to={`/home/${localStorage.store}`}
         className=" w-14 h-14 sm:w-10 sm:h-10"

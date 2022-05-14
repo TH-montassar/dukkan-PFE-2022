@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link /*, useNavigate*/ } from "react-router-dom";
 import { addToCart } from "../../redux/Actions/cart.action";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,9 +9,9 @@ import {
   getMyWishlist,
 } from "../../redux/Actions/wishlist.action";
 const ProductItem = ({ product }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, isAuthenticated } = useSelector((state) => {
+  const { isAuthenticated } = useSelector((state) => {
     return state.authReducers;
   });
   const closeToast = () => {
@@ -25,7 +25,7 @@ const ProductItem = ({ product }) => {
   };
 
   return (
-    <div className="h-80 min-w-[15rem] relative shadow-xl rounded-2xl snap-center">
+    <div className="h-80 min-w-[15rem] relative shadow-xl rounded-2xl snap-center bg-white">
       <button
         type="button"
         onClick={() => {

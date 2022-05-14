@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 const Profile = () => {
   return (
-    <div>
+    <div className="font-Roboto">
       <Header />
 
       <div className="pt-20 w-full  mx-auto ">

@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment,  useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useNavigate, Routes, Route } from "react-router-dom";
+import {  useNavigate} from "react-router-dom";
 import { addProduct } from "../../../../redux/Actions/product.action";
 import Spinner from "../../../../shared/Spinner";
 const AddProduct = () => {
