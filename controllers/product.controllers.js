@@ -68,6 +68,7 @@ const getProduct = async (req, res) => {
           foreignField: "product",
           as: "reviews",
         },
+        
       },
     ]).sort({ createdAt: -1 });
     await Product.populate(product, { path: "category", select: "title" });
@@ -120,8 +121,8 @@ const getProducts = async (req, res) => {
 const deleteProduct = async (req, res) => {
   const id = req.product._id;
   try {
-    await Product.findByIdAndDelete(id);
-    return res.status(200).json({ message: "Product deleted" });
+  const deleteProduct = await Product.findByIdAndDelete(id);
+    return res.status(200).json({deleteProduct:deleteProduct });
   } catch (err) {
     return res.status(500).json(err);
   }

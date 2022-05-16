@@ -36,14 +36,18 @@ const ProductReducers = (state = initialState, action) => {
       };
 
     case ADD_PRODUCT:
+      let allProducts = state.products;
+      allProducts.push(payload);
       return {
         ...state,
+        products: [...allProducts],
         product: payload,
         isLoading: false,
       };
     case DELETE_PRODUCT:
       return {
         ...state,
+        products: state.products.filter((P) => P._id !==payload),
         product: payload,
         isLoading: false,
       };

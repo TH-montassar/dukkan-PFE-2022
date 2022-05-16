@@ -1,4 +1,4 @@
-import React, { useState,  } from "react";
+import React, { useState,useEffect  } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,10 +13,18 @@ import {
 } from "../../redux/Actions/cart.action";
 import { checkoutOrder } from "../../redux/Actions/order.action";
 import { updateMyAddress } from "../../redux/Actions/address.action";
+import { getOwnedCart } from "../../redux/Actions/cart.action";
 const Cart = () => {
   const { isAuthenticated, user } = useSelector((state) => {
     return state.authReducers;
   });
+
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getOwnedCart());
+    }
+  }, [isAuthenticated]);
 
   const dispatch = useDispatch();
   const [Address, setAddress] = useState({
@@ -47,10 +55,6 @@ const Cart = () => {
   const { items, isLoading, totalPrice, totalPriceWithTax, taxPercentage } =
     useSelector((state) => state.cartReducers);
 
-  const removeItem = (e, id) => {
-    e.preventDefault();
-    dispatch(removeFromCart(id));
-  };
   const empty = (e) => {
     e.preventDefault();
     dispatch(emptyCart());
@@ -90,7 +94,7 @@ const Cart = () => {
             {/* -----order---- */}
             {items?.length > 0 &&
               items.map((product) => (
-                <div className="my-5  bg-white flex justify-between items-center h-20 px-5 shadow-md rounded-md">
+                <div key={product.product._id} className="my-5  bg-white flex justify-between items-center h-20 px-5 shadow-md rounded-md">
                   <Link
                     to={`/details/${product.product?.slug}`}
                     className="flex h-full gap-3 items-center"
@@ -121,7 +125,7 @@ const Cart = () => {
                   <div>{product.total} TND</div>
                   <button
                     type="button"
-                    onClick={(e) => removeItem(e, product.product?._id)}
+                    onClick={() => dispatch(removeFromCart(product.product._id))}
                     className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                   >
                     {" "}

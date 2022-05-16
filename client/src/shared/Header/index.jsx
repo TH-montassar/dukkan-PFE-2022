@@ -8,7 +8,7 @@ import { Navigate, Link, useLocation, useNavigate } from "react-router-dom";
 import search from "../../assets/icon/iconserch.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/Actions/auth.action";
-
+import { setStore } from "../../utils/setStore";
 import { get_categories_By_store } from "../../redux/Actions/category.action";
 import Spinner from "../Spinner";
 import Login from "../../pages/Login";
@@ -20,11 +20,11 @@ import { getStore } from "../../redux/Actions/store.action";
 
 import { useMatch } from "react-router-dom";
 const Header = () => {
+  setStore(localStorage.store);
   const dispatch = useDispatch();
   const [Query, setQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {

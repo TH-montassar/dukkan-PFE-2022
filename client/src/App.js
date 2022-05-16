@@ -53,6 +53,7 @@ function App() {
             <Route path="search" element={<Search />} />
             <Route path="/details/:slug" element={<ProductDetails />} />
             <Route path="/" element={<RequiredAuth />}>
+              
               <Route path="" element={<Landing />}></Route>
               <Route path="cart" element={<Cart />} />
               <Route path="profile" element={<Profile />}>
@@ -81,7 +82,7 @@ function App() {
                 ></Route>
                 <Route
                   path="my_info"
-                  element={<PersonnelInformation/>}
+                  element={<PersonnelInformation />}
                 ></Route>
                 <Route path="product" element={<Product />}></Route>
                 <Route path="customer" element={<Customer />}></Route>

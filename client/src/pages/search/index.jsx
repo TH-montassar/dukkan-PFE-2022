@@ -7,8 +7,9 @@ import Header from "../../shared/Header";
 import Spinner from "../../shared/Spinner";
 import { getProductsByStore } from "../../redux/Actions/product.action";
 import ProductItem from "../../shared/ProductItem";
-
+import { setStore } from "../../utils/setStore";
 const Search = () => {
+  setStore(localStorage.store);
   const location = useLocation();
   /* Creating a new URLSearchParams object and setting it to the variable queries. */
   const queries = new URLSearchParams(location.search);

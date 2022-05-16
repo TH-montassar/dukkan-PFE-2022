@@ -3,7 +3,7 @@ import logo from "../../assets/logo/logostore.svg";
 import { Link, useParams } from "react-router-dom";
 
 import ReviewItem from "../../shared/ReviewItem"
-
+import { setStore } from "../../utils/setStore";
 import { parseISO, format } from "date-fns";
 import { getProduct } from "../../redux/Actions/product.action";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,7 @@ import AddReview from "../../shared/AddReview";
 const ProductDetails = () => {
   const { slug } = useParams();
   const dispatch = useDispatch();
-
+  setStore(localStorage.store);
   useEffect(() => {
     dispatch(getProduct(slug));
   }, [slug]);

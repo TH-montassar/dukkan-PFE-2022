@@ -102,10 +102,10 @@ export const addProduct = (data) => async (dispatch) => {
 
 export const deleteProduct = (idProduct) => async (dispatch) => {
   try {
-    const res = await instance.delete(`/api/products//${idProduct}`);
+    await instance.delete(`/api/products//${idProduct}`);
     dispatch({
       type: DELETE_PRODUCT,
-      payload: res.data,
+      payload:idProduct,
     });
   } catch (err) {
     dispatch({

@@ -3,11 +3,9 @@ import { Combobox, Transition, Dialog } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../../../shared/Spinner";
-import {
-  deleteProduct,
-  updateProduct,
-} from "../../../../redux/Actions/product.action";
+import { updateProduct } from "../../../../redux/Actions/product.action";
 import { getProducts } from "../../../../redux/Actions/product.action";
+import AlertDelete from "../../../../shared/AlertDelete";
 const Product = () => {
   const { categories } = useSelector((state) => {
     return state.categoryReducers;
@@ -15,7 +13,6 @@ const Product = () => {
   const [selected, setSelected] = useState(categories[0]);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [query, setQuery] = useState("");
-
   const filteredCategories =
     query === ""
       ? categories
@@ -27,7 +24,6 @@ const Product = () => {
         );
   const dispatch = useDispatch();
 
- 
   useEffect(() => {
     dispatch(getProducts({ limit: 999 }));
   }, []);
@@ -35,12 +31,9 @@ const Product = () => {
   const { isLoading, products } = useSelector((state) => {
     return state.productReducers;
   });
+  let [isOpenD, setIsOpenD] = useState(false);
 
-  const handlerClickDelete = (e, id) => {
-    e.preventDefault();
-    dispatch(deleteProduct(id));
-  };
-
+  let [isOpen, setIsOpen] = useState(false);
   const [Promotion, setPromotion] = useState(false);
   const [IdProduct, setIdProduct] = useState(null);
   const [url, setUrl] = useState("");
@@ -50,11 +43,9 @@ const Product = () => {
     price: "",
     countInStock: "",
     reference: "",
-
     description: "",
   });
 
-  let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
   }
@@ -72,22 +63,11 @@ const Product = () => {
 
       description: product.description,
     });
-
     //!
     //  setPromotion(Promotion[index])
     // setFile(file[index]);
     // selectedCategory(category);
-
     setIsOpen(true);
-  };
-  let [isDelete, setIsDelete] = useState(false);
-  function closeDelete() {
-    setIsDelete(false);
-  }
-
-  const openDeleteModal = (e) => {
-    e.preventDefault();
-    setIsDelete(true);
   };
 
   const onInputChange = (e) => {
@@ -98,7 +78,6 @@ const Product = () => {
   };
   const onSubmitForm = (e) => {
     e.preventDefault();
-
     const product = new FormData();
     product.append("title", Form.title);
     product.append("price", Form.price);
@@ -341,9 +320,9 @@ const Product = () => {
 
                       <button
                         type="button"
-                        onClick={(e) => {
-                          handlerClickDelete(e, product._id);
-                          openDeleteModal(e);
+                        onClick={() => {
+                          setIdProduct(product._id);
+                          setIsOpenD(true);
                         }}
                         className="bg-white border-2 py-1 px-2 hover:bg-info hover:text-white text-danger"
                       >
@@ -354,6 +333,7 @@ const Product = () => {
                 </div>
               );
             })}
+          {/* aleretUpdate */}
           <Transition appear show={isOpen} as={Fragment}>
             <Dialog
               as="div"
@@ -610,58 +590,11 @@ const Product = () => {
             </Dialog>
           </Transition>
           {/* alertDelete */}
-          <Transition appear show={isDelete} as={Fragment}>
-            <Dialog
-              as="div"
-              className="fixed inset-0 z-10 overflow-y-auto"
-              onClose={closeDelete}
-            >
-              <div className="min-h-screen px-4 text-center">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <Dialog.Overlay className="fixed inset-0" />
-                </Transition.Child>
-
-                {/* This element is to trick the browser into centering the modal contents. */}
-                <span
-                  className="inline-block h-screen align-middle"
-                  aria-hidden="true"
-                >
-                  &#8203;
-                </span>
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 scale-95"
-                  enterTo="opacity-100 scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-95"
-                >
-                  <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900"
-                    >
-                      delete
-                    </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        product has been successfully delete
-                      </p>
-                    </div>
-                  </div>
-                </Transition.Child>
-              </div>
-            </Dialog>
-          </Transition>
+          <AlertDelete
+            isOpen={isOpenD}
+            closeModal={() => setIsOpenD(false)}
+            id={IdProduct}
+          />
         </div>
       </div>
     </div>
