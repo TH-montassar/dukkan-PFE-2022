@@ -99,15 +99,15 @@ export const getOwnedCart = () => async (dispatch) => {
 };
 
 export const removeFromCart = (itemId) => async (dispatch) => {
-  dispatch({
-    type: CART_LOADING,
-  });
+  // dispatch({
+  //   type: CART_LOADING,
+  // });
 
   try {
-    const res = await instance.put("/api/cart/remove", { item: itemId });
+     await instance.put("/api/cart/remove", { item: itemId });
     dispatch({
       type: REMOVE_FROM_CART,
-      payload: res.data,
+      payload:itemId,
     });
   } catch (err) {
     dispatch({

@@ -115,7 +115,7 @@ const Product = () => {
               <div className="relative w-full text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-teal-300 focus-visible:ring-offset-2 sm:text-sm overflow-hidden">
                 <Combobox.Input
                   className="w-full border-none  focus:ring-0 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 "
-                  displayValue={(category) => category.title}
+                  displayValue={(category) => category?.title}
                   onChange={(event) => setQuery(event.target.value)}
                 />
                 <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -210,7 +210,7 @@ const Product = () => {
                     </div>
                   </div>
                   <div className="w-full flex flex-row justify-between ">
-                    <div> {product.category.title}</div>
+                    <div> {product.category?.title}</div>
                     <div>{product.price} TND</div>
                     <div>{product.countInStock}</div>
                     <div>{product.reference}</div>

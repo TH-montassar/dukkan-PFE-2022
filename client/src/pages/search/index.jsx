@@ -8,16 +8,17 @@ import Spinner from "../../shared/Spinner";
 import { getProductsByStore } from "../../redux/Actions/product.action";
 import ProductItem from "../../shared/ProductItem";
 import { setStore } from "../../utils/setStore";
+import { get_categories_By_store } from "../../redux/Actions/category.action";
+import LoadingAnimation from "../../shared/LoadingAnimation";
+
 const Search = () => {
   setStore(localStorage.store);
   const location = useLocation();
   /* Creating a new URLSearchParams object and setting it to the variable queries. */
   const queries = new URLSearchParams(location.search);
-  console.log("gg", queries);
-  const dispatch = useDispatch();
-  //console.log(location);
 
-  // console.log(location.search);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(
       getProductsByStore({
@@ -42,10 +43,15 @@ const Search = () => {
   const { isLoading, products } = useSelector((state) => {
     return state.productReducers;
   });
+  useEffect(() => {
+    dispatch(get_categories_By_store({}));
+  }, []);
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  const { categories } = useSelector((state) => {
+    return state.categoryReducers;
+  });
+
+  return (
     <div>
       <Header />
       <section className="pb-6 pt-20">
@@ -91,61 +97,42 @@ const Search = () => {
                 id="PriceRange"
               />
             </div>
+
             <div>
-              Category
+              <div className="pb-5">Categories</div>
               <div className=" flex gap-3 py-3 pl-5">
                 <input
                   className="w-5 h-5  border border-Primary"
                   type="radio"
-                  id="motorcycles"
-                  name="drone"
-                  value="motorcycles"
+                  name="category"
+                  value=""
+                  id="products"
                   checked
+                  onClick={() => dispatch(getProductsByStore())}
                 />
-                <label htmlFor="motorcycles">motorcycles</label>
+                <label htmlFor="products">All Products</label>
               </div>
-              <div className=" flex gap-3 py-3 pl-5">
-                <input
-                  className="w-5 h-5  border border-Primary  "
-                  type="radio"
-                  id="bicyclet"
-                  name="drone"
-                  value="bicyclet"
-                  checked
-                />
-                <label htmlFor="bicyclet">bicyclet</label>
-              </div>
-              <div className=" flex gap-3 py-3 pl-5">
-                <input
-                  className="w-5 h-5  border border-Primary  "
-                  type="radio"
-                  id="quad bike"
-                  name="drone"
-                  value="quad bike"
-                  checked
-                />
-                <label htmlFor="quad bike">quad bike</label>
-              </div>
-              <div className=" flex gap-3 py-3 pl-5">
-                <input
-                  className="w-5 h-5  border border-Primary  "
-                  type="radio"
-                  id="boots"
-                  name="drone"
-                  value="boots"
-                  checked
-                />
-                <label htmlFor="boots">boots</label>
-              </div>
-              <div className=" flex gap-3 py-3 pl-5">
-                <input
-                  className="w-5 h-5  border border-Primary  "
-                  type="radio"
-                  id="truck"
-                  name="drone"
-                  value="truck"
-                />
-                <label htmlFor="truck">truck</label>
+              <div>
+                {categories.length > 0 &&
+                  categories.map((category) => (
+                    <div className=" flex gap-3 py-3 pl-5">
+                      <input
+                        className="w-5 h-5  border border-Primary"
+                        type="radio"
+                        id={category._id}
+                        name="category"
+                        value={category.title}
+                        onClick={() =>
+                          dispatch(
+                            getProductsByStore({
+                              category: category.slug,
+                            })
+                          )
+                        }
+                      />
+                      <label htmlFor={category._id}>{category.title}</label>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
@@ -160,9 +147,13 @@ const Search = () => {
             </div>
 
             <div className=" grid grid-cols-4 gap-12 md:gap-4 lg:gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 pt-4 pl-10">
-              {products.map((product) => (
-                <ProductItem key={product._id} product={product} />
-              ))}
+              {isLoading ? (
+                <LoadingAnimation />
+              ) : (
+                products.map((product) => (
+                  <ProductItem key={product._id} product={product} />
+                ))
+              )}
             </div>
           </div>
         </div>

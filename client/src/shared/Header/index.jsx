@@ -130,52 +130,13 @@ const Header = () => {
             Home
           </Link>
 
-          <div className=" text-right z-[9999]">
-            <Menu as="div" className="relative inline-block text-left">
-              <div>
-                <Menu.Button className="inline-flex justify-center w-full px-4 py-2    bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                  Category
-                  <ChevronDownIcon
-                    className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
-                    aria-hidden="true"
-                  />
-                </Menu.Button>
-              </div>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute right-0 max-w-max mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  {categories.map((category) => (
-                    <div key={category._id} className="px-1 py-1 border-gray">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to={`/search?category=${category.slug}`}
-                            className={`${
-                              active ? "bg-info text-white" : "text-black"
-                            } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                          >
-                            {active ? (
-                              <div> category</div>
-                            ) : (
-                              <i className="fa-solid fa-user text-info  pr-2"></i>
-                            )}
-                            {category.title}
-                          </Link>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  ))}
-                </Menu.Items>
-              </Transition>
-            </Menu>
-          </div>
+          <Link
+            to={`/search`}
+            className="hover:bg-blue-700  py-[h-full] focus:bg-blue-700 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-ou border border-transparent focus-within:border-white border-solid"
+          >
+            Products
+          </Link>
+         
         </div>
         <div className="text-white flex flex-wrap  flex-row  sm:flex-col gap-16 lg:gap-10 md:gap-5 sm:gap-1 items-center">
           {isAuthenticated ? (

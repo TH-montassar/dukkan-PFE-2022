@@ -53,7 +53,7 @@ const CartReducers = (state = initialState, action) => {
     case REMOVE_FROM_CART:
       return {
         ...state,
-        items: payload.items,
+        items: state.items.filter((item) => item.product._id !== payload),
         isLoading: false,
       };
     case EMPTY_CART:

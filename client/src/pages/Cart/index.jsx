@@ -1,4 +1,4 @@
-import React, { useState,useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -7,10 +7,7 @@ import Spinner from "../../shared/Spinner";
 import Header from "../../shared/Header";
 import Footer from "../../shared/Footer";
 import { Navigate } from "react-router-dom";
-import {
-  emptyCart,
-  removeFromCart,
-} from "../../redux/Actions/cart.action";
+import { emptyCart, removeFromCart } from "../../redux/Actions/cart.action";
 import { checkoutOrder } from "../../redux/Actions/order.action";
 import { updateMyAddress } from "../../redux/Actions/address.action";
 import { getOwnedCart } from "../../redux/Actions/cart.action";
@@ -18,7 +15,6 @@ const Cart = () => {
   const { isAuthenticated, user } = useSelector((state) => {
     return state.authReducers;
   });
-
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -34,14 +30,14 @@ const Cart = () => {
     country: user?.address?.country,
   });
   const onInputChange = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     setAddress({ ...Address, [e.target.name]: e.target.value });
     // console.log(Address);
   };
   const onSubmitAddress = (e) => {
     e.preventDefault();
     dispatch(updateMyAddress(Address));
-    
+
     setAddress({
       ...Address,
       street: user?.address?.street,
@@ -51,7 +47,6 @@ const Cart = () => {
     });
   };
 
- 
   const { items, isLoading, totalPrice, totalPriceWithTax, taxPercentage } =
     useSelector((state) => state.cartReducers);
 
@@ -82,60 +77,66 @@ const Cart = () => {
         <div className="text-gray">Home/Search/Category/product</div>
 
         {/* ------- */}
-        <div className="flex lg:flex-wrap gap-20 items-start justify-center mx-auto  pt-10 w-[80%]">
+        <div className="flex xl:flex-wrap gap-20 items-start justify-center mx-auto  pt-10 w-full">
           {/* ------- */}
           <div className="w-2/3 ">
-            <div className="flex gap-48 pl-10 py-5 items-center  ">
-              <div>Product</div>
-              <div> Price</div>
-              <div> Quantity</div>
-              <div> Total </div>
-            </div>
-            {/* -----order---- */}
-            {items?.length > 0 &&
-              items.map((product) => (
-                <div key={product.product._id} className="my-5  bg-white flex justify-between items-center h-20 px-5 shadow-md rounded-md">
-                  <Link
-                    to={`/details/${product.product?.slug}`}
-                    className="flex h-full gap-3 items-center"
+            <div>
+              <div className="flex gap-48 pl-10 py-5 items-center  ">
+                <div>Product</div>
+                <div> Price</div>
+                <div> Quantity</div>
+                <div> Total </div>
+              </div>
+              {/* -----order---- */}
+              {items?.length > 0 &&
+                items.map((product) => (
+                  <div
+                    key={product.product?._id}
+                    className="my-5  bg-white flex justify-between items-center h-20 px-5 shadow-md rounded-md"
                   >
-                    <img
-                      className="h-full  object-contain rounded-md"
-                      src={product.product?.image}
-                      alt="car"
-                    />
-                    <div className=" flex flex-col">
-                      <div> {product.product?.title} </div>
-                      <div>Ref: {product.product?.reference}</div>
+                    <Link
+                      to={`/details/${product.product?.slug}`}
+                      className="flex h-full gap-3 items-center"
+                    >
+                      <img
+                        className="h-full  object-contain rounded-md"
+                        src={product.product?.image}
+                        alt="car"
+                      />
+                      <div className=" flex flex-col">
+                        <div> {product.product?.title} </div>
+                        <div>Ref: {product.product?.reference}</div>
+                      </div>
+                    </Link>
+                    <div> {product.price} TND</div>
+                    <div className="flex justify-between items-center gap-2">
+                      <div className="rounded-full w-5 h-5  bg-Warning flex justify-center items-center">
+                        <i className=" text-white fa-solid fa-minus"></i>
+                      </div>
+                      <div className=" px-10 sm:px-0 shadow-md">
+                        {" "}
+                        {product.quantity}
+                      </div>
+                      <div className="rounded-full w-5 h-5  bg-Success flex justify-center items-center">
+                        <i className="fa-solid fa-plus text-white"></i>
+                      </div>
                     </div>
-                  </Link>
-                  <div> {product.price} TND</div>
-                  <div className="flex justify-between items-center gap-2">
-                    <div className="rounded-full w-5 h-5  bg-Warning flex justify-center items-center">
-                      <i className=" text-white fa-solid fa-minus"></i>
-                    </div>
-                    <div className=" px-10 sm:px-0 shadow-md">
+                    <div>{product.total} TND</div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        dispatch(removeFromCart(product.product._id))
+                      }
+                      className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                    >
                       {" "}
-                      {product.quantity }
-                    </div>
-                    <div className="rounded-full w-5 h-5  bg-Success flex justify-center items-center">
-                      <i className="fa-solid fa-plus text-white"></i>
-                    </div>
+                      <i className="fa-solid fa-trash text-white"></i>
+                    </button>
                   </div>
-                  <div>{product.total} TND</div>
-                  <button
-                    type="button"
-                    onClick={() => dispatch(removeFromCart(product.product._id))}
-                    className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                  >
-                    {" "}
-                    <i className="fa-solid fa-trash text-white"></i>
-                  </button>
-                </div>
-              ))}
+                ))}
 
-            {/* -----order---- */}
-
+              {/* -----order---- */}
+            </div>
             <div className="flex justify-between items-baseline pt-5">
               <div>
                 <div>
@@ -177,76 +178,44 @@ const Cart = () => {
             )}
           </div>
           {/* --------------------------------------------- */}
-          <div className="w-1/3 ">
+          <div className="w-1/3  p-10 bg-white rounded-lg">
             <div className="flex justify-center text-3xl">Command form</div>
             {isAuthenticated ? (
               <div className="w-full">
                 {/* --------------------------------------------- */}
 
-                <div className=" pt-5 w-full relative">
+                <div className=" pt-5 w-full ">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2 pb-2"
                     htmlFor="name"
                   >
                     Name : {user?.firstName}
-                    {/* <span className="text-Danger">*</span> */}
                   </label>
-                  {/* <i className="fa-solid fa-user  absolute right-3  top-[calc(50%-3px)]"></i>
-                <input
-                  className="float-right pl-5 shadow   rounded-full appearance-none border w-[calc(100%-25px)] py-2  text-gray-700 leading-tight outline-none focus:shadow-outline  focus:border-Primary "
-                  id="name"
-                  type="text"
-                  placeholder="name"
-                /> */}
                 </div>
-                <div className=" w-full relative">
+                <div className=" w-full ">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2 pb-2"
                     htmlFor="lastName"
                   >
                     last Name :{user?.lastName}
-                    {/* <span className="text-Danger">*</span> */}
                   </label>
-                  {/* <i className="fa-solid fa-user  absolute right-3  top-[calc(50%-3px)]"></i>
-                <input
-                  className="float-right pl-5 shadow   rounded-full appearance-none border w-[calc(100%-25px)] py-2  text-gray-700 leading-tight outline-none focus:shadow-outline  focus:border-Primary "
-                  id="lastName"
-                  type="text"
-                  placeholder="last name"
-                /> */}
                 </div>
 
-                <div className=" w-full relative">
+                <div className=" w-full ">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2 pb-2"
                     htmlFor="phone"
                   >
                     phone :{user?.number}
-                    {/* <span className="text-Danger">*</span> */}
                   </label>
-                  {/* <i className="fa-solid fa-phone  absolute right-3  top-[calc(50%-3px)]"></i>
-                 <input
-                  className="float-right pl-5 shadow   rounded-full appearance-none border w-[calc(100%-25px)] py-2  text-gray-700  outline-none focus:shadow-outline  focus:border-Primary "
-                  id="phone"
-                  type="tel"
-                  placeholder="phone"
-                /> */}
                 </div>
-                <div className="pb-5 w-full relative">
+                <div className="pb-5 w-full ">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2 pb-2"
                     htmlFor="email"
                   >
                     email : {user?.email}
-                    {/*<span className="text-Danger">*</span> */}
                   </label>
-                  {/* <i className="fa-solid fa-envelope  absolute right-3  top-[calc(50%-3px)]"></i>
-                <input
-                  className="float-right pl-5 shadow   rounded-full appearance-none border w-[calc(100%-25px)] py-2  text-gray-700 leading-tight outline-none focus:shadow-outline  focus:border-Primary "
-                  id="email"
-                  type="email"
-                  placeholder="email"
-                /> */}
                 </div>
                 <Link
                   to="/profile/"
@@ -266,7 +235,6 @@ const Cart = () => {
                     >
                       Address : <span className="text-Danger">*</span>
                     </label>
-                    {/* <i className="fa-solid fa-location-pin absolute right-3  top-[calc(50%-3px)]"></i> */}
                     <div className="relative  pl-5 pb-5 ">
                       <input
                         className=" outline-none focus:border-Primary pl-5 border-r-0   border-2 border-gray rounded-l-full h-[3rem]  sm:h-5  w-1/2 "

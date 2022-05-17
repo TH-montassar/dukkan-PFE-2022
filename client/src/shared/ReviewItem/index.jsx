@@ -642,12 +642,12 @@ const ReviewItem = ({ review }) => {
     <div className="min-w-[20rem]	h-44 bg-white  flex items-start	gap-3 rounded border border-sky-400	p-5 snap-center drop-shadow-lg">
       <img
         className="object-cover	 w-16 h-16   border border-Primary  rounded-full"
-        src=""
+        src={review.authors[0]?.profiles[0]?.avatar}
         alt="imgProfile"
       />
 
       <div className="font-sans w-48 ">
-        <div className="text-2xl">foule fouleni</div>
+        <div className="text-2xl">{review.authors[0]?.firstName} {review.authors[0]?.lastName}</div>
         <div className=" whitespace-normal pt-5">
           <div className=" flex justify-start">{renderSwitch(review?.rating)}</div>
           <div className=" "> {review?.comment}</div>

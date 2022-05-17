@@ -51,7 +51,7 @@ const OrderItem = () => {
                         {order._id}
                       </td>
                       <td>
-                        {order.customer.lastName} {order.customer.firstName}
+                        {order.customer?.lastName} {order.customer?.firstName}
                       </td>
                       <td className="grid grid-cols-1 gap-2 justify-center">
                         <div>

@@ -67,8 +67,27 @@ const getProduct = async (req, res) => {
           localField: "_id",
           foreignField: "product",
           as: "reviews",
+          pipeline: [
+            {
+              $lookup: {
+                from: "users",
+                localField: "author",
+                foreignField: "_id",
+                as: "authors",
+                pipeline: [
+                  {
+                    $lookup: {
+                      from: "profiles",
+                      localField: "profile",
+                      foreignField: "_id",
+                      as: "profiles",
+                    },
+                  },
+                ],
+              },
+            },
+          ],
         },
-        
       },
     ]).sort({ createdAt: -1 });
     await Product.populate(product, { path: "category", select: "title" });
@@ -121,8 +140,8 @@ const getProducts = async (req, res) => {
 const deleteProduct = async (req, res) => {
   const id = req.product._id;
   try {
-  const deleteProduct = await Product.findByIdAndDelete(id);
-    return res.status(200).json({deleteProduct:deleteProduct });
+    const deleteProduct = await Product.findByIdAndDelete(id);
+    return res.status(200).json({ deleteProduct: deleteProduct });
   } catch (err) {
     return res.status(500).json(err);
   }
