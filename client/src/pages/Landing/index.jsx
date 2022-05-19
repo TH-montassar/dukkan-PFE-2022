@@ -22,7 +22,7 @@ const Landing = () => {
         {" "}
         <img src={logo} alt="logo" /> <Link to="#"> Start</Link>{" "}
         <Link to="#"> home</Link>
-        <Link to="/login"> Sign in now</Link>
+        <Link to="authentication/"> Sign in now</Link>
       </header>
       <div className="max-h-max  w-full flex flex-row flex-wrap items-end px-10">
         <div className="w-1/2 flex flex-col gap-2">
@@ -40,7 +40,7 @@ const Landing = () => {
       <div className="flex flex-col gap-5 justify-center items-center pt-20">
         <div className="text-4xl">create your store now</div>
         <Link
-          to="/register?role=merchant"
+          to="authentication/register?role=merchant"
           className=" bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded text-2xl"
         >
           Create Now

@@ -19,8 +19,9 @@ const Home = () => {
   const { storeId } = useParams();
   const navigate = useNavigate();
 
-  if (storeId === "undefined" || !storeId) {
-    navigate("/login");
+  if (storeId === "undefined") {
+
+    navigate("/");
   }
   useEffect(() => {
     setStore(storeId);

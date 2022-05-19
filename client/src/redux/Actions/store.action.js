@@ -22,7 +22,7 @@ export const getStore = () => async (dispatch) => {
     });
   } catch (err) {
     localStorage.removeItem("store");
-    localStorage.removeItem("token");
+    //localStorage.removeItem("token");
     dispatch({
       type: STORE_ERROR,
       payload: err,

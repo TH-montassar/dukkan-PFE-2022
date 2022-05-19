@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 
 import Home from "./pages/Home";
 import { setAuthToken } from "./utils/setAuthToken";
@@ -29,6 +27,10 @@ import Carts from "./pages/profile/components/Carts";
 import RequiredAuth from "./routes/RequiredAuth";
 import EmailVerify from "./pages/EmailVerify";
 import Summary from "./pages/Dashboard/components/Summary";
+import Authentication from "./pages/Authentication";
+import Login from "./pages/Authentication/Login";
+import Register from "./pages/Authentication/Register";
+
 function App() {
   useEffect(() => {
     if (localStorage.token) {
@@ -49,8 +51,11 @@ function App() {
           {/* {match && <Header />} */}
           <Routes>
             <Route path="/" element={<Landing />}></Route>
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/register" element={<Register />}></Route>
+            <Route path="/authentication" element={<Authentication />}>
+              <Route path="" element={<Login />}></Route>
+              <Route path="register" element={<Register />}></Route>
+            </Route>
+
             <Route
               path="/user/:id/verify/:tokenMail"
               element={<EmailVerify />}

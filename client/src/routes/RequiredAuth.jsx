@@ -13,10 +13,14 @@ const RequiredAuth = () => {
   const location = useLocation();
 
   if (isError && !isSuccess && !isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return (
+      <Navigate to="/authentication/login" state={{ from: location }} replace />
+    );
   }
   if (isSuccess && !isLoading && !isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return (
+      <Navigate to="/authentication/login" state={{ from: location }} replace />
+    );
   }
   if (isSuccess && isAuthenticated) {
     return <Outlet />;
