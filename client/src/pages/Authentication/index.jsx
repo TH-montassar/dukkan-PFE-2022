@@ -2,17 +2,11 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import homeImg from "../../assets/image/homeimg.png";
 import logo from "../../assets/logo/Dukkan.png";
-import { Fragment } from "react";
-import { Tab } from "@headlessui/react";
-import { Link, Navigate, NavLink } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { Link, NavLink } from "react-router-dom";
+
 const Authentication = () => {
   return (
-    <section className="w-full font-Roboto	">
+    <section className="w-full font-Roboto 	">
       <Link to="/">
         <img
           className="max-w-[13rem] sm:w-1/2 sm:mx-auto"
@@ -20,7 +14,7 @@ const Authentication = () => {
           alt="dukkan"
         />
       </Link>
-      <div className="flex flex-row w-[95%] md:flex-col items-start justify-around">
+      <div className="flex flex-row w-[95%] md:flex-col items-start md:items-center justify-center mx-auto">
         <div className="w-1/2 flex flex-col justify-center	items-center gap-5 pt-16">
           <div className="flex flex-row justify-center	items-center sm:flex-auto pb-12 text-5xl md:text-3xl sm:text-2xl">
             <NavLink
