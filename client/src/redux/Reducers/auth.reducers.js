@@ -6,6 +6,7 @@ import {
   LOGOUT,
   REGISTER,
   UPDATE_MY_INFO,
+  AUTH_MAIL_VERIFY,
 } from "../Constants/action";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   message: "",
   isError: false,
   isSuccess: false,
+  isValidTokenMail:false,
 };
 
 const AuthReducers = (state = initialState, action) => {
@@ -60,7 +62,7 @@ const AuthReducers = (state = initialState, action) => {
         isLoading: false,
         isAuthenticated: false,
         isError: false,
-        isSuccess: false,
+        isSuccess: true,
       };
     case AUTH_ERROR:
       localStorage.removeItem("token");
@@ -73,6 +75,8 @@ const AuthReducers = (state = initialState, action) => {
         message: payload.message,
         isError: true,
         isSuccess: false,
+        isValidTokenMail:true,
+      
       };
     case LOGOUT:
       localStorage.removeItem("token");
@@ -84,6 +88,12 @@ const AuthReducers = (state = initialState, action) => {
         isLoading: false,
         isError: true,
         isSuccess: false,
+      };
+    case AUTH_MAIL_VERIFY:
+      return {
+        ...state,
+        isLoading: false,
+        isValidTokenMail:true,
       };
     default:
       return state;

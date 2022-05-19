@@ -7,7 +7,7 @@ const CategoryItem = ({ category }) => {
   });
   return (
     <div className="w-72 h-52 rounded-lg flex flex-col items-center justify-between   hover:border bg-white">
-      {user.role === "merchant" && isAuthenticated ? (
+      {user?.role === "merchant" && isAuthenticated ? (
         <Link className="w-full h-5/6" to="/dashboard/product">
           <img
             className="object-contain w-full h-full "

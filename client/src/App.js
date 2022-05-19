@@ -14,7 +14,7 @@ import Landing from "./pages/Landing";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Search from "./pages/search";
-import Header from "./shared/Header";
+
 import Profile from "./pages/profile";
 import PersonnelInformation from "./shared/PersonnelInformation";
 import AddProduct from "./pages/Dashboard/components/AddProduct";
@@ -27,6 +27,8 @@ import Wishlist from "./pages/profile/components/Wishlist";
 import Address from "./pages/profile/components/Address";
 import Carts from "./pages/profile/components/Carts";
 import RequiredAuth from "./routes/RequiredAuth";
+import EmailVerify from "./pages/EmailVerify";
+import Summary from "./pages/Dashboard/components/Summary";
 function App() {
   useEffect(() => {
     if (localStorage.token) {
@@ -46,15 +48,18 @@ function App() {
         <div className=" w-full font-PtSans">
           {/* {match && <Header />} */}
           <Routes>
+            <Route path="/" element={<Landing />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
-            <Route path="/landing" element={<Landing />}></Route>
-            <Route path="home/:storeId" element={<Home />}></Route>
+            <Route
+              path="/user/:id/verify/:tokenMail"
+              element={<EmailVerify />}
+            ></Route>
+
+            <Route path="/home/:storeId" element={<Home />}></Route>
             <Route path="search" element={<Search />} />
             <Route path="/details/:slug" element={<ProductDetails />} />
             <Route path="/" element={<RequiredAuth />}>
-              
-              <Route path="" element={<Landing />}></Route>
               <Route path="cart" element={<Cart />} />
               <Route path="profile" element={<Profile />}>
                 <Route path="" element={<PersonnelInformation />}></Route>
@@ -65,13 +70,18 @@ function App() {
               </Route>
 
               <Route
-                path="/dashboard"
+                path="dashboard"
                 element={
                   <PrivateRoutes>
                     <Dashboard />
                   </PrivateRoutes>
                 }
               >
+                <Route path="" element={<Summary />}></Route>
+                <Route path="product" element={<Product />}></Route>
+                <Route path="customer" element={<Customer />}></Route>
+                <Route path="order" element={<Order />}></Route>
+                <Route path="category" element={<Category />}></Route>
                 <Route
                   path="addProduct"
                   element={
@@ -84,10 +94,6 @@ function App() {
                   path="my_info"
                   element={<PersonnelInformation />}
                 ></Route>
-                <Route path="product" element={<Product />}></Route>
-                <Route path="customer" element={<Customer />}></Route>
-                <Route path="order" element={<Order />}></Route>
-                <Route path="category" element={<Category />}></Route>
               </Route>
 
               {/* <Route path="*" elem ent={<ErrorPage />}></Route> */}

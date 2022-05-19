@@ -6,6 +6,7 @@ import {
   REGISTER,
   UPDATE_MY_INFO,
   LOGOUT,
+  AUTH_MAIL_VERIFY,
 } from "../Constants/action";
 import { setAuthToken } from "../../utils/setAuthToken";
 import { instance } from "../../apis/api.instance";
@@ -23,6 +24,23 @@ export const authCheck = () => async (dispatch) => {
     dispatch({
       type: AUTH_CHECK,
       payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+      payload: err,
+    });
+  }
+};
+export const emailVerify = (id, tokenMail) => async (dispatch) => {
+  dispatch({
+    type: AUTH_LOADING,
+  });
+
+  try {
+    await instance.get(`/api/auth/${id}/verify/${tokenMail}`);
+    dispatch({
+      type: AUTH_MAIL_VERIFY,
     });
   } catch (err) {
     dispatch({

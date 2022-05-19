@@ -12,12 +12,14 @@ import {
 import google from "../../assets/icon/icons8-google.svg";
 import { login, register } from "../../redux/Actions/auth.action";
 import Spinner from "../../shared/Spinner";
+
+import ConfirmationSend from "../../shared/ConfirmationSend";
+import { Fragment } from "react";
 const Register = () => {
   const location = useLocation();
   const queries = new URLSearchParams(location.search);
   // console.log("role", queries);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [Form, setForm] = useState({
     email: "",
@@ -31,11 +33,20 @@ const Register = () => {
     number: "",
     confirmPassword: "",
   });
+  let [isOpen, setIsOpen] = useState(false);
+  const [Error, setError] = useState("");
+  const [Message, setMessage] = useState("");
   const onInputChange = (e) => {
     e.preventDefault(); //man5alouch navigateur ya3mel relode
     setForm({ ...Form, [e.target.name]: e.target.value });
     // console.log(Form);
   };
+  const { isLoading, isAuthenticated, user, isError, error } = useSelector(
+    (state) => {
+      return state.authReducers;
+    }
+  );
+
   const OnSubmitForm = (e) => {
     e.preventDefault(); //man5alouch navigateur ya3mel relode
     dispatch(
@@ -56,22 +67,17 @@ const Register = () => {
       number: "",
       confirmPassword: "",
     });
-    navigate("/login");
+    setMessage(user.message);
+    setError(error.message);
   };
 
-  const { isLoading, isAuthenticated } = useSelector((state) => {
-    return state.authReducers;
-  });
-
   if (isAuthenticated) {
-    return <Navigate to={"/landing"} />;
+    return <Navigate to={"/"} />;
   }
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  return (
     <section className="px-10">
-      <Link to="/landing">
+      <Link to="/">
         <img className="max-w-[13rem]" src={logo} alt="dukkan" />
       </Link>
       <div className="flex flex-row justify-between lg:flex-col items-center gap-3">
@@ -86,6 +92,16 @@ const Register = () => {
               <p className="text-Primary  ">Sign up</p>
             </Link>
           </div>
+          {Message && (
+            <div>
+              {Message}
+              {/* <ConfirmationSend
+                    isOpen={isOpen}
+                    closeModal={() => setIsOpen(false)}
+                  /> */}
+            </div>
+          )}
+          {/* {Error && <div> {Error}</div>} */}
           <form
             onSubmit={(e) => OnSubmitForm(e)}
             className="flex flex-col gap-5 justify-center	items-center w-full"
@@ -201,21 +217,27 @@ const Register = () => {
 
               <i className="absolute text-2xl sm:text-sm text-Primary fa-solid fa-lock right-5 top-[calc(50%-15px)]" />
             </div>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <Fragment>
+                <div className="flex flex-row gap-2 pt-5 w-[56%] sm:flex-col">
+                  <button
+                    type="reset"
+                    className="bg-info hover:bg-Primary text-white py-3  rounded-xl font-Montserrat font-semibold w-1/2 "
+                  >
+                    REST
+                  </button>
 
-            <div className="flex flex-row gap-2 pt-5 w-[56%] sm:flex-col">
-              <button
-                type="reset"
-                className="bg-info hover:bg-Primary text-white py-3  rounded-xl font-Montserrat font-semibold w-1/2 "
-              >
-                REST
-              </button>
-              <button
-                type="submit"
-                className="bg-info hover:bg-Primary text-white py-3  rounded-xl font-Montserrat font-semibold w-1/2 "
-              >
-                SIGN UP
-              </button>
-            </div>
+                  <button
+                    type="submit"
+                    className="bg-info hover:bg-Primary text-white py-3  rounded-xl font-Montserrat font-semibold w-1/2 "
+                  >
+                    SIGN UP
+                  </button>
+                </div>
+              </Fragment>
+            )}
           </form>
 
           <p>

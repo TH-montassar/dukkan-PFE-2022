@@ -1,5 +1,5 @@
-import React, {  useEffect  } from "react";
-import {useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../shared/Header";
 import direction from "../../assets/icon/directionA.svg";
@@ -17,7 +17,11 @@ import { getOwnedCart } from "../../redux/Actions/cart.action";
 const Home = () => {
   const dispatch = useDispatch();
   const { storeId } = useParams();
+  const navigate = useNavigate();
 
+  if (storeId === "undefined" || !storeId) {
+    navigate("/login");
+  }
   useEffect(() => {
     setStore(storeId);
   }, []);

@@ -6,6 +6,9 @@ const Profile = require("../models/profile.models");
 const Store = require("../models/store.models");
 const router = require("express").Router();
 const verifyToken = require("../middlewares/verifyToken");
+const crypto = require("crypto");
+const TokenMail = require("../models/tokenMail.model");
+const { sendMail } = require("../utils/sendEmail");
 router.post(`/register`, async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -24,7 +27,6 @@ router.post(`/register`, async (req, res) => {
       zipCode: req.body.zipCode,
     });
     const savedAddress = await newAddress.save();
-    // console.log(savedAddress)
 
     const salt = await bcrypt.genSalt(16);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -42,7 +44,7 @@ router.post(`/register`, async (req, res) => {
       const newStore = new Store();
       const savedStore = await newStore.save();
       ///------
-      const newUser = new User({
+      const newUser = await new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -54,8 +56,22 @@ router.post(`/register`, async (req, res) => {
         store: savedStore._id,
       });
       const savedUser = await newUser.save();
-      return res.status(201).json(savedUser);
+      //console.log(savedUser._id);
+      const token = await new TokenMail({
+        user: savedUser._id,
+        tokenMail: crypto.randomBytes(32).toString("hex"),
+      }).save();
+      // console.log(token.tokenMail);
+      const url = `${process.env.HOST}:3000/user/${savedUser._id}/verify/${token.tokenMail}`;
+      //console.log("url",url);
+      await sendMail(savedUser.email, "Verify Email", url);
+
+      return res.status(201).json({
+        savedUser: savedUser,
+        message: "An Email sent to you account please verify",
+      });
     }
+
     const newUser = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -66,9 +82,48 @@ router.post(`/register`, async (req, res) => {
       profile: savedProfile._id,
     });
     const savedUser = await newUser.save();
-    return res.status(201).json(savedUser);
+
+    /* This is a token that is generated and sent to the user's email. */
+    const token = await new TokenMail({
+      user: savedUser._id,
+      tokenMail: crypto.randomBytes(32).toString("hex"),
+    }).save();
+    const url = `${process.env.HOST}:3000/user/${savedUser._id}/verify/${token.tokenMail}`;
+    await sendMail(savedUser.email, "Verify Email", url);
+
+    return res.status(201).json({
+      savedUser: savedUser,
+      message: "An Email sent to you account please verify",
+    });
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).json({ message: err });
+  }
+});
+
+router.get("/:id/verify/:tokenMail/", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findById(id);
+    if (!user) return res.status(400).json({ message: "Invalid link 1" });
+
+    const token = await TokenMail.findOne({
+      user: user._id,
+      tokenMail: req.params.tokenMail,
+    });
+    if (!token) return res.status(400).json({ message: "Invalid link" });
+
+    await User.findByIdAndUpdate(
+      user._id,
+      { isVerified: true },
+      {
+        new: true,
+      }
+    );
+    await token.remove();
+
+    res.status(200).json({ message: "Email verified successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -86,6 +141,30 @@ router.post("/login", async (req, res) => {
     );
     if (!isPasswordValid) {
       return res.status(401).json({ message: "wrong password or email" });
+    }
+
+    if (!user.isVerified) {
+      const token_mail = await TokenMail.findOne({ user: user._id });
+      if (!token_mail) {
+        const token_mail = await new TokenMail({
+          user: user._id,
+          tokenMail: crypto.randomBytes(32).toString("hex"),
+        }).save();
+        const url = `${process.env.HOST}:3000/user/${user._id}/verify/${token_mail.tokenMail}`;
+
+        await sendMail(user.email, "Verify Email", url);
+      }
+      try {
+        const url = `${process.env.HOST}:3000/user/${user._id}/verify/${token_mail.tokenMail}`;
+
+        await sendMail(user.email, "Verify Email", url);
+
+        return res
+          .status(400)
+          .json({ message: "An Email sent to you account please verify" });
+      } catch (err) {
+        return res.status(500).json({ message: "not ssent" });
+      }
     }
 
     const token = jwt.sign(

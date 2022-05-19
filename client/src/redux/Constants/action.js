@@ -11,6 +11,8 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const AUTH_LOADING = "AUTH_LOADING";
 export const AUTH_CHECK = "AUTH_CHECK";
 export const LOGOUT = "LOGOUT";
+export const AUTH_MAIL_VERIFY = "AUTH_MAIL_VERIFY";
+
 
 export const GET_MY_PROFILE = "GET_MY_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";

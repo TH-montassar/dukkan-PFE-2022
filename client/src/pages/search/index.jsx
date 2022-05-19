@@ -29,7 +29,7 @@ const Search = () => {
   }, [queries.get("q"), queries.get("category")]);
 
   const [Query, setQuery] = useState("");
-
+  const [selectedCategory, setSelectedCategory] = useState("");
   console.log(Query);
   const search = (e) => {
     e.preventDefault(); //man5alouch navigateur ya3mel relode
@@ -46,6 +46,13 @@ const Search = () => {
   useEffect(() => {
     dispatch(get_categories_By_store({}));
   }, []);
+  useEffect(() => {
+    dispatch(
+      getProductsByStore({
+        category: selectedCategory,
+      })
+    );
+  }, [selectedCategory]);
 
   const { categories } = useSelector((state) => {
     return state.categoryReducers;
@@ -104,13 +111,13 @@ const Search = () => {
                 <input
                   className="w-5 h-5  border border-Primary"
                   type="radio"
-                  name="category"
+                  name="allProducts"
                   value=""
-                  id="products"
-                  checked
-                  onClick={() => dispatch(getProductsByStore())}
+                  id="allProducts"
+                  checked={selectedCategory === ""}
+                  onChange={() => setSelectedCategory("")}
                 />
-                <label htmlFor="products">All Products</label>
+                <label htmlFor="allProducts">All Products</label>
               </div>
               <div>
                 {categories.length > 0 &&
@@ -120,15 +127,10 @@ const Search = () => {
                         className="w-5 h-5  border border-Primary"
                         type="radio"
                         id={category._id}
-                        name="category"
-                        value={category.title}
-                        onClick={() =>
-                          dispatch(
-                            getProductsByStore({
-                              category: category.slug,
-                            })
-                          )
-                        }
+                        name={category.slug}
+                        value={category.slug}
+                        checked={category.slug === selectedCategory}
+                        onChange={() => setSelectedCategory(category.slug)}
                       />
                       <label htmlFor={category._id}>{category.title}</label>
                     </div>

@@ -21,6 +21,8 @@ export const getStore = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    localStorage.removeItem("store");
+    localStorage.removeItem("token");
     dispatch({
       type: STORE_ERROR,
       payload: err,

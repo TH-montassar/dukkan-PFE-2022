@@ -1,5 +1,5 @@
 import React from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import logo from "../../assets/logo/dukkan2.png";
 import onlineStore from "../../assets/image/onlineStore.png";
@@ -7,12 +7,13 @@ const Landing = () => {
   const { isLoading, isAuthenticated, user } = useSelector((state) => {
     return state.authReducers;
   });
-
-  if (user?.role === "merchant") {
-    return <Navigate to={"/dashboard"} />;
-  }
-  if (user?.role === "customer") {
-    return <Navigate to={`/home/${localStorage.store}`} />;
+  if (isAuthenticated) {
+    if (user.role === "merchant") {
+      return <Navigate to={"/dashboard"} />;
+    }
+    if (user.role === "customer") {
+      return <Navigate to={`/home/${localStorage.store}`} />;
+    }
   }
 
   return (
