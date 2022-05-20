@@ -19,14 +19,12 @@ const Landing = () => {
   return (
     <div className="bg-wave bg-no-repeat  px-5">
       <header className="flex items-center justify-between text-white text-2xl 	">
-        {" "}
         <img src={logo} alt="logo" /> <Link to="#"> Start</Link>{" "}
-        <Link to="#"> home</Link>
+        <Link to={`/home/${localStorage.store}`}> home</Link>
         <Link to="authentication/"> Sign in now</Link>
       </header>
       <div className="max-h-max  w-full flex flex-row flex-wrap items-end px-10">
         <div className="w-1/2 flex flex-col gap-2">
-          {" "}
           <h1 className="text-8xl lg:text-8xl md:text-4xl">
             Bring you business online
           </h1>{" "}

@@ -104,10 +104,10 @@ export const removeFromCart = (itemId) => async (dispatch) => {
   // });
 
   try {
-     await instance.put("/api/cart/remove", { item: itemId });
+    await instance.put("/api/cart/remove", { item: itemId });
     dispatch({
       type: REMOVE_FROM_CART,
-      payload:itemId,
+      payload: itemId,
     });
   } catch (err) {
     dispatch({

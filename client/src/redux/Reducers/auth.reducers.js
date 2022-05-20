@@ -18,7 +18,7 @@ const initialState = {
   message: "",
   isError: false,
   isSuccess: false,
-  isValidTokenMail:false,
+  isValidTokenMail: false,
 };
 
 const AuthReducers = (state = initialState, action) => {
@@ -75,8 +75,6 @@ const AuthReducers = (state = initialState, action) => {
         message: payload.message,
         isError: true,
         isSuccess: false,
-        isValidTokenMail:true,
-      
       };
     case LOGOUT:
       localStorage.removeItem("token");
@@ -93,7 +91,7 @@ const AuthReducers = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isValidTokenMail:true,
+        isValidTokenMail: true,
       };
     default:
       return state;

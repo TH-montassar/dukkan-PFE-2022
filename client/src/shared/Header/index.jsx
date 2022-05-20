@@ -98,25 +98,134 @@ const Header = () => {
     <header className="shadow-s font-Roboto  bg-Primary w-full  fixed  z-50 px-10">
       <div className="flex items-center justify-between h-16 max-w-screen-xl  mx-auto">
         <div className="flex-1 w-0 lg:flex hidden">
-          <button
-            className="p-2 text-gray-600 bg-gray-100 rounded-full"
-            type="button"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewbox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+          {isAuthenticated && user?.role === "merchant" ? (
+            <button
+              type="button"
+              onClick={(e) => {
+                openModal(e);
+                dispatch(logout());
+              }}
+              className="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg"
             >
-              <path
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              ></path>
-            </svg>
-          </button>
+              connect
+              <i className="fa-solid fa-user pl-1"></i>
+            </button>
+          ) : !isAuthenticated ? (
+            <button
+              type="button"
+              onClick={openModal}
+              className="hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
+            >
+              connect
+              <i className="fa-solid fa-user pl-1"></i>
+            </button>
+          ) : (
+            <div className="flex items-center">
+              <div className=" text-right z-[9999]">
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium   bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewbox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        ></path>
+                      </svg>
+
+                      <ChevronDownIcon
+                        className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
+                        aria-hidden="true"
+                      />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 left-0 w-28 mt-2 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div className="px-1 py-1 ">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              to="/profile"
+                              className={`${
+                                active ? "bg-info text-white" : "text-info"
+                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                            >
+                              {active ? (
+                                <i className="fa-solid fa-user  pr-2"></i>
+                              ) : (
+                                <i className="fa-solid fa-user text-info  pr-2"></i>
+                              )}
+                              profile
+                            </Link>
+                          )}
+                        </Menu.Item>
+                      </div>
+                      <div className="px-1 py-1 border-gray">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              to="/cart"
+                              className={`${
+                                active ? "bg-info text-white" : "text-info"
+                              } group flex rounded-md items-center w-full py-2 text-sm`}
+                            >
+                              {active ? (
+                                <i className="fa-solid fa-cart-shopping pl-1"></i>
+                              ) : (
+                                <i className="fa-solid fa-cart-shopping pl-1"></i>
+                              )}
+                              <div className="relative pl-2 ">
+                                <div className=" text-xs absolute w-4 h-4  rounded-full text-danger flex items-center justify-center  left-9 bottom-2 font-black		">
+                                  {number()}
+                                </div>
+                                <div>cart</div>
+                              </div>
+                            </Link>
+                          )}
+                        </Menu.Item>
+                      </div>
+
+                      <div className="px-1 py-1 border-gray">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              type="button"
+                              onClick={() => dispatch(logout())}
+                              className={`${
+                                active ? "bg-info text-white" : "text-info"
+                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                            >
+                              {active ? (
+                                <i className="fa-solid fa-right-from-bracket pr-2"></i>
+                              ) : (
+                                <i className="fa-solid fa-person-walking-arrow-right pr-2 text-info"></i>
+                              )}
+                              Log out
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center space-x-4">
@@ -186,19 +295,29 @@ const Header = () => {
         <nav className="items-center justify-center lg:hidden space-x-8 text-sm font-medium flex flex-1 w-0">
           <NavLink
             className={({ isActive }) =>
-              isActive ? "text-Primary bg-white" : "text-black"
+              isActive ? "text-white " : "text-black"
             }
             to={`/home/${localStorage.store}`}
           >
             Home
+            <hr
+              className={({ isActive }) =>
+                isActive ? "bg-white h-40 " : "hidden"
+              }
+            />
           </NavLink>
           <NavLink
             className={({ isActive }) =>
-              isActive ? "text-Primary bg-white" : "text-black"
+              isActive ? "text-white " : "text-black"
             }
             to={`/search`}
           >
             Products
+            <hr
+              className={({ isActive }) =>
+                isActive ? "bg-white h-40 " : "hidden"
+              }
+            />
           </NavLink>
           <Link className="text-gray-900 text-black" to="#">
             About
@@ -218,7 +337,7 @@ const Header = () => {
               }
               to="/cart"
             >
-              <div className=" text-xs absolute w-3 h-3 bg-white rounded-full text-danger flex items-center justify-center font-semibold left-10 bottom-4">
+              <div className=" text-xs absolute w-4 h-4 bg-white rounded-full text-danger flex items-center justify-center  left-10 bottom-4 font-black		">
                 {number()}
               </div>
               cart
@@ -280,14 +399,14 @@ const Header = () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 max-w-max mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 w-32 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="px-1 py-1 ">
                         <Menu.Item>
                           {({ active }) => (
                             <Link
                               to="/profile"
                               className={`${
-                                active ? "bg-info text-white" : "text-white"
+                                active ? "bg-info text-white" : "text-info"
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
                               {active ? (
@@ -333,7 +452,7 @@ const Header = () => {
                               type="button"
                               onClick={() => dispatch(logout())}
                               className={`${
-                                active ? "bg-info text-white" : "text-white"
+                                active ? "bg-info text-white" : "text-info"
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
                               {active ? (
@@ -363,27 +482,33 @@ const Header = () => {
       </div>
 
       <div className="border-t border-gray-100 hidden lg:flex ">
-        <nav className="flex items-center justify-center p-4 overflow-x-auto text-sm font-medium mx-auto">
+        <nav className="flex items-center justify-center p-4 overflow-x-auto text-sm font-medium mx-auto gap-4">
           <NavLink
             className={({ isActive }) =>
-              isActive ? "text-Primary bg-white" : "text-white"
+              isActive ? "text-white " : "text-black"
             }
             to={`/home/${localStorage.store}`}
           >
             Home
+            <hr
+              className={({ isActive }) =>
+                isActive ? "bg-white h-40 " : "hidden"
+              }
+            />
           </NavLink>
           <NavLink
             className={({ isActive }) =>
-              isActive ? "text-Primary bg-white" : "text-white"
+              isActive ? "text-white " : "text-black"
             }
             to={`/search`}
           >
             Products
+            <hr className="bg-white" />
           </NavLink>
-          <Link className="text-gray-900" to="#">
+          <Link className="text-gray-900 text-black" to="#">
             About
           </Link>
-          <Link className="text-gray-900" to="#">
+          <Link className="text-gray-900 text-black" to="#">
             Contact
           </Link>
         </nav>

@@ -24,7 +24,7 @@ const EmailVerify = () => {
           <h1 className=" font-medium text-2xl">Email verified successfully</h1>
 
           <Link
-            to="/login"
+            to="/authentication/"
             className="bg-info  mb-2 flex mx-auto	hover:bg-infoDark text-white font-bold py-3 px-10 rounded-md text-xs max-w-max"
           >
             <p className="  ">Sign in</p>

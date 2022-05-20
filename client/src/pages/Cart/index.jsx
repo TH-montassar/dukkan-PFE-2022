@@ -32,7 +32,7 @@ const Cart = () => {
   const onInputChange = (e) => {
     e.preventDefault();
     setAddress({ ...Address, [e.target.name]: e.target.value });
-    // console.log(Address);
+   
   };
   const onSubmitAddress = (e) => {
     e.preventDefault();
@@ -102,7 +102,7 @@ const Cart = () => {
                         <img
                           className="h-full  object-contain rounded-md"
                           src={product.product?.image}
-                          alt="car"
+                          alt="productImg"
                         />
                         <div className=" flex flex-col">
                           <div> {product.product?.title} </div>
