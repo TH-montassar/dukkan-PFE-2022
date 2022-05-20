@@ -7,12 +7,10 @@ import { register } from "../../../redux/Actions/auth.action";
 import Spinner from "../../../shared/Spinner";
 
 import ConfirmationSend from "../../../shared/ConfirmationSend";
-import { Fragment } from "react";
+
 const Register = () => {
   const location = useLocation();
   const queries = new URLSearchParams(location.search);
-  // console.log("role", queries);
-
   const dispatch = useDispatch();
   const [Form, setForm] = useState({
     email: "",
@@ -68,9 +66,7 @@ const Register = () => {
     return <Navigate to={"/"} />;
   }
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  return (
     <div className=" w-full  flex flex-col justify-center items-center">
       <form
         onSubmit={(e) => OnSubmitForm(e)}

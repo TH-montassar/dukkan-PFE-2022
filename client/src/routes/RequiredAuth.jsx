@@ -14,12 +14,12 @@ const RequiredAuth = () => {
 
   if (isError && !isSuccess && !isAuthenticated) {
     return (
-      <Navigate to="/authentication/login" state={{ from: location }} replace />
+      <Navigate to="/authentication/" state={{ from: location }} replace />
     );
   }
   if (isSuccess && !isLoading && !isAuthenticated) {
     return (
-      <Navigate to="/authentication/login" state={{ from: location }} replace />
+      <Navigate to="/authentication/" state={{ from: location }} replace />
     );
   }
   if (isSuccess && isAuthenticated) {

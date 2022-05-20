@@ -3,7 +3,13 @@ import { Menu, Dialog, Transition } from "@headlessui/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { Navigate, Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Navigate,
+  NavLink,
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import search from "../../assets/icon/iconserch.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -89,58 +95,127 @@ const Header = () => {
   return isLoading ? (
     <Spinner />
   ) : (
-    <header className="bg-Primary flex w-full justify-between px-16 py-2 fixed top-0 z-50 items-center sm:items-end flex-wrap ">
-      <Link
-        to={`/home/${localStorage.store}`}
-        className=" w-14 h-14 sm:w-10 sm:h-10"
-      >
-        <img
-          className="rounded-full object-cover  w-full h-full"
-          src={store?.logo}
-          alt="logoStore"
-        />
-      </Link>
-      <div className="relative">
-        <input
-          className="w-80 outline-none rounded-xl px-6 py-1.5"
-          type="search"
-          name=""
-          id=""
-          // onChange={(e) => setQuery(e.target.value)}    te5o valeur mta3 input wo t5abih fi state
-          onChange={(e) => setQuery(e.target.value)}
-          //te5o valour m state   wo tafichih  value={Query}
-          value={Query}
-          placeholder="Search here"
-        />
-        {/**make samthig in senter top-[calc(50%-14px)] */}
-        <button
-          onClick={(e) => goToSearch(e)}
-          type="button"
-          className="absolute right-2 top-[calc(50%-14px)]"
-        >
-          <img src={search} alt="search" />
-        </button>
-      </div>
-      <nav className="flex flex-row sm:flex-col gap-20 sm:justify-end ">
-        <div className="items-center text-white flex flex-row  sm:flex-col gap-16 lg:gap-10 md:gap-5 sm:gap-1">
+    <header className="shadow-s font-Roboto  bg-Primary w-full  fixed  z-50 px-10">
+      <div className="flex items-center justify-between h-16 max-w-screen-xl  mx-auto">
+        <div className="flex-1 w-0 lg:flex hidden">
+          <button
+            className="p-2 text-gray-600 bg-gray-100 rounded-full"
+            type="button"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewbox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
+        <div className="flex items-center space-x-4">
           <Link
             to={`/home/${localStorage.store}`}
-            className="hover:bg-blue-700  py-[h-full] focus:bg-blue-700 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-ou border border-transparent focus-within:border-white border-solid"
+            className="w-12 h-12 bg-gray-200 rounded-lg"
           >
-            Home
+            <img
+              src={store?.logo}
+              alt="logoStore"
+              className="rounded-full object-cover  w-full h-full"
+            />
           </Link>
 
-          <Link
+          <form className="flex mb-0 lg:hidden ">
+            <div className="relative">
+              <input
+                className="h-10 pr-10 text-sm placeholder-gray-300 border-gray-200 rounded-md focus:z-10"
+                placeholder="Search..."
+                type="search"
+                onChange={(e) => setQuery(e.target.value)}
+                value={Query}
+              />
+              {/**make samthig in senter top-[calc(50%-14px)] */}
+              <button
+                className="absolute inset-y-0 right-0 p-2 mr-px text-gray-600 rounded-r-md"
+                type="submit"
+                onClick={(e) => goToSearch(e)}
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewbox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    fill-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+        {/* serch icon */}
+        <div className="hidden justify-end flex-1 w-0 lg:flex">
+          <button
+            className="p-2 text-gray-500 bg-gray-100 rounded-full"
+            type="button"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="currentColor"
+              viewbox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
+        <nav className="items-center justify-center lg:hidden space-x-8 text-sm font-medium flex flex-1 w-0">
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "text-Primary bg-white" : "text-black"
+            }
+            to={`/home/${localStorage.store}`}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "text-Primary bg-white" : "text-black"
+            }
             to={`/search`}
-            className="hover:bg-blue-700  py-[h-full] focus:bg-blue-700 focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-ou border border-transparent focus-within:border-white border-solid"
           >
             Products
+          </NavLink>
+          <Link className="text-gray-900 text-black" to="#">
+            About
           </Link>
-        </div>
-        <div className="text-white flex flex-wrap  flex-row  sm:flex-col gap-16 lg:gap-10 md:gap-5 sm:gap-1 items-center">
+          <Link className="text-gray-900 text-black" to="#">
+            Contact
+          </Link>
+        </nav>
+
+        <div className="items-center lg:hidden space-x-4 flex">
           {isAuthenticated ? (
-            <Link
-              className="relative hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "relative text-white  hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
+                  : "relative text-black  hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
+              }
               to="/cart"
             >
               <div className=" text-xs absolute w-3 h-3 bg-white rounded-full text-danger flex items-center justify-center font-semibold left-10 bottom-4">
@@ -148,7 +223,7 @@ const Header = () => {
               </div>
               cart
               <i className="fa-solid fa-cart-shopping pl-1"></i>
-            </Link>
+            </NavLink>
           ) : (
             <div>
               <button
@@ -165,8 +240,11 @@ const Header = () => {
           {isAuthenticated && user?.role === "merchant" ? (
             <button
               type="button"
-              onClick={openModal}
-              className="hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
+              onClick={(e) => {
+                openModal(e);
+                dispatch(logout());
+              }}
+              className="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg"
             >
               connect
               <i className="fa-solid fa-user pl-1"></i>
@@ -209,7 +287,7 @@ const Header = () => {
                             <Link
                               to="/profile"
                               className={`${
-                                active ? "bg-info text-white" : "text-black"
+                                active ? "bg-info text-white" : "text-white"
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
                               {active ? (
@@ -229,7 +307,7 @@ const Header = () => {
                               className={`${
                                 active
                                   ? "bg-violet-500 text-white"
-                                  : "text-black"
+                                  : "text-white"
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
                               {active ? (
@@ -255,7 +333,7 @@ const Header = () => {
                               type="button"
                               onClick={() => dispatch(logout())}
                               className={`${
-                                active ? "bg-info text-white" : "text-black"
+                                active ? "bg-info text-white" : "text-white"
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
                               {active ? (
@@ -282,7 +360,34 @@ const Header = () => {
             </div>
           )}
         </div>
-      </nav>
+      </div>
+
+      <div className="border-t border-gray-100 hidden lg:flex ">
+        <nav className="flex items-center justify-center p-4 overflow-x-auto text-sm font-medium mx-auto">
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "text-Primary bg-white" : "text-white"
+            }
+            to={`/home/${localStorage.store}`}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "text-Primary bg-white" : "text-white"
+            }
+            to={`/search`}
+          >
+            Products
+          </NavLink>
+          <Link className="text-gray-900" to="#">
+            About
+          </Link>
+          <Link className="text-gray-900" to="#">
+            Contact
+          </Link>
+        </nav>
+      </div>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -319,10 +424,7 @@ const Header = () => {
               leaveTo="opacity-0 scale-95"
             >
               <div className=" inline-block   py-5 px-2 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <Dialog.Title
-                  as="h3"
-                  className="text-2xl font-medium mb-5"
-                >
+                <Dialog.Title as="h3" className="text-2xl font-medium mb-5">
                   Login
                 </Dialog.Title>
                 <Login />
