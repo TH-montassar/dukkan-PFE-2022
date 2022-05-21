@@ -48,7 +48,6 @@ const StoreReducers = (state = initialState, action) => {
       };
 
     case STORE_ERROR:
-
       return {
         ...state,
         isLoading: false,

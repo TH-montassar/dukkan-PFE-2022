@@ -37,7 +37,7 @@ const ProductReducers = (state = initialState, action) => {
 
     case ADD_PRODUCT:
       let allProducts = state.products;
-      allProducts.push(payload);
+      allProducts.unshift(payload);
       return {
         ...state,
         products: [...allProducts],

@@ -9,24 +9,27 @@ import {
   Link,
   useLocation,
   useNavigate,
+  useParams,
+  useMatch,
 } from "react-router-dom";
 
-import search from "../../assets/icon/iconserch.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/Actions/auth.action";
 import { setStore } from "../../utils/setStore";
-import { get_categories_By_store } from "../../redux/Actions/category.action";
 import Spinner from "../Spinner";
 import Login from "../../pages/Authentication/Login";
-import {
-  getMyProfile,
-  updateMyProfile,
-} from "../../redux/Actions/profile.action";
+import { getMyProfile } from "../../redux/Actions/profile.action";
 import { getStore } from "../../redux/Actions/store.action";
 
-import { useMatch } from "react-router-dom";
 const Header = () => {
   setStore(localStorage.store);
+  useEffect(() => {
+    dispatch(getStore());
+  }, []);
+  const { store } = useSelector((state) => {
+    return state.storeReducers;
+  });
+
   const dispatch = useDispatch();
   const [Query, setQuery] = useState("");
   const location = useLocation();
@@ -59,14 +62,6 @@ const Header = () => {
     return state.authReducers;
   });
 
-  useEffect(() => {
-    dispatch(get_categories_By_store({}));
-  }, []);
-
-  const { categories } = useSelector((state) => {
-    return state.categoryReducers;
-  });
-
   const closeToast = () =>
     toast("connect to you account before", { autoClose: 500 });
 
@@ -83,13 +78,6 @@ const Header = () => {
 
   const { profile } = useSelector((state) => {
     return state.profileReducers;
-  });
-  useEffect(() => {
-    dispatch(getStore());
-  }, []);
-
-  const { store } = useSelector((state) => {
-    return state.storeReducers;
   });
 
   return isLoading ? (

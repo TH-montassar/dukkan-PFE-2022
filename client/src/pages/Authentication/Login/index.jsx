@@ -71,7 +71,7 @@ const Login = () => {
 
         <button
           type="submit"
-          className="bg-info mb-5 hover:bg-Primary text-white py-3  rounded-xl font-Montserrat font-semibold w-32 text-xl sm:text-xs mt-5"
+          className="bg-info mb-5 hover:bg-infoDark text-white py-3  rounded-xl font-Montserrat font-semibold w-32 text-xl sm:text-xs mt-5"
         >
           SIGN IN
         </button>

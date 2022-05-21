@@ -199,14 +199,14 @@ const Register = () => {
         <div className="flex flex-row justify-center items-center gap-3 pt-5 w-[27rem]	sm:w-60 h-12 sm:h-[2rem] sm:flex-col">
           <button
             type="reset"
-            className="bg-info hover:bg-Primary text-white rounded-xl font-Montserrat font-semibold w-1/2  h-10"
+            className="bg-info hover:bg-infoDark text-white rounded-xl font-Montserrat font-semibold w-1/2  h-10"
           >
             REST
           </button>
 
           <button
             type="submit"
-            className="bg-info hover:bg-Primary text-white  rounded-xl font-Montserrat font-semibold w-1/2  h-10"
+            className="bg-info hover:bg-infoDark text-white  rounded-xl font-Montserrat font-semibold w-1/2  h-10"
           >
             SIGN UP
           </button>

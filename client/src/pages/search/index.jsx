@@ -12,7 +12,8 @@ import { get_categories_By_store } from "../../redux/Actions/category.action";
 import LoadingAnimation from "../../shared/LoadingAnimation";
 
 const Search = () => {
-  setStore(localStorage.store);
+
+ //setStore(localStorage.store);
   const location = useLocation();
   /* Creating a new URLSearchParams object and setting it to the variable queries. */
   const queries = new URLSearchParams(location.search);

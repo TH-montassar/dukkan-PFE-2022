@@ -15,13 +15,16 @@ const ProductReducers = (state = initialState, action) => {
   switch (type) {
     case REVIEW_LOADING:
       return {
-        ...state, 
+        ...state,
         isLoading: true,
       };
 
     case ADD_REVIEW:
+      let AllReviews = state.reviews;
+      AllReviews.unshift(payload);
       return {
         ...state,
+        reviews: [...AllReviews],
         review: payload,
         isLoading: false,
       };

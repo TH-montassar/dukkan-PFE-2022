@@ -42,8 +42,11 @@ const CategoryReducers = (state = initialState, action) => {
         isLoading: false,
       };
     case ADD_CATEGORY:
+      let allCategories = state.categories;
+      allCategories.unshift(payload);
       return {
         ...state,
+        categories: [...allCategories],
         category: payload,
         isLoading: false,
       };
