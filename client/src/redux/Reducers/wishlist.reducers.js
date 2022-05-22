@@ -20,8 +20,11 @@ const WishlistReducers = (state = initialState, action) => {
         isLoading: true,
       };
     case ADD_ITEM_TO_WISHLIST:
+      let allProducts = state.wishlist_item;
+      allProducts.shift(payload);
       return {
         ...state,
+        wishlist:[...allProducts],
         wishlist_item: payload,
         isLoading: false,
       };

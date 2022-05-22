@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo/logostore.svg";
 import { Link, useParams } from "react-router-dom";
-
 import ReviewItem from "../../shared/ReviewItem";
 import { setStore } from "../../utils/setStore";
 import { parseISO, format } from "date-fns";
@@ -35,26 +34,31 @@ const ProductDetails = () => {
   const [IdProduct, setIdProduct] = useState(null);
 
   const [quantity, setQuantity] = useState(0);
+  const { store } = useSelector((state) => {
+    return state.storeReducers;
+  });
 
   return isLoading ? (
     <Spinner />
   ) : (
     <div>
       <Header />
-      <section className="py-20 w-full">
+      <section className="py-20 w-full font-Roboto">
         <div className="text-inherit"> Home/Category/cars/mercedes</div>
         <Link to="/">
-          <img
-            className="max-w-lg mx-auto pb-10"
-            src={logo}
-            alt="montaProduct"
-          />
+          <div className="w-24 h-24 rounded-full mx-auto mb-10">
+            <img
+              className="rounded-full object-cover  w-full h-full"
+              src={store?.logo}
+              alt="storeLogo"
+            />
+          </div>
         </Link>
 
         {/* Product details */}
 
-        <div className="flex gap-7 justify-center w-[90%]">
-          <div className="w-1/2 h-max">
+        <div className="flex gap-7 justify-center w-[90%] md:flex-col">
+          <div className="w-1/2 md:min-w-[20rem] h-max mx-auto">
             <img
               className="object-cover  w-full h-full rounded-sm pb-4"
               src={product?.image}
@@ -216,22 +220,22 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        <div className="flex mb-5 border  items-center border-cyan-500 mx-auto rounded-lg shadow-xl max-h-24 px-10 py-[3.5rem] max-w-max">
-          <div className="flex max-w-xl items-center">
-            <div className="text-xl">Order Summary</div>
-            <div className="w-24 max-h">
+        <div className="grid grid-cols-5 gap-4  border  items-center border-Primary mx-auto rounded-lg shadow-xl w-[60rem]	 h-24	 mt-16 px-10">
+          <div className="text-xl">Order Summary</div>
+          <div className="flex h-full items-center gap-2 ">
+            <div className="w-1/2 h-20 ">
               <img
-                className="object-cover w-full h-full rounded-lg"
+                className="object-contain w-full h-full rounded-xl"
                 src={product?.image}
                 alt="car"
               />
             </div>
-            <div className="w-1/4">
+            <div className="w-1/2">
               <div className="text-xl font-semibold"> {product?.title}</div>
               <div className="truncate "> {product?.description}</div>
             </div>
           </div>
-          <div className="flex justify-between items-center gap-2">
+          <div className="flex gap-2 items-center">
             <button
               onClick={() => setQuantity((Q) => Q - 1)}
               className="rounded-full w-5 h-5  bg-Warning flex justify-center items-center"
@@ -255,7 +259,7 @@ const ProductDetails = () => {
                   addToCart({
                     product: product._id,
                     price: product.price,
-                    quantity: quantity ,
+                    quantity: quantity,
                   })
                 );
               } else {
@@ -263,15 +267,13 @@ const ProductDetails = () => {
               }
             }}
             type="button"
-            className="bg-info hover:bg-infoDark text-white font-bold py-2 px-4 rounded-full"
+            className="bg-info hover:bg-infoDark text-white font-bold py-2 px-4 rounded-full w-32"
           >
             add to Cart
           </button>
-          <ToastContainer autoClose={1000} />
         </div>
+        <ToastContainer autoClose={1000} />
         <button
-          /*  */
-          /*  */
           onClick={() => {
             if (isAuthenticated) {
               setIsOpen(true);
@@ -281,7 +283,7 @@ const ProductDetails = () => {
             }
           }}
           type="button"
-          className="bg-info hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl flex justify-center maw-w-max mx-auto"
+          className=" mt-10 bg-info hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl flex justify-center maw-w-max mx-auto"
         >
           Add Review
         </button>

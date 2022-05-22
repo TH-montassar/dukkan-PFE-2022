@@ -36,11 +36,11 @@ const ProductReducers = (state = initialState, action) => {
       };
 
     case ADD_PRODUCT:
-      let allProducts = state.products;
-      allProducts.unshift(payload);
+      // let allProducts = state.products;
+      // allProducts.unshift(payload);
       return {
         ...state,
-        products: [...allProducts],
+        //products: [...allProducts],
         product: payload,
         isLoading: false,
       };

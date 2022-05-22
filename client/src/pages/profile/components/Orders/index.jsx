@@ -82,19 +82,31 @@ const Orders = () => {
                     {order.items.length > 0 &&
                       order.items.map((product) => {
                         return (
-                          <div className="grid grid-flow-col gap-7 ">
-                            <p>
-                              product: <span>{product.product?.title} </span>
-                            </p>
-                            <p>
-                              price: <span>{product.price} </span>
-                            </p>
-                            <p>
-                              quantity : <span>{product.quantity} </span>
-                            </p>
-                            <p>
-                              total : <span>{product.total} </span>{" "}
-                            </p>
+                          <div className="font-medium  grid grid-cols-4  gap-5   leading-8 ">
+                            <div>
+                              product:{" "}
+                              <span className="text-info">
+                                {product.product?.title}{" "}
+                              </span>
+                            </div>
+                            <div>
+                              price:{" "}
+                              <span className="text-info">
+                                {product.price}{" "}
+                              </span>
+                            </div>
+                            <div>
+                              quantity :{" "}
+                              <span className="text-info">
+                                {product.quantity}{" "}
+                              </span>
+                            </div>
+                            <div>
+                              total :{" "}
+                              <span className="text-info">
+                                {product.total}{" "}
+                              </span>{" "}
+                            </div>
                           </div>
                         );
                       })}

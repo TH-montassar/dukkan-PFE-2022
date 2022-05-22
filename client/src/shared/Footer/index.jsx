@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logoStore from "../../assets/logo/logostore.svg";
 import logo from "../../assets/logo/dukkan2.png";
 import { useSelector } from "react-redux";
 const Footer = () => {

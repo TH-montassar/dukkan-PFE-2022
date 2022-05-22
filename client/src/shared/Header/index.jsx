@@ -207,7 +207,7 @@ const Header = () => {
         <div className="flex items-center space-x-4">
           <Link
             to={`/home/${localStorage.store}`}
-            className="w-12 h-12 bg-gray-200 rounded-lg"
+            className="w-12 h-12 rounded-lg"
           >
             <img
               src={store?.logo}

@@ -49,17 +49,19 @@ const Dashboard = () => {
 
       <aside className="bg-Primary fixed  min-h-screen h-full overflow-y-auto  w-1/6 text-white font-medium">
         <i className="fa-solid fa-align-right pt-5 flex justify-end pr-2  text-lg lg:text-sm  "></i>
-        <button
-          onClick={() => setIsOpen(true)}
-          className="pt-2 flex flex-row items-center justify-between pl-10 pr-12 lg:pl-4"
-        >
-          <img
-            className="w-[4rem] h-[4rem] xl:w-[3rem] xl:h-[3rem] object-contain"
-            src={store?.logo}
-            alt="logoStore"
-          />
+        <div className=" flex justify-center items-center">
+          <button
+            onClick={() => setIsOpen(true)}
+            className=" w-16 h-16 rounded-lg"
+          >
+            <img
+              className="rounded-full object-cover  w-full h-full"
+              src={store?.logo}
+              alt="logoStore"
+            />
+          </button>
           <p className="text-white text-lg lg:text-sm pl-5">{store?.title}</p>
-        </button>
+        </div>
         <div className="max-w-[90%] ml-16   pt-10 lg:ml-0">
           <h2 className="text-lg font-semibold tracking-widest text-[#a9e1f9]		">
             OPERATION
@@ -116,11 +118,7 @@ const Dashboard = () => {
       <section className="w-5/6 pt-10 ml-[17rem] pb-16 lg:ml-44">
         <div className="  bg-white shadow-md rounded-xl	 w-[90%] m-auto min-h-max flex flex-row justify-between items-center px-5 py-2">
           <div className="flex flex-row items-center justify-center gap-2">
-            <Link
-              // onClick={() => dispatch(logout())}
-              to={`/home/${store?._id}`}
-              className="min-w-min lg:text-sm"
-            >
+            <Link to={`/home/${store?._id}`} className="min-w-min lg:text-sm">
               go to my website
             </Link>
             <img src={goTo} alt="go to" />
@@ -128,8 +126,8 @@ const Dashboard = () => {
           <div className="flex flex-row items-center justify-center gap-7">
             <div className="flex flex-row items-center gap-3">
               <p>order </p>
-              <div className="relative">
-                <p className="absolute left-5 bottom-8 rounded-full bg-Primary text-white w-4 h-4 flex items-center justify-center sm:text-[1rem]">
+              <Link to="/dashboard/order" className="relative">
+                <p className="absolute left-5 bottom-8 rounded-full bg-Primary text-white w-5 h-5 flex items-center justify-center sm:text-[1rem]">
                   {orders.length}
                 </p>
                 <img
@@ -137,7 +135,7 @@ const Dashboard = () => {
                   src={pendingOrder}
                   alt="pending Order"
                 />
-              </div>
+              </Link>
             </div>
             <div className="flex flex-row items-center gap-3">
               <div className=" text-right z-[9999]">

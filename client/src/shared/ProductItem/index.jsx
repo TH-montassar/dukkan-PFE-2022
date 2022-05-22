@@ -25,22 +25,40 @@ const ProductItem = ({ product }) => {
   };
 
   return (
-    <div className="h-80 min-w-[15rem] relative shadow-xl rounded-2xl snap-center bg-white">
-      <button
-        type="button"
-        onClick={() => {
-          if (isAuthenticated) {
-            dispatch(addItemToWishlist(product._id));
-            dispatch(getMyWishlist());
-            addWishlist();
-          } else {
-            loginFirst();
-          }
-        }}
-        className="left-2 top-2 absolute bg-white rounded-full  w-5 h-5 flex justify-center items-center  text-danger hover:bg-danger hover:text-white"
-      >
-        <i className="fa-regular fa-heart "></i>
-      </button>
+    <div className="h-80 w-[14rem] relative shadow-xl rounded-2xl snap-center bg-white">
+      {product.isLiked ? (
+        <button
+          type="button"
+          onClick={() => {
+            if (isAuthenticated) {
+              dispatch(addItemToWishlist(product._id));
+              dispatch(getMyWishlist());
+              toast("remove from wishlist successfully", { autoClose: 1000 });
+            } else {
+              loginFirst();
+            }
+          }}
+          className="left-2 top-2 absolute  rounded-full  w-5 h-5 flex justify-center items-center   bg-danger text-white"
+        >
+          <i className="fa-regular fa-heart "></i>
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => {
+            if (isAuthenticated) {
+              dispatch(addItemToWishlist(product._id));
+              dispatch(getMyWishlist());
+              addWishlist();
+            } else {
+              loginFirst();
+            }
+          }}
+          className="left-2 top-2 absolute bg-white rounded-full  w-5 h-5 flex justify-center items-center  text-danger hover:bg-danger hover:text-white"
+        >
+          <i className="fa-regular fa-heart "></i>
+        </button>
+      )}
 
       <Link to={`/details/${product?.slug}`}>
         <img

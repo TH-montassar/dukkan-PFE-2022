@@ -3,7 +3,6 @@ const slug = require("slug");
 const ProductSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-
     title: { type: String },
     slug: { type: String, unique: true, lowercase: true },
     description: { type: String },
@@ -15,8 +14,7 @@ const ProductSchema = new mongoose.Schema(
     image: { type: String },
     countInStock: { type: Number, required: true, default: 0 },
     store: { type: mongoose.Schema.Types.ObjectId, ref: "Store" },
-
-    //isActive: { type: Boolean, default: false },
+    isLiked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -1,5 +1,5 @@
 const wishlist = require("../models/wishlist");
-
+const Product = require("../models/product.models");
 const addToWishlist = async (req, res) => {
   const product = req.product._id;
   const currentUser = req.verifiedUser._id;
@@ -8,6 +8,13 @@ const addToWishlist = async (req, res) => {
   });
   if (alreadyAdded) {
     try {
+      await Product.findByIdAndUpdate(
+        product,
+        { isLiked: false },
+        {
+          new: true,
+        }
+      );
       await wishlist.findByIdAndDelete(alreadyAdded);
 
       return res
@@ -19,6 +26,14 @@ const addToWishlist = async (req, res) => {
   }
 
   try {
+    await Product.findByIdAndUpdate(
+      product,
+      { isLiked: true },
+      {
+        new: true,
+      }
+    );
+
     const newWishItem = new wishlist({
       author: currentUser,
       product: product,
@@ -37,7 +52,7 @@ const getMyWishlist = async (req, res) => {
   try {
     const gMyWishlist = await wishlist
       .find({ author: currentUser })
-      .populate( {path: "product", select: 'title slug price image'})
+      .populate({ path: "product", select: "title slug price image" })
       .sort({ createdAt: -1 });
     return res.status(200).json(gMyWishlist);
   } catch (err) {
