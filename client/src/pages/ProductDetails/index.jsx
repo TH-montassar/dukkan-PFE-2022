@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo/logostore.svg";
 import { Link, useParams } from "react-router-dom";
 
-import ReviewItem from "../../shared/ReviewItem"
+import ReviewItem from "../../shared/ReviewItem";
 import { setStore } from "../../utils/setStore";
 import { parseISO, format } from "date-fns";
 import { getProduct } from "../../redux/Actions/product.action";
@@ -33,6 +33,9 @@ const ProductDetails = () => {
 
   let [isOpen, setIsOpen] = useState(false);
   const [IdProduct, setIdProduct] = useState(null);
+
+  const [quantity, setQuantity] = useState(0);
+
   return isLoading ? (
     <Spinner />
   ) : (
@@ -229,11 +232,21 @@ const ProductDetails = () => {
             </div>
           </div>
           <div className="flex justify-between items-center gap-2">
-            <div className="rounded-full w-5 h-5  bg-Warning flex">-</div>
-            <div className=" border border-neutral-400 px-10">01</div>
-            <div className="rounded-full w-5 h-5 bg-Success">+</div>
+            <button
+              onClick={() => setQuantity((Q) => Q - 1)}
+              className="rounded-full w-5 h-5  bg-Warning flex justify-center items-center"
+            >
+              <i className=" text-white fa-solid fa-minus"></i>
+            </button>
+            <div className=" border border-neutral-400 px-10">{quantity}</div>
+            <button
+              onClick={() => setQuantity((Q) => Q + 1)}
+              className="rounded-full w-5 h-5  bg-Success flex justify-center items-center"
+            >
+              <i className="fa-solid fa-plus text-white"></i>
+            </button>
           </div>
-          <div>200000$</div>
+          <div>{product?.price} TND</div>
 
           <button
             onClick={() => {
@@ -242,7 +255,7 @@ const ProductDetails = () => {
                   addToCart({
                     product: product._id,
                     price: product.price,
-                    quantity: 1,
+                    quantity: quantity ,
                   })
                 );
               } else {
@@ -284,7 +297,7 @@ const ProductDetails = () => {
           {/* //*---------------------review--------------------------------------------------------------------------------------------------- */}
           {product?.reviews?.length > 0 ? (
             product.reviews.map((review) => (
-             <ReviewItem key={review._id} review={review}/>
+              <ReviewItem key={review._id} review={review} />
             ))
           ) : (
             <div className=" bg-white">

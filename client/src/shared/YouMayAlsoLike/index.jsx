@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Link/*, useParams */} from "react-router-dom";
+import { Link /*, useParams */ } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getProductsByStore } from "../../redux/Actions/product.action";

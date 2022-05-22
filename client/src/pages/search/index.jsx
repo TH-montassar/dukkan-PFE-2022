@@ -12,8 +12,7 @@ import { get_categories_By_store } from "../../redux/Actions/category.action";
 import LoadingAnimation from "../../shared/LoadingAnimation";
 
 const Search = () => {
-
- //setStore(localStorage.store);
+  setStore(localStorage.store);
   const location = useLocation();
   /* Creating a new URLSearchParams object and setting it to the variable queries. */
   const queries = new URLSearchParams(location.search);
@@ -62,7 +61,7 @@ const Search = () => {
   return (
     <div>
       <Header />
-      <section className="pb-6 pt-20">
+      <section className="pb-6 pt-20  font-Roboto">
         <div className="text-gray-400">Home/Search/Category/product</div>
 
         <div className="rounded-l-full mx-auto flex items-center	 relative max-w-xl justify-between border  shadow-md">
@@ -90,7 +89,7 @@ const Search = () => {
         </div>
 
         <div className="flex  flex-row   pl-32 items-start pt-20">
-          <div className="pr-5 overflow-y-auto">
+          <div className="py-5  px-10 w-72 bg-white rounded-2xl ">
             <div className="flex justify-between items-center pr-1 pb-3">
               <div className="font-bold"> FILTERS</div>
               <div className="text-red-500 text-xs">CLEAR</div>
@@ -105,9 +104,9 @@ const Search = () => {
                 id="PriceRange"
               />
             </div>
-
+            <div className="pb-5">Categories</div>
             <div>
-              <div className="pb-5">Categories</div>
+             
               <div className=" flex gap-3 py-3 pl-5">
                 <input
                   className="w-5 h-5  border border-Primary"
@@ -120,10 +119,10 @@ const Search = () => {
                 />
                 <label htmlFor="allProducts">All Products</label>
               </div>
-              <div>
+              <div  className="flex flex-col  overflow-y-auto snap-y h-[10%] snap-mandatory">
                 {categories.length > 0 &&
                   categories.map((category) => (
-                    <div className=" flex gap-3 py-3 pl-5">
+                    <div className=" flex gap-3 py-3 pl-5  snap-center">
                       <input
                         className="w-5 h-5  border border-Primary"
                         type="radio"

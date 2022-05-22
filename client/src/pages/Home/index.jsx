@@ -15,21 +15,26 @@ import ProductItem from "../../shared/ProductItem";
 import CategoryItem from "../../shared/CategoryItem";
 import { getOwnedCart } from "../../redux/Actions/cart.action";
 import { Fragment } from "react";
-const Home = () => {
-  const { storeId } = useParams();
-  const dispatch = useDispatch();
+import { logout } from "../../redux/Actions/auth.action";
+import { get_categories_By_store } from "../../redux/Actions/category.action";
 
+const Home = () => {
+  
+  const dispatch = useDispatch();
+  const { storeId } = useParams();
   const navigate = useNavigate();
   //setStore(localStorage.store);
-  if (storeId === "undefined") {
+  if (storeId === "undefined" || !localStorage.store) {
+    dispatch(logout());
     navigate("/");
   }
   useEffect(() => {
     setStore(storeId);
-  }, [storeId]);
+  }, []);
+
 
   useEffect(() => {
-    console.log("id", storeId);
+    dispatch(get_categories_By_store());
   }, []);
 
   const { categories } = useSelector((state) => {
@@ -50,6 +55,8 @@ const Home = () => {
       dispatch(getOwnedCart());
     }
   }, [isAuthenticated]);
+
+
 
   return (
     <div className="bg-wavee bg-no-repeat  font-Roboto">
@@ -95,7 +102,7 @@ const Home = () => {
                 Popular Product
               </h1>
 
-              <div className="flex gap-12 overflow-x-auto snap-x w-full snap-mandatory pt-4 pl-10 pb-10 justify-center">
+              <div className="flex gap-12 overflow-x-auto snap-x w-[90%] snap-mandatory pt-4 pl-10 pb-10 justify-center">
                 {products.map((product) => (
                   <ProductItem key={product._id} product={product} />
                 ))}
@@ -104,7 +111,7 @@ const Home = () => {
               <h1 className="text-2xl font-medium pb-5 pt-10">New Product</h1>
 
               <div className="grid grid-cols-5 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 justify-center items-center  gap-12 	 pt-4 pl-10 pb-10">
-                {products.map((product) => (
+                {products.slice(0, 13).map((product) => (
                   <ProductItem key={product._id} product={product} />
                 ))}
               </div>

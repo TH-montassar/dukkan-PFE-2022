@@ -3,16 +3,7 @@ import { Menu, Dialog, Transition } from "@headlessui/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import {
-  Navigate,
-  NavLink,
-  Link,
-  useLocation,
-  useNavigate,
-  useParams,
-  useMatch,
-} from "react-router-dom";
-
+import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/Actions/auth.action";
 import { setStore } from "../../utils/setStore";
@@ -23,12 +14,17 @@ import { getStore } from "../../redux/Actions/store.action";
 
 const Header = () => {
   setStore(localStorage.store);
-  useEffect(() => {
-    dispatch(getStore());
-  }, []);
+
   const { store } = useSelector((state) => {
     return state.storeReducers;
   });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(getStore());
+    }, 1);
+    return () => clearTimeout(timer);
+  }, []);
 
   const dispatch = useDispatch();
   const [Query, setQuery] = useState("");
@@ -67,15 +63,16 @@ const Header = () => {
 
   const { items } = useSelector((state) => state.cartReducers);
 
+  useEffect(() => {
+    dispatch(getMyProfile());
+  }, []);
+
+
   const number = () => {
     let countItem = 0;
     items?.map((product) => (countItem = countItem + product.quantity));
     return countItem;
   };
-  useEffect(() => {
-    dispatch(getMyProfile());
-  }, []);
-
   const { profile } = useSelector((state) => {
     return state.profileReducers;
   });
@@ -86,25 +83,16 @@ const Header = () => {
     <header className="shadow-s font-Roboto  bg-Primary w-full  fixed  z-50 px-10">
       <div className="flex items-center justify-between h-16 max-w-screen-xl  mx-auto">
         <div className="flex-1 w-0 lg:flex hidden">
-          {isAuthenticated && user?.role === "merchant" ? (
+          {(isAuthenticated && user?.role === "merchant") ||
+          !isAuthenticated ? (
             <button
               type="button"
               onClick={(e) => {
                 openModal(e);
                 dispatch(logout());
               }}
-              className="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg"
+              className="px-5 py-2 text-sm font-medium text-info  bg-white rounded-full"
             >
-              connect
-              <i className="fa-solid fa-user pl-1"></i>
-            </button>
-          ) : !isAuthenticated ? (
-            <button
-              type="button"
-              onClick={openModal}
-              className="hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
-            >
-              connect
               <i className="fa-solid fa-user pl-1"></i>
             </button>
           ) : (
@@ -117,14 +105,14 @@ const Header = () => {
                         className="w-5 h-5"
                         fill="none"
                         stroke="currentColor"
-                        viewbox="0 0 24 24"
+                        viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
                           d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                         ></path>
                       </svg>
 
@@ -246,13 +234,13 @@ const Header = () => {
                 <svg
                   className="w-5 h-5"
                   fill="currentColor"
-                  viewbox="0 0 20 20"
+                  viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                   ></path>
                 </svg>
               </button>
@@ -261,23 +249,23 @@ const Header = () => {
         </div>
         {/* serch icon */}
         <div className="hidden justify-end flex-1 w-0 lg:flex">
-          <button
+          <NavLink
+            to="/search"
             className="p-2 text-gray-500 bg-gray-100 rounded-full"
-            type="button"
           >
             <svg
               className="w-5 h-5"
               fill="currentColor"
-              viewbox="0 0 20 20"
+              viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                clip-rule="evenodd"
+                clipRule="evenodd"
                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                fill-rule="evenodd"
+                fillRule="evenodd"
               ></path>
             </svg>
-          </button>
+          </NavLink>
         </div>
 
         <nav className="items-center justify-center lg:hidden space-x-8 text-sm font-medium flex flex-1 w-0">
@@ -344,23 +332,15 @@ const Header = () => {
             </div>
           )}
 
-          {isAuthenticated && user?.role === "merchant" ? (
+          {(isAuthenticated && user?.role === "merchant") ||
+          !isAuthenticated ? (
             <button
               type="button"
               onClick={(e) => {
                 openModal(e);
                 dispatch(logout());
               }}
-              className="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg"
-            >
-              connect
-              <i className="fa-solid fa-user pl-1"></i>
-            </button>
-          ) : !isAuthenticated ? (
-            <button
-              type="button"
-              onClick={openModal}
-              className="hover:text-gray-500 border border-transparent focus-within:border-white border-solid"
+              className="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-infoDark"
             >
               connect
               <i className="fa-solid fa-user pl-1"></i>
@@ -504,7 +484,7 @@ const Header = () => {
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-10 overflow-y-auto "
+          className="fixed inset-0 z-[999] overflow-y-auto "
           onClose={closeModal}
         >
           <div className="min-h-screen px-4 text-center">

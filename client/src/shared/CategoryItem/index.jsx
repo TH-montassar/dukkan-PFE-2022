@@ -18,7 +18,7 @@ const CategoryItem = ({ category }) => {
       ) : (
         <Link className="w-full h-5/6" to={`/search?category=${category.slug}`}>
           <img
-            className="object-contain w-full h-full "
+            className="hover:object-contain object-cover w-full h-full"
             src={category.image}
             alt={category.slug}
           />

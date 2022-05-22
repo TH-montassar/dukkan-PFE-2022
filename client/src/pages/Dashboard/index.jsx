@@ -164,11 +164,10 @@ const Dashboard = () => {
                       <div className="px-1 py-1 ">
                         <Menu.Item>
                           {({ active }) => (
-                            <Link to="/dashboard/my_info"
+                            <Link
+                              to="/dashboard/my_info"
                               className={`${
-                                active
-                                  ? "bg-info text-white"
-                                  : "text-gray-900"
+                                active ? "bg-info text-white" : "text-gray-900"
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
                               {active ? (
@@ -238,7 +237,10 @@ const Dashboard = () => {
                 </Menu>
               </div>
 
-              <Link to="/dashboard/my_info" className=" w-14 h-14 sm:w-10 sm:h-10">
+              <Link
+                to="/dashboard/my_info"
+                className=" w-14 h-14 sm:w-10 sm:h-10"
+              >
                 <img
                   className="object-cover  w-full h-full  rounded-full"
                   src={user.profile?.avatar}

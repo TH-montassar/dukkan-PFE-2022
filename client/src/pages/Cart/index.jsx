@@ -32,7 +32,6 @@ const Cart = () => {
   const onInputChange = (e) => {
     e.preventDefault();
     setAddress({ ...Address, [e.target.name]: e.target.value });
-   
   };
   const onSubmitAddress = (e) => {
     e.preventDefault();
@@ -162,7 +161,7 @@ const Cart = () => {
                 <button
                   onClick={(e) => empty(e)}
                   type="button"
-                  className="text-gray-400"
+                  className="px-5 py-2 text-sm font-medium text-info  bg-white hover:bg-info hover:text-white rounded-md"
                 >
                   Empty cart <i className="fa-solid fa-trash text-danger"></i>
                 </button>
@@ -173,7 +172,7 @@ const Cart = () => {
                   onClick={(e) => {
                     checkout(e);
                   }}
-                  className="bg-info  mb-2 flex mx-auto	hover:bg-Primary text-white font-bold py-3 px-10 rounded-md text-xs"
+                  className="bg-info  mb-2 flex mx-auto	 text-white font-bold py-3 px-10 rounded-md text-xs  hover:bg-white hover:text-info"
                 >
                   Checkout
                 </button>

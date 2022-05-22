@@ -647,9 +647,13 @@ const ReviewItem = ({ review }) => {
       />
 
       <div className="font-sans w-48 ">
-        <div className="text-2xl">{review.authors[0]?.firstName} {review.authors[0]?.lastName}</div>
+        <div className="text-2xl">
+          {review.authors[0]?.firstName} {review.authors[0]?.lastName}
+        </div>
         <div className=" whitespace-normal pt-5">
-          <div className=" flex justify-start">{renderSwitch(review?.rating)}</div>
+          <div className=" flex justify-start">
+            {renderSwitch(review?.rating)}
+          </div>
           <div className=" "> {review?.comment}</div>
         </div>
       </div>
