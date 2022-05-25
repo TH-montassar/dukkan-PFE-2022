@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../shared/Header";
 import direction from "../../assets/icon/directionA.svg";
@@ -19,15 +19,6 @@ import { logout } from "../../redux/Actions/auth.action";
 import { get_categories_By_store } from "../../redux/Actions/category.action";
 
 import styled from "styled-components";
-import { Link } from "react-admin";
-
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  position: relative;
-  overflow: hidden;
-`;
 
 const Arrow = styled.div`
   width: 50px;
@@ -46,13 +37,6 @@ const Arrow = styled.div`
   cursor: pointer;
   opacity: 0.5;
   z-index: 2;
-`;
-const Slide = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  background-color: ${(props) => props.bg};
 `;
 
 const Wrapper = styled.div`
@@ -102,7 +86,7 @@ const Home = () => {
     if (direction === "left") {
       setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
     } else {
-      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+      setSlideIndex(slideIndex < 3 ? slideIndex + 1 : 0);
     }
   };
   return (
@@ -113,52 +97,49 @@ const Home = () => {
         <Fragment>
           <Header />
 
-          <section className="pt-20  w-full">
-            <div className="flex flex-row items-center justify-center pt-28 px-5">
-              <Container>
-                <Arrow direction="left" onClick={() => handleClick("left")}>
-                  <img
-                    className="max-w-[4rem] "
-                    src={directionB}
-                    alt="direction"
-                  />
-                </Arrow>
-                <Wrapper slideIndex={slideIndex}>
-                  {products.map((item) => (
-                    <div
-                      className="w-screen h-screen flex items-center "
-                      key={item._id}
-                    >
-                      <div
-                        className="flex-1  max-h-xl 	">
-                        <img src={item.image} alt="" className="rounded" />
-                      </div>
-                      <div className=" flex-1 p-14">
-                        <h1 className="text-2xl font-semibold">{item.title}</h1>
-
-                        <p className="text-xl	 font-medium tracking-widest		 sm:w-0">
-                          {" "}
-                          {item.description}{" "}
-                        </p>
-                        {/* <Link
-                          to={`/details/${item?.slug}`}
-                          className="bg-white self-end  hover:bg-slate-300	 text-info  font-bold py-3 px-8 rounded-full max-w-max "
-                        >
-                          Discover Now
-                        </Link> */}
-                      </div>
+          <section className="pt-10  w-full ">
+            <div className="w-full h-full flex relative overflow-hidden sm:hidden px-10 ">
+              <Arrow direction="left" onClick={() => handleClick("left")}>
+                <img
+                  className="max-w-[4rem] "
+                  src={directionB}
+                  alt="direction"
+                />
+              </Arrow>
+              <Wrapper slideIndex={slideIndex}>
+                {products.map((item) => (
+                  <div
+                    className="w-screen h-screen flex items-center justify-center "
+                    key={item._id}
+                  >
+                    <div className="flex-1 max-h-[30rem]	rounded-2xl		">
+                      <img
+                        src={item.image}
+                        alt=""
+                        className=" rounded-2xl	 w-full h-full object-cover"
+                      />
                     </div>
-                  ))}
-                </Wrapper>
-                <Arrow direction="right" onClick={() => handleClick("right")}>
-                  <img
-                    className="max-w-[4rem]"
-                    src={direction}
-                    alt="direction"
-                  />
-                </Arrow>
-              </Container>
+                    <div className="flex  flex-1 p-14 justify-evenly flex-col">
+                      <h1 className="text-2xl font-semibold">{item.title}</h1>
+
+                      <p className="text-xl	 font-medium tracking-widest		 sm:w-0">
+                        {item.description}
+                      </p>
+                      <Link
+                        to={`/details/${item?.slug}`}
+                        className="bg-white self-end mt-12  hover:bg-slate-300	 text-info  font-bold py-3 px-8 rounded-full max-w-max "
+                      >
+                        Discover Now
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </Wrapper>
+              <Arrow direction="right" onClick={() => handleClick("right")}>
+                <img className="max-w-[4rem]" src={direction} alt="direction" />
+              </Arrow>
             </div>
+
             <div className="justify-center pt-20  flex flex-col items-center w-full">
               <h1 className="text-2xl font-medium pb-5">Our Top Categories</h1>
               <div className="flex flex-row items-center justify-center gap-5 flex-wrap  w-full ">
