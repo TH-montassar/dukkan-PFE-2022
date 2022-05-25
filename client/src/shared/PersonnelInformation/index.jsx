@@ -219,7 +219,7 @@ const PersonnelInformation = () => {
           <div className="w-full px-3 mb-5">
             <button
               type="submit"
-              className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+              className="block w-full max-w-xs mx-auto bg-info hover:bg-infoDark focus:bg-infoDark text-white rounded-lg px-3 py-3 font-semibold"
             >
               Update NOW
             </button>

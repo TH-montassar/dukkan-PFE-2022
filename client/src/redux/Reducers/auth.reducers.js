@@ -91,7 +91,7 @@ const AuthReducers = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isValidTokenMail: true,
+        isSuccess: true,
       };
     default:
       return state;

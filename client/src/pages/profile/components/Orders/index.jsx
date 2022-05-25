@@ -25,8 +25,8 @@ const Orders = () => {
         <h1 className=" "> number of orders :{orders.length}</h1>
       </div>
 
-      <div className=" w-full px-3 grid grid-flow-col justify-around py-10 text-xl font-semibold">
-        <div className="pr-36"> ID</div>
+      <div className=" w-full px-3 grid grid-flow-col justify-evenly py-10 text-xl font-semibold">
+        <div className="pr-12"> ID</div>
         <div>DATE</div>
         <div>TOTAL</div>
         <div>WITH TAX</div>
@@ -39,16 +39,16 @@ const Orders = () => {
         orders.orders.map((order) => (
           <div
             key={order._id}
-            className="w-[90%] 	border-gray pb-10 flex flex-col justify-center items-center border-t mx-auto "
+            className="w-[90%] 	border-gray py-5 flex flex-col    border-t mx-auto "
           >
             <Disclosure>
               {({ open }) => (
                 <Fragment>
-                  <Disclosure.Button className="grid grid-flow-col gap-10 items-center font-medium">
-                    <td>{order._id}</td>
+                  <Disclosure.Button className="grid grid-flow-col  items-center font-medium justify-between gap-15 ">
+                    <td>o{order._id.slice(0, 10)}</td>
                     <td> {format(parseISO(order.createdAt), "P")}</td>
                     <td>{order.totalPrice} TND</td>
-                    <td>{order.totalPriceWithTax} TND</td>
+                    <td>{order.totalPriceWithTax.toFixed(2)} TND</td>
                     <td>
                       <div className="cursor-pointer  select-none py-1.5 rounded-md transition	duration-300		 	hover:scale-95 ">
                         {order.status === "pending" ? (

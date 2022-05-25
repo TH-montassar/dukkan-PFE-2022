@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../shared/Header";
@@ -18,12 +18,55 @@ import { Fragment } from "react";
 import { logout } from "../../redux/Actions/auth.action";
 import { get_categories_By_store } from "../../redux/Actions/category.action";
 
+import styled from "styled-components";
+import { Link } from "react-admin";
+
+const Container = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+`;
+
+const Arrow = styled.div`
+  width: 50px;
+  height: 50px;
+  background-color: #fff7f7;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: ${(props) => props.direction === "left" && "10px"};
+  right: ${(props) => props.direction === "right" && "10px"};
+  margin: auto;
+  cursor: pointer;
+  opacity: 0.5;
+  z-index: 2;
+`;
+const Slide = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: ${(props) => props.bg};
+`;
+
+const Wrapper = styled.div`
+  height: 100%;
+  display: flex;
+  transition: all 1.5s ease;
+  transform: translateX(${(props) => props.slideIndex * -100}vw);
+`;
 const Home = () => {
-  
   const dispatch = useDispatch();
   const { storeId } = useParams();
   const navigate = useNavigate();
   //setStore(localStorage.store);
+  const [slideIndex, setSlideIndex] = useState(0);
   if (storeId === "undefined" || !localStorage.store) {
     dispatch(logout());
     navigate("/");
@@ -31,7 +74,6 @@ const Home = () => {
   useEffect(() => {
     setStore(storeId);
   }, []);
-
 
   useEffect(() => {
     dispatch(get_categories_By_store());
@@ -56,8 +98,13 @@ const Home = () => {
     }
   }, [isAuthenticated]);
 
-
-
+  const handleClick = (direction) => {
+    if (direction === "left") {
+      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
+    } else {
+      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+    }
+  };
   return (
     <div className="bg-wavee bg-no-repeat  font-Roboto">
       {isLoading ? (
@@ -65,31 +112,52 @@ const Home = () => {
       ) : (
         <Fragment>
           <Header />
+
           <section className="pt-20  w-full">
             <div className="flex flex-row items-center justify-center pt-28 px-5">
-              <img className="max-w-[4rem] " src={directionB} alt="direction" />
-              <div className="flex flex-row justify-around gap-10 px-5 items-center">
-                <div className="w-1/2">
+              <Container>
+                <Arrow direction="left" onClick={() => handleClick("left")}>
                   <img
-                    className=" rounded-lg max-w-lg "
-                    src={productImg}
-                    alt=""
+                    className="max-w-[4rem] "
+                    src={directionB}
+                    alt="direction"
                   />
-                </div>
-                <div className="w-1/2 flex flex-col gap-10 justify-center text-white">
-                  <h1 className="text-2xl font-semibold"> name Product</h1>
-                  <p className="max-w-xl sm:w-0">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Tempora at perferendis molestias necessitatibus molestiae
-                    fugit eligendi in cum omnis quidem. Fugit vel voluptatem
-                    totam repellendus quo quas recusandae maxime culpa.10
-                  </p>
-                  <button className="bg-white self-end  hover:bg-slate-300	 text-info  font-bold py-3 px-8 rounded-full max-w-max ">
-                    Discover Now
-                  </button>
-                </div>
-              </div>
-              <img className="max-w-[4rem]" src={direction} alt="direction" />
+                </Arrow>
+                <Wrapper slideIndex={slideIndex}>
+                  {products.map((item) => (
+                    <div
+                      className="w-screen h-screen flex items-center "
+                      key={item._id}
+                    >
+                      <div
+                        className="flex-1  max-h-xl 	">
+                        <img src={item.image} alt="" className="rounded" />
+                      </div>
+                      <div className=" flex-1 p-14">
+                        <h1 className="text-2xl font-semibold">{item.title}</h1>
+
+                        <p className="text-xl	 font-medium tracking-widest		 sm:w-0">
+                          {" "}
+                          {item.description}{" "}
+                        </p>
+                        {/* <Link
+                          to={`/details/${item?.slug}`}
+                          className="bg-white self-end  hover:bg-slate-300	 text-info  font-bold py-3 px-8 rounded-full max-w-max "
+                        >
+                          Discover Now
+                        </Link> */}
+                      </div>
+                    </div>
+                  ))}
+                </Wrapper>
+                <Arrow direction="right" onClick={() => handleClick("right")}>
+                  <img
+                    className="max-w-[4rem]"
+                    src={direction}
+                    alt="direction"
+                  />
+                </Arrow>
+              </Container>
             </div>
             <div className="justify-center pt-20  flex flex-col items-center w-full">
               <h1 className="text-2xl font-medium pb-5">Our Top Categories</h1>

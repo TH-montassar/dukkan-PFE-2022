@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "./pages/Home";
 import { setAuthToken } from "./utils/setAuthToken";
 import { authCheck, logout } from "./redux/Actions/auth.action";
@@ -12,7 +11,6 @@ import Landing from "./pages/Landing";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Search from "./pages/search";
-
 import Profile from "./pages/profile";
 import PersonnelInformation from "./shared/PersonnelInformation";
 import AddProduct from "./pages/Dashboard/components/AddProduct";
@@ -30,6 +28,7 @@ import Summary from "./pages/Dashboard/components/Summary";
 import Authentication from "./pages/Authentication";
 import Login from "./pages/Authentication/Login";
 import Register from "./pages/Authentication/Register";
+import NotFound from "./shared/NotFound";
 
 function App() {
   useEffect(() => {
@@ -64,6 +63,7 @@ function App() {
             <Route path="/home/:storeId" element={<Home />}></Route>
             <Route path="search" element={<Search />} />
             <Route path="/details/:slug" element={<ProductDetails />} />
+            <Route path="*" elem ent={<NotFound />}></Route>
             <Route path="/" element={<RequiredAuth />}>
               <Route path="cart" element={<Cart />} />
               <Route path="profile" element={<Profile />}>
@@ -100,8 +100,6 @@ function App() {
                   element={<PersonnelInformation />}
                 ></Route>
               </Route>
-
-              {/* <Route path="*" elem ent={<ErrorPage />}></Route> */}
             </Route>
           </Routes>
         </div>

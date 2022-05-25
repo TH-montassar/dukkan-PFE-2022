@@ -92,10 +92,12 @@ const Login = () => {
       </div>
       <button
         type="button"
-        className="bg-white hover:bg-Primary hover:text-white text-black py-1 sm:py-0 px-16 sm:px-1 font-Montserrat font-semibold max-w-[70%] mt-5 flex flex-row gap-2 items-center border border-gray rounded-xl sm:text-[0.5rem]"
+        className="bg-white hover:bg-Primary hover:text-white text-black py-1 sm:py-0 px-16 sm:px-1 font-Montserrat font-semibold max-w-[70%] mt-5 flex flex-row gap-2 items-center border border-gray rounded-xl sm:text-[0.4rem]"
       >
         <img src={google} alt="dd" />
-        Continue with google
+       <div className="sm-hidden">
+       Continue with google
+       </div>
       </button>
     </div>
   );

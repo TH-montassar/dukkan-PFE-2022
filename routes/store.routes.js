@@ -2,6 +2,7 @@ const {
   getMyStore,
   updateStore,
   getStore,
+  getStores,
 } = require("../controllers/store.controllers");
 const { verifyToken, isMerchant, verifyStore } = require("../middlewares");
 
@@ -28,7 +29,8 @@ const upload = multer({
 });
 
 router.get("/me", verifyToken, isMerchant, getMyStore);
-router.get("/",  verifyStore, getStore);
+router.get("/", verifyStore, getStore);
 router.put("/update", verifyToken, upload.single("logo"), updateStore);
+router.get("/stores", getStores);
 
 module.exports = router;

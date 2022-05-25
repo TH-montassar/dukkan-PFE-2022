@@ -106,7 +106,6 @@ const Search = () => {
             </div>
             <div className="pb-5">Categories</div>
             <div>
-             
               <div className=" flex gap-3 py-3 pl-5">
                 <input
                   className="w-5 h-5  border border-Primary"
@@ -119,7 +118,7 @@ const Search = () => {
                 />
                 <label htmlFor="allProducts">All Products</label>
               </div>
-              <div  className="flex flex-col  overflow-y-auto snap-y h-[10%] snap-mandatory">
+              <div className="flex flex-col  overflow-y-auto snap-y h-96	 snap-mandatory">
                 {categories.length > 0 &&
                   categories.map((category) => (
                     <div className=" flex gap-3 py-3 pl-5  snap-center">

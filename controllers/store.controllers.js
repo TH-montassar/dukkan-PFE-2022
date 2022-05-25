@@ -22,6 +22,15 @@ const getStore = async (req, res) => {
     return res.status(500).json(err);
   }
 };
+
+const getStores = async (req, res) => {
+  try {
+    const store = await Store.find();
+    return res.status(200).json(store);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
 const updateStore = async (req, res) => {
   const host = process.env.HOST;
   const port = process.env.PORT;
@@ -46,5 +55,6 @@ const updateStore = async (req, res) => {
 };
 
 module.exports.getMyStore = getMyStore;
+module.exports.getStores = getStores;
 module.exports.getStore = getStore;
 module.exports.updateStore = updateStore;
