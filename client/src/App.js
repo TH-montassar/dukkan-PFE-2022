@@ -64,6 +64,7 @@ function App() {
             <Route path="search" element={<Search />} />
             <Route path="/details/:slug" element={<ProductDetails />} />
             <Route path="*" elem ent={<NotFound />}></Route>
+
             <Route path="/" element={<RequiredAuth />}>
               <Route path="cart" element={<Cart />} />
               <Route path="profile" element={<Profile />}>

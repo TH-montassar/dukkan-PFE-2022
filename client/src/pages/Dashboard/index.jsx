@@ -248,6 +248,8 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+
+        
         <Outlet />
       </section>
     </div>

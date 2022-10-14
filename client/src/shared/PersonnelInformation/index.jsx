@@ -19,7 +19,7 @@ const PersonnelInformation = () => {
   const [file, setFile] = useState(null);
   const [birthDay, setBirthDay] = useState("");
   const [url, setUrl] = useState(profile?.avatar);
-  console.log(birthDay);
+  //console.log(birthDay);
   const [Form, setForm] = useState({
     email: user?.email,
     oldPassword: "",

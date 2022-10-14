@@ -1,15 +1,15 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import homeImg from "../../assets/image/homeimg.png";
-import logo from "../../assets/logo/Dukkan.png";
+import logo from "../../assets/logo/logoDukkan.svg";
 import { Link, NavLink } from "react-router-dom";
 
 const Authentication = () => {
   return (
     <section className="w-full font-Roboto 	">
-      <Link to="/">
+      <Link to="/" >
         <img
-          className="max-w-[13rem] sm:w-1/2 sm:mx-auto"
+          className="max-w-[13rem] sm:w-1/2 sm:mx-auto mt-5 ml-5"
           src={logo}
           alt="dukkan"
         />

@@ -64,7 +64,7 @@ router.post("/addAdmin", verifyToken, isAdmin, async (req, res) => {
     return res.status(500).json(err);
   }
   //*cripte passworde
-  const salt = await bcrypt.genSalt(16);
+  const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
   try {

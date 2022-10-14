@@ -28,16 +28,13 @@ router.post(`/register`, async (req, res) => {
     });
     const savedAddress = await newAddress.save();
 
-    const salt = await bcrypt.genSalt(16);
+    const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     //* creation Profile
     const newProfile = new Profile();
     const savedProfile = await newProfile.save();
-    ///-----
-
-    // const role =
-    //   req.path.split("/")[2] === "customer" ? "customer" : "merchant";
+  
     const role = req.query.role;
     if (role === "merchant") {
       //* creation Store
@@ -65,7 +62,6 @@ router.post(`/register`, async (req, res) => {
       const url = `${process.env.HOST}:3000/user/${savedUser._id}/verify/${token.tokenMail}`;
       //console.log("url",url);
       await sendMail(savedUser.email, "Verify Email", url);
-
       return res.status(201).json({
         savedUser: savedUser,
         message: "An Email sent to you account please verify",
@@ -143,29 +139,29 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "wrong password or email" });
     }
 
-    if (!user.isVerified) {
-      const token_mail = await TokenMail.findOne({ user: user._id });
-      if (!token_mail) {
-        const token_mail = await new TokenMail({
-          user: user._id,
-          tokenMail: crypto.randomBytes(32).toString("hex"),
-        }).save();
-        const url = `${process.env.HOST}:3000/user/${user._id}/verify/${token_mail.tokenMail}`;
+    // if (!user.isVerified) {
+    //   const token_mail = await TokenMail.findOne({ user: user._id });
+    //   if (!token_mail) {
+    //     const token_mail = await new TokenMail({
+    //       user: user._id,
+    //       tokenMail: crypto.randomBytes(32).toString("hex"),
+    //     }).save();
+    //     const url = `${process.env.HOST}:3000/user/${user._id}/verify/${token_mail.tokenMail}`;
 
-        await sendMail(user.email, "Verify Email", url);
-      }
-      try {
-        const url = `${process.env.HOST}:3000/user/${user._id}/verify/${token_mail.tokenMail}`;
+    //     await sendMail(user.email, "Verify Email", url);
+    //   }
+    //   try {
+    //     const url = `${process.env.HOST}:3000/user/${user._id}/verify/${token_mail.tokenMail}`;
 
-        await sendMail(user.email, "Verify Email", url);
+    //     await sendMail(user.email, "Verify Email", url);
 
-        return res
-          .status(400)
-          .json({ message: "An Email sent to you account please verify" });
-      } catch (err) {
-        return res.status(500).json({ message: "not ssent" });
-      }
-    }
+    //     return res
+    //       .status(400)
+    //       .json({ message: "An Email sent to you account please verify" });
+    //   } catch (err) {
+    //     return res.status(500).json({ message: "not ssent" });
+    //   }
+    // }
 
     const token = jwt.sign(
       /* payload */ {
@@ -201,7 +197,7 @@ router.put("/updateInfo", verifyToken, async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "wrong password " });
     }
-    const salt = await bcrypt.genSalt(16);
+    const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     const updateUser = await User.findByIdAndUpdate(

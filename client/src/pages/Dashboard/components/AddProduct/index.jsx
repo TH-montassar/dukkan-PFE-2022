@@ -25,7 +25,7 @@ const AddProduct = () => {
         );
 
   const [Promotion, setPromotion] = useState(false);
-  console.log(Promotion);
+  //console.log(Promotion);
 
   const [url, setUrl] = useState("");
   const [file, setFile] = useState(null);

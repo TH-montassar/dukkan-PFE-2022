@@ -9,19 +9,21 @@ const EmailVerify = () => {
   const dispatch = useDispatch();
 
   const { id, tokenMail } = useParams();
-  console.log(id);
-  console.log(tokenMail);
+ 
   useEffect(() => {
-    dispatch(emailVerify(id, tokenMail));
+    if (tokenMail) {
+      dispatch(emailVerify(id, tokenMail));
+    }
+   
   }, [id, tokenMail]);
-  const {isLoading, isSuccess } = useSelector((state) => {
+  const {isLoading, isVerify } = useSelector((state) => {
     return state.authReducers;
   });
   return isLoading ? (
     <Spinner/>
   ) :(
     <div className="flex items-center justify-center min-h-screen p-5 bg-gray-600 min-w-screen font-Roboto ">
-      {isSuccess ? (
+      {isVerify ? (
         <div className="rounded-lg 	shadow-lg w-[40rem] gap-5  py-16 flex items-center justify-center flex-col bg-white ">
           <i className="text-9xl text-Success fa-regular fa-circle-check"></i>
           <h1 className=" font-medium text-2xl">Email verified successfully</h1>
